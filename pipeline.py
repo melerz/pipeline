@@ -11,7 +11,7 @@ def run(log_level="INFO",log_file="./fastq-log.log",config_file="./config.json")
 		config = json.load(open(config_file))
 		workflow = config['workflows']['fastq_only']
 		for step in workflow['pipeline']:
-			logger.info(("Currently step:{0}".format(step))
+			logger.info("Currently step:{0}".format(step))
 			step_module=importlib.import_module(step)
 			step_module.run(config['data'])
 		logger.info("Finished executing pipeline!")
