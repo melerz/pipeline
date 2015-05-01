@@ -3,8 +3,9 @@ import os
 from lib import createfastq_operations as operations
 import sys
 import requests
-
-def run(data,logger=None):
+import json
+logger = logging.getLogger(__name__)
+def run(config_file="./config.json"):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.
@@ -18,7 +19,8 @@ def run(data,logger=None):
 		#This logger object is used in the library too
 		if not logger:
 			logger = logging.getLogger(__name__)
-			
+		config = json.load(open(config_file))
+		data=config['data']
 		logger.info(("Currently experiment:{0}".format(data['name'])))
 		
 		#Save the current location because createRunDir change it

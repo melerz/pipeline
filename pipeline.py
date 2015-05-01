@@ -14,7 +14,8 @@ def run(config_file="./config.json",log=None):
 		for step in workflow['pipeline']:
 			log.info("Currently step:{0}".format(step))
 			step_module=importlib.import_module(step)
-			step_module.run(config['data'],logger=log)
+			#step_module.run(config['data'],logger=log)
+			step_module.run()
 		log.info("Finished executing pipeline!")
 
 	except Exception as e:
