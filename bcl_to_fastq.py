@@ -4,7 +4,7 @@ from lib import createfastq_operations as operations
 import sys
 import requests
 import json
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
