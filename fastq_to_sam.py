@@ -2,6 +2,7 @@ import json
 import subprocess
 import os
 import glob
+import sys
 import logging
 logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
