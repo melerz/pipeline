@@ -9,7 +9,7 @@ import shutil
 import logging
 import time
 import stat
-from config import settings
+import settings
 
 logger = logging.getLogger(__name__) #need to change that to __name__
 
