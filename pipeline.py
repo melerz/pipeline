@@ -42,5 +42,5 @@ def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
 	return logger
 
 
-if __name__ = "main":
+if __name__ == "main":
 	run(log_level="INFO",log_file="./fastq-log.log",config_file="./config.json")
