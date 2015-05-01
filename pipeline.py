@@ -3,26 +3,25 @@ import os
 import sys
 import json
 import importlib
-def run(log_level="INFO",log_file="./fastq-log.log",config_file="./config.json"):
 
+def run(config_file="./config.json",log):
 	try:
-		logger = configure_logging(log_level,log_file)
-		logger.info("loading config file...")
+		log.info("loading config file...")
 		config = json.load(open(config_file))
 		workflow = config['workflows']['fastq_only']
 		for step in workflow['pipeline']:
-			logger.info("Currently step:{0}".format(step))
+			log.info("Currently step:{0}".format(step))
 			step_module=importlib.import_module(step)
-			step_module.run(config['data'],logger)
-		logger.info("Finished executing pipeline!")
+			step_module.run(config['data'])
+		log.info("Finished executing pipeline!")
 
 	except Exception as e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 
 		print(exc_type,fname,exc_tb.tb_lineno)
-		if logger:
-			logger.exception("an error has been occured: %s"%e)
+		if log:
+			log.exception("an error has been occured: %s"%e)
 		else:
 			print "main exception. See log file for further details:%s"%e
 
@@ -43,4 +42,5 @@ def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
 
 
 if __name__ == "__main__":
-	run(log_level="INFO",log_file="./fastq-log.log",config_file="./config.json")
+	logger = configure_logging(log_level="INFO",log_file="./fastq-log.log")
+	run(config_file="./config.json",log=logger)
