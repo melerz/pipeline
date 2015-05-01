@@ -15,7 +15,7 @@
 		}
 	},
 
-	"workflow":{
+	"workflows":{
 		"bcl_to_genome_browser":{	
 			"pipeline":[
 				"bcl_to_fastq.py",
