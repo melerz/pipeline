@@ -93,9 +93,9 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 
 		p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 		#output,err = p.communicate() #Blocking...
-		if err:
-			#logger.error("Error in creating bowtie file for fastq file:%s"%err)
-			print output,err
+		# if err:
+		# 	#logger.error("Error in creating bowtie file for fastq file:%s"%err)
+		# 	print output,err
 	logger.debug("create_bowtie: changing dir: %s"%currentLocation)
 	os.chdir(currentLocation)
 	logger.debug("create_bowtie: END")
