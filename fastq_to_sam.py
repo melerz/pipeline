@@ -18,7 +18,7 @@ def run(config_file="./config.json"):
 		os.chdir(fastq_dir)
 		#Create bowtie dir
 		if not (os.path.isdir(bowtie_dir)):
-			os.mkdir(dir_name)
+			os.mkdir(bowtie_dir)
 
 		#Get all *R1* fastq files in directory
 		fastq_r1_files = glob.glob('*R1*.fastq.gz')
