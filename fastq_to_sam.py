@@ -11,6 +11,7 @@ def run(config_file="./config.json"):
 		config = json.load(open(config_file))
 		logger.info("Loading Config files...")
 		fastq_dir = config['settings']['WORKING_DIR']+config['data']['url']
+		logger.info(fastq_dir)
 		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['settings']['tools']['bowtie']['exec']
 		genome = config['settings']['GENOME']
