@@ -17,6 +17,7 @@ def run(config_file="./config.json"):
 		#Enter working dir (fastq files)
 		os.chdir(fastq_dir)
 		#Create bowtie dir
+		logger.info("current directory:%s"%(os.getcwd()))
 		if not (os.path.isdir(bowtie_dir)):
 			os.mkdir(bowtie_dir)
 
