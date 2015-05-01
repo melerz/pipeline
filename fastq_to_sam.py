@@ -34,7 +34,7 @@ def run(config_file="./config.json"):
 				sam_file = bowtie_dir + fastq_r1_file
 				metrics_file = bowtie_dir + "metrics.met"
 				p = subprocess.Popen(
-							["bowtie_exec","-p","16","-x",
+							[bowtie_exec,"-p","16","-x",
 								genome,"-1",fastq_r1_file,"-2",fastq_r2_file,
 									"-S",sam_file,"--met-file",metrics_file
 							])
@@ -44,7 +44,7 @@ def run(config_file="./config.json"):
 				sam_file = bowtie_dir + fastq_r1_file
 				metrics_file = bowtie_dir + "metrics.met"
 				p = subprocess.Popen(
-							["bowtie_exec","-p","16","-x",
+							[bowtie_exec,"-p","16","-x",
 								genome,"-U",fastq_r1_file,"-S",sam_file,
 								"--met-file",metrics_file
 							])				
