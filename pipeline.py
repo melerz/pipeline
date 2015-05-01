@@ -29,12 +29,11 @@ def run(config_file="./config.json",log=None):
 
 
 
-def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
+def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 	loglevel = getattr(logging,log_level.upper(),None)
 	if not isinstance(loglevel, int):
 		raise Exception("Invalid log level: %s" %loglevel)
-	#logging.basicConfig(filename=log_file,level=loglevel,foremat="%(name)s:%(levelname)s:%(message)s")
-	logger=logging.getLogger(__name__) #need to change that to __name__
+	logger=logging.getLogger(__name__)
 	logger.setLevel(loglevel)
 	file_handler = logging.FileHandler(log_file)
 	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -44,5 +43,5 @@ def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
 
 
 if __name__ == "__main__":
-	logger = configure_logging(log_level="INFO",log_file="./fastq-log.log")
+	logger = configure_logging(log_level="INFO",log_file="./pipeline.log")
 	run(config_file="./config.json",log=logger)
