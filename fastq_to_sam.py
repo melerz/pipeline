@@ -27,6 +27,7 @@ def run(config_file="./config.json"):
 		fastq_r1_files = glob.glob('*R1*.fastq.gz')
 		#check if paired
 		paired = is_paired(config['data']['configuration'])
+		#Create bowtie file for each fastq file
 		for fastq_r1_file in fastq_r1_files:
 			#Create seperate sam file for each fastq file
 			sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
@@ -46,7 +47,8 @@ def run(config_file="./config.json"):
 						]
 			p = subprocess.Popen(cmd,stdout.subprocess.PIPE,stderr=subprocess.PIPE)
 			output,err = subprocess.communicate() #Blocking...
-
+			if err:
+				logger.error("Error in creating bowtie file for fastq file:%s"%err)
 		os.chdir(currentLocation)
 
 	except Exception, e:
