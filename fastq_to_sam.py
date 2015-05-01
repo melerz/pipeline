@@ -45,7 +45,7 @@ def run(config_file="./config.json"):
 							genome,"-U",fastq_r1_file,"-S",sam_file,
 							"--met-file",metrics_file
 						]
-			p = subprocess.Popen(cmd,stdout.subprocess.PIPE,stderr=subprocess.PIPE)
+			p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			output,err = subprocess.communicate() #Blocking...
 			if err:
 				logger.error("Error in creating bowtie file for fastq file:%s"%err)
