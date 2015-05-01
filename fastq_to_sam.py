@@ -26,28 +26,27 @@ def run(config_file="./config.json"):
 		#Get all *R1* fastq files in directory
 		fastq_r1_files = glob.glob('*R1*.fastq.gz')
 		#check if paired
-		if is_paired(config['data']['configuration']):
-			logger.info("Paired reads")
-			for fastq_r1_file in fastq_r1_files:
+		paired = is_paired(config['data']['configuration'])
+		for fastq_r1_file in fastq_r1_files:
+			#Create seperate sam file for each fastq file
+			sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
+			#Create unified (?) metrics file
+			metrics_file = bowtie_dir + "metrics.met"
+			if paired:
 				#find his pair
 				fastq_r2_file = fastq_r1_file.replace("R1","R2")
-				sam_file = bowtie_dir + fastq_r1_file
-				metrics_file = bowtie_dir + "metrics.met"
-				p = subprocess.Popen(
-							[bowtie_exec,"-p","16","-x",
-								genome,"-1",fastq_r1_file,"-2",fastq_r2_file,
-									"-S",sam_file,"--met-file",metrics_file
-							])
-		else:
-			logger.info("Unpaired reads")
-			for fastq_r1_file in fastq_r1_files:
-				sam_file = bowtie_dir + fastq_r1_file
-				metrics_file = bowtie_dir + "metrics.met"
-				p = subprocess.Popen(
-							[bowtie_exec,"-p","16","-x",
-								genome,"-U",fastq_r1_file,"-S",sam_file,
-								"--met-file",metrics_file
-							])				
+				cmd = [bowtie_exec,"-p","16","-x",
+							genome,"-1",fastq_r1_file,"-2",fastq_r2_file,
+								"-S",sam_file,"--met-file",metrics_file
+						]
+			else:
+				cmd = [bowtie_exec,"-p","16","-x",
+							genome,"-U",fastq_r1_file,"-S",sam_file,
+							"--met-file",metrics_file
+						]
+			p = subprocess.Popen(cmd,stdout.subprocess.PIPE,stderr=subprocess.PIPE)
+			output,err = subprocess.communicate() #Blocking...
+
 		os.chdir(currentLocation)
 
 	except Exception, e:
