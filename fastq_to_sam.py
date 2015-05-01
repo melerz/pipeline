@@ -46,7 +46,7 @@ def run(config_file="./config.json"):
 							"--met-file",metrics_file
 						]
 			p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-			output,err = subprocess.communicate() #Blocking...
+			output,err = p.communicate() #Blocking...
 			if err:
 				logger.error("Error in creating bowtie file for fastq file:%s"%err)
 		os.chdir(currentLocation)
