@@ -36,7 +36,7 @@
 
 		"MEDIA_ROOT":"/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/",
 		"BASE_ILLUMINA_PATH":"/cs/nextseq/",
-		"WORKING_DIR":"/cs/lab/melerz/www/",
+		"WORKING_DIR":"/cs/wetlab/melerz/website/",
 		"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
 		"GENOME":"/cs/wetlab/pipeline/SC_indexed/genome",
 		"BOWTIE_OUTPUT_DIR":"bowtie_files/",

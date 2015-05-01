@@ -49,6 +49,7 @@ def run(config_file="./config.json"):
 		os.chdir(currentLocation)
 
 	except Exception, e:
+		os.chdir(currentLocation)
 		raise Exception("Error in fastq_to_sam: %s",e)
 
 
