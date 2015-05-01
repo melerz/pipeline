@@ -21,6 +21,9 @@ def run(config_file="./config.json"):
 			logger = logging.getLogger(__name__)
 		config = json.load(open(config_file))
 		data=config['data']
+		
+		print "Running bcl2fastq"
+
 		logger.info(("Currently experiment:{0}".format(data['name'])))
 		
 		#Save the current location because createRunDir change it

@@ -13,6 +13,7 @@ def run(config_file="./config.json",log=None):
 		workflow = config['workflows']['fastq_only']
 		for step in workflow['pipeline']:
 			log.info("Currently step:{0}".format(step))
+			print "Running step:%s"%step
 			step_module=importlib.import_module(step)
 			#step_module.run(config['data'],logger=log)
 			step_module.run()
@@ -21,12 +22,11 @@ def run(config_file="./config.json",log=None):
 	except Exception as e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-
 		print(exc_type,fname,exc_tb.tb_lineno)
 		if log:
 			log.exception("an error has been occured: %s"%e)
 		else:
-			print "main exception. See log file for further details:%s"%e
+			print "Error while running pipeline!. See log file for further details:%s"%e
 
 
 
