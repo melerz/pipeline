@@ -4,8 +4,7 @@ from lib import createfastq_operations as operations
 import sys
 import requests
 
-logger = logging.getLogger(__name__) #need to change that to __name__
-def run(data):
+def run(data,logger=None):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.
@@ -17,7 +16,9 @@ def run(data):
 	'''
 	try:
 		#This logger object is used in the library too
-
+		if not logger:
+			logger = logging.getLogger(__name__)
+			
 		logger.info(("Currently experiment:{0}".format(data['name'])))
 		
 		#Save the current location because createRunDir change it

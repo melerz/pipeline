@@ -4,15 +4,17 @@ import sys
 import json
 import importlib
 
-def run(log,config_file="./config.json",):
+def run(config_file="./config.json",log=None):
 	try:
+		if not log:
+			log = logging.getLogger(__name__)
 		log.info("loading config file...")
 		config = json.load(open(config_file))
 		workflow = config['workflows']['fastq_only']
 		for step in workflow['pipeline']:
 			log.info("Currently step:{0}".format(step))
 			step_module=importlib.import_module(step)
-			step_module.run(config['data'])
+			step_module.run(config['data'],logger=log)
 		log.info("Finished executing pipeline!")
 
 	except Exception as e:
@@ -43,4 +45,4 @@ def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
 
 if __name__ == "__main__":
 	logger = configure_logging(log_level="INFO",log_file="./fastq-log.log")
-	run(log=logger,config_file="./config.json")
+	run(config_file="./config.json",log=logger)
