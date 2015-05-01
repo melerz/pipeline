@@ -4,7 +4,7 @@ import sys
 import json
 import importlib
 
-def run(config_file="./config.json",log):
+def run(log,config_file="./config.json",):
 	try:
 		log.info("loading config file...")
 		config = json.load(open(config_file))
@@ -43,4 +43,4 @@ def configure_logging(log_level="INFO",log_file="./fastq-log.log"):
 
 if __name__ == "__main__":
 	logger = configure_logging(log_level="INFO",log_file="./fastq-log.log")
-	run(config_file="./config.json",log=logger)
+	run(log=logger,config_file="./config.json")
