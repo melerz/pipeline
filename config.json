@@ -47,7 +47,7 @@
 			},
 			"bowtie":{
 				"exec":"/cs/wetlab/pipeline/bwt2/bowtie2"
-			},
+			}
 		}
 
 	}
