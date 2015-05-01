@@ -50,8 +50,10 @@ def run(config_file="./config.json"):
 		os.chdir(currentLocation)
 
 	except Exception, e:
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
-		raise Exception("Error in fastq_to_sam: %s",e)
+		raise Exception("Error in fastq_to_sam: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
 
 
 
