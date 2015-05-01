@@ -9,7 +9,7 @@
 		"configuration":{
 			"1":{"NumCycles":"75","IsIndexedRead":"N"},
 
-			"2":{"NumCycles":"8","IsIndexedRead":"Y"},
+			"2":{"NumCycles":"8","IsIndexedRead":"Y"}
 			
 		}
 	},
