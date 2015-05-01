@@ -13,7 +13,7 @@ def run(log_level="INFO",log_file="./fastq-log.log",config_file="./config.json")
 		for step in workflow['pipeline']:
 			logger.info("Currently step:{0}".format(step))
 			step_module=importlib.import_module(step)
-			step_module.run(config['data'])
+			step_module.run(config['data'],logger)
 		logger.info("Finished executing pipeline!")
 
 	except Exception as e:

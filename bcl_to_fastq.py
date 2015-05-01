@@ -5,7 +5,7 @@ import sys
 import requests
 
 logger = logging.getLogger(__name__) #need to change that to __name__
-def run(data):
+def run(data,logger=None):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.
