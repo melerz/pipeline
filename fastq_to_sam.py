@@ -3,7 +3,7 @@ import subprocess
 import os
 import glob
 import logging
-logger = logging.getLogger("root")
+logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
 	try:
 		currentLocation=os.getcwd()
