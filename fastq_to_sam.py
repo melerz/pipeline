@@ -4,6 +4,7 @@ import os
 import glob
 import sys
 import logging
+import re
 logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
 	try:
@@ -22,8 +23,8 @@ def run(config_file="./config.json"):
 		paired = is_paired(config['data']['configuration'])
 
 		#Create the bowtie files
-		#create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
-		#				bowtie_dir=bowtie_dir,paired=paired)
+		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
+						bowtie_dir=bowtie_dir,paired=paired)
 
 		full_bowtie_dir=os.path.join(fastq_dir,bowtie_dir)
 
@@ -69,7 +70,6 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 
 	#Get all *R1* fastq files in directory
 	fastq_r1_files = glob.glob('*R1*.fastq.gz')
-	#check if paired
 
 	for fastq_r1_file in fastq_r1_files:
 		#Create seperate sam file for each fastq file
@@ -92,10 +92,10 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 			logger.debug("Processing unpaired file:%s"%(fastq_r1_file))
 
 		p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
-		#output,err = p.communicate() #Blocking...
-		# if err:
+		output,err = p.communicate() #Blocking...
+		if err:
 		# 	#logger.error("Error in creating bowtie file for fastq file:%s"%err)
-		# 	print output,err
+			print output,err
 	logger.debug("create_bowtie: changing dir: %s"%currentLocation)
 	os.chdir(currentLocation)
 	logger.debug("create_bowtie: END")
@@ -119,10 +119,24 @@ def unite_bowtie(path="."):
 		lanes_samples_files = glob.glob("%s*"%unique_sample)
 		with open(unique_sample+".bwt","a+") as sam_united_file:
 			#Get content of each bowtie file and append it to the unified file
-			for lane_sample_file in lanes_samples_files:
-				logger.debug("Processing lane file: %s"%lane_sample_file)
-				with open(lane_sample_file,"r") as f:
-					sam_united_file.write(f.read())
-				#Remove the single bowtie file
-				os.remove(lane_sample_file)
+			for lane in ['001','002','003','004']:
+				for lane_sample_file in lanes_samples_files:
+					if re.match("(\w+_%s)"%lane,lane_sample_file):
+						logger.debug("Processing lane file: %s"%lane_sample_file)
+						with open(lane_sample_file,"r") as f:
+							if lane != '001':
+								for line in f:
+									if "@" not in line:
+										sam_united_file.write(line)
+							else:
+								sam_united_file.write(f.read())
+						#Remove the single bowtie file
+						os.remove(lane_sample_file)
+	logger.debug("unite_bowtie: changing dir: %s"%currentLocation)
+	os.chdir(currentLocation)
 	logger.debug("unite_bowtie: END")
+
+
+
+
+
