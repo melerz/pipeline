@@ -105,6 +105,9 @@ def unite_bowtie(path="."):
 		This helper function merge the lanes bowtie files for each sample
 	'''
 	logger.debug("unite_bowtie: START")
+	#Trim trailing slash in path
+	if path[-1:] == "/":
+		path = path[:-1]
 	unique_samples = set([bwt_file.split("_")[0] for bwt_file in glob.glob(path+"/*")])
 	for unique_sample in unique_samples:
 		logger.debug("Found unique sample: %s"%unique_sample)
