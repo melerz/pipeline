@@ -6,6 +6,7 @@ import sys
 import logging
 import re
 logger = logging.getLogger("__main__")
+PROCESS_FASTQ_FILES=5
 def run(config_file="./config.json"):
 	try:
 		currentLocation=os.getcwd()
@@ -23,8 +24,8 @@ def run(config_file="./config.json"):
 		paired = is_paired(config['data']['configuration'])
 
 		#Create the bowtie files
-		#create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
-		#				bowtie_dir=bowtie_dir,paired=paired)
+		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
+						bowtie_dir=bowtie_dir,paired=paired)
 
 		full_bowtie_dir=os.path.join(fastq_dir,bowtie_dir)
 
@@ -69,8 +70,7 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 		os.mkdir(bowtie_dir)
 
 	#Get all *R1* fastq files in directory
-	fastq_r1_files = glob.glob('*R1*.fastq.gz')
-
+	fastq_r1_files = glob.glob('*R1*.fastq.gz')[:PROCESS_FASTQ_FILES]
 	for fastq_r1_file in fastq_r1_files:
 		#Create seperate sam file for each fastq file
 		sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
@@ -119,6 +119,10 @@ def unite_bowtie(path="."):
 		lanes_samples_files = glob.glob("%s*"%unique_sample)
 		with open(unique_sample+".bwt","a+") as sam_united_file:
 			#Get content of each bowtie file and append it to the unified file
+			#We want to put the content in order, first lane first
+			#Also, we want to avoid multipile headers when we are processing
+			#from the 2nd lane. For samtools to read the sam file, only the first header
+			#is important
 			for lane in ['001','002','003','004']:
 				for lane_sample_file in lanes_samples_files:
 					if re.match("(\w+_%s)"%lane,lane_sample_file):
@@ -126,7 +130,7 @@ def unite_bowtie(path="."):
 						with open(lane_sample_file,"r") as f:
 							if lane != '001':
 								for line in f:
-									if "@" not in line:
+									if "@" not in line: #like grep -v '@'
 										sam_united_file.write(line)
 							else:
 								sam_united_file.write(f.read())

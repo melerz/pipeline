@@ -46,6 +46,9 @@
 			},
 			"bowtie":{
 				"exec":"/cs/wetlab/pipeline/bwt2/bowtie2"
+			},
+			"samtools":{
+				"exec":"/cs/wetlab/pipeline/samtools/bin/samtools"
 			}
 		}
 
