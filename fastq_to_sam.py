@@ -22,8 +22,8 @@ def run(config_file="./config.json"):
 		paired = is_paired(config['data']['configuration'])
 
 		#Create the bowtie files
-		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
-						bowtie_dir=bowtie_dir,paired=paired)
+		#create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
+		#				bowtie_dir=bowtie_dir,paired=paired)
 
 		full_bowtie_dir=os.path.join(fastq_dir,bowtie_dir)
 
