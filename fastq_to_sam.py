@@ -114,13 +114,13 @@ def unite_bowtie(path="."):
 	unique_samples = set([bwt_file.split("_")[0] for bwt_file in glob.glob("*")])
 	for unique_sample in unique_samples:
 		logger.debug("Found unique sample: %s"%unique_sample)
-		with open(unique_sample+".bwt","a+") as sam_united_file:
 			lanes_samples_files = glob.glob("%s*"%unique_sample)
-			#Get content of each bowtie file and append it to the unified file
-			for lane_sample_file in lanes_samples_files:
-				logger.debug("Processing lane file: %s"%lane_sample_file)
-				with open(lane_sample_file,"r") as f:
-					sam_united_file.write(f.read())
-				#Remove the single bowtie file
-				os.remove(lane_sample_file)
+			with open(unique_sample+".bwt","a+") as sam_united_file:
+				#Get content of each bowtie file and append it to the unified file
+				for lane_sample_file in lanes_samples_files:
+					logger.debug("Processing lane file: %s"%lane_sample_file)
+					with open(lane_sample_file,"r") as f:
+						sam_united_file.write(f.read())
+					#Remove the single bowtie file
+					os.remove(lane_sample_file)
 	logger.debug("unite_bowtie: END")
