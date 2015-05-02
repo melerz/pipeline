@@ -15,6 +15,7 @@ def run(config_file="./config.json"):
 		config = json.load(open(config_file))
 		logger.info("Loading Config files...")
 		fastq_dir = config['settings']['WORKING_DIR']+config['data']['url']
+		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
 		logger.info(fastq_dir)
 		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['settings']['tools']['bowtie']['exec']
@@ -93,9 +94,7 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 
 		p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 		output,err = p.communicate() #Blocking...
-		if err:
-		# 	#logger.error("Error in creating bowtie file for fastq file:%s"%err)
-			print output,err
+		print output,err
 	logger.debug("create_bowtie: changing dir: %s"%currentLocation)
 	os.chdir(currentLocation)
 	logger.debug("create_bowtie: END")
