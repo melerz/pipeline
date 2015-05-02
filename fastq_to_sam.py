@@ -123,7 +123,7 @@ def unite_bowtie(path="."):
 			#Also, we want to avoid multipile headers when we are processing
 			#from the 2nd lane. For samtools to read the sam file, only the first header
 			#is important
-			for lane in ['001','002','003','004']:
+			for lane in ['L001','L002','L003','L004']:
 				for lane_sample_file in lanes_samples_files:
 					if re.match("(\w+_%s)"%lane,lane_sample_file):
 						logger.debug("Processing lane file: %s"%lane_sample_file)
