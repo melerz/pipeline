@@ -111,7 +111,7 @@ def unite_bowtie(path="."):
 	#Trim trailing slash in path
 	if path[-1:] == "/":
 		path = path[:-1]
-	unique_samples = set([bwt_file.split("_")[0] for bwt_file in glob.glob("*")])
+	unique_samples = set(['_'.join(bwt_file.split("_")[2:]) for bwt_file in glob.glob("*")])
 	for unique_sample in unique_samples:
 		logger.debug("Found unique sample: %s"%unique_sample)
 		lanes_samples_files = glob.glob("%s*"%unique_sample)
