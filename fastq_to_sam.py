@@ -125,7 +125,7 @@ def unite_bowtie(path="."):
 			#is important
 			for lane in ['L001','L002','L003','L004']:
 				for lane_sample_file in lanes_samples_files:
-					if re.match("(\w+_%s)"%lane,lane_sample_file):
+					if re.search("%s"%lane,lane_sample_file):
 						logger.debug("Processing lane file: %s"%lane_sample_file)
 						with open(lane_sample_file,"r") as f:
 							if lane != '001':
