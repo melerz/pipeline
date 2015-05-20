@@ -36,14 +36,13 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		currentLocation = os.getcwd()
 		os.chdir(bowtie_path)
-		cmd="%s view -bS %s > %s.bam"
 		if not (os.path.isdir(output)):
 			os.mkdir(output)
 		#for bowtie_file in glob.glob("*"):
 		for bowtie_file in ['1-C09_S1.bwt','1-C46_S28.bwt']:
 			cmd = [exec_path,"view","-bS",bowtie_file]
 			bam_file_path = os.path.join(output,bowtie_file) +".bam"
-			p = subprocess.Popen(cmd,stdoud=open(bam_file_path),stderr=subprocess.PIPE)
+			p = subprocess.Popen(cmd,stdoud=open(bam_file_path,"w+"),stderr=subprocess.PIPE)
 
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		logger.debug("create_bam:END")
