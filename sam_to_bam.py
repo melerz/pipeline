@@ -45,7 +45,7 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 			logger.debug("create_bam: bam file: %s",bam_file_path)
 			p = subprocess.Popen(cmd,stdout=open(bam_file_path,"w+"),stderr=subprocess.PIPE)
 
-		logger.debug("create_bam: changing dir: %s"%bowtie_path)
+		logger.debug("create_bam: changing dir: %s"%currentLocation)
 		logger.debug("create_bam:END")
 		os.chdir(currentLocation)
 
