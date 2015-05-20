@@ -24,11 +24,11 @@ def run(config_file="./config.json"):
 
 		create_bam(bowtie_path=bowtie_full_path,output="bam_full_path",exec_path=samtools_exec)
 
-except Exception, e:
-	exc_type,exc_obj,exc_tb = sys.exc_info()
-	fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-	os.chdir(currentLocation)
-		raise Exception("Error in sam_to_bam: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
+	except Exception, e:
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		os.chdir(currentLocation)
+			raise Exception("Error in sam_to_bam: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
 
 
 def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools"):
