@@ -22,7 +22,7 @@ def run(config_file="./config.json"):
 		bam_full_path=os.path.join(working_dir,bam_dir)
 
 
-		create_bam(bowtie_path=bowtie_full_path,output="bam_full_path",exec_path=samtools_exec)
+		create_bam(bowtie_path=bowtie_full_path,output=bam_full_path,exec_path=samtools_exec)
 
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
