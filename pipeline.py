@@ -44,5 +44,5 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 
 
 if __name__ == "__main__":
-	logger = configure_logging(log_level="INFO",log_file="./pipeline.log")
+	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
 	run(config_file="./config.json",log=logger)

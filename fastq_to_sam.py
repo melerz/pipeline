@@ -6,7 +6,7 @@ import sys
 import logging
 import re
 logger = logging.getLogger("__main__")
-PROCESS_FASTQ_FILES=5
+PROCESS_FASTQ_FILES=1000
 def run(config_file="./config.json"):
 	try:
 		currentLocation=os.getcwd()
@@ -71,7 +71,7 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 		os.mkdir(bowtie_dir)
 
 	#Get all *R1* fastq files in directory
-	fastq_r1_files = glob.glob('*R1*.fastq.gz')[:PROCESS_FASTQ_FILES]
+	fastq_r1_files = (glob.glob('*R1*.fastq.gz'))[:PROCESS_FASTQ_FILES]
 	for fastq_r1_file in fastq_r1_files:
 		#Create seperate sam file for each fastq file
 		sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
