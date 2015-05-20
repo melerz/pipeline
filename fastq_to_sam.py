@@ -127,7 +127,7 @@ def unite_bowtie(path="."):
 					if re.search("%s"%lane,lane_sample_file):
 						logger.debug("Processing lane file: %s"%lane_sample_file)
 						with open(lane_sample_file,"r") as f:
-							if lane != '001':
+							if lane != 'L001':
 								for line in f:
 									if "@" not in line: #like grep -v '@'
 										sam_united_file.write(line)
