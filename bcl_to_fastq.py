@@ -38,7 +38,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 
 		#Save the current location because this function change it
 		currentLocation=os.getcwd()
-		
+
 		logger.info(("Currently experiment:{0}".format(experiment_name)))
 		
 
@@ -69,5 +69,5 @@ def run(config_file="./config.json",data_file="./data.json"):
 	except Exception as e:
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
 		# 	{'status':'Failed','description':'%s'%e})
-		os.chdir(currentLocation)
+		#os.chdir(currentLocation)
 		raise Exception("Error in bcl_to_fastq.py: %s",e)
