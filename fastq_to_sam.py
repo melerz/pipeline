@@ -50,7 +50,7 @@ def is_paired(experiment_configuration):
 		logger.debug("is_paired: START")
 		count=0
 		for val in experiment_configuration.values():
-			if val['IsIndexedRead']=='Y':
+			if val['IsIndexedRead']=='N':
 				count+=1
 		logger.debug("is_paired: END")
 		return count==2
