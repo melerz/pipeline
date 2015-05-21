@@ -38,9 +38,11 @@
 		"BASE_ILLUMINA_PATH":"/cs/nextseq/",
 		"WORKING_DIR":"/cs/wetlab/melerz/website/",
 		"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
-		"GENOME":"/cs/wetlab/pipeline/SC_indexed/genome",
+		"GENOME":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/",
+		"GENOME_CHROME_SIZE":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",
 		"BOWTIE_OUTPUT_DIR":"bowtie_files/",
 		"BAM_OUTPUT_DIR":"bam_files/",
+		"BED_OUTPUT_DIR":"bed_files/",
 		"tools":{
 			"bcl2fastq":{
 				"exec":"/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq"
@@ -50,6 +52,15 @@
 			},
 			"samtools":{
 				"exec":"/cs/wetlab/pipeline/samtools/bin/samtools"
+			},
+			"bedtools":{
+				"exec":"/usr/bin/bedtools"
+			},
+			"bedClip":{
+				"exec":"/cs/wetlab/pipeline/bedClip"
+			},
+			"bedGraphToBigWig":{
+				"exec":"/cs/wetlab/pipeline/bedGraphToBigWig"
 			}
 		}
 
