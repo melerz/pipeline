@@ -1,5 +1,5 @@
 MEDIA_ROOT='/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/'
-BASE_ILLUMINA_PATH='/cs/nextseq/'
+BASE_ILLUMINA_PATH='/cs/nextseq/NGS/'
 WEBSITE_PATH='/cs/lab/melerz/www/'
 PUBLIC_WEBSITE='http://www.cs.huji.ac.il/~melerz/'
 
