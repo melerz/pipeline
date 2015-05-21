@@ -1,0 +1,12 @@
+{
+	"name":"20-maayan",
+	"csv":"maayan_full_barcodes",
+	"illumina_name":"150521_NS500183_0129_AH7NTGBGXX",
+	"configuration":{
+		"1":{"NumCycles":"30","IsIndexedRead":"N"},
+
+		"2":{"NumCycles":"6","IsIndexedRead":"Y"},
+
+		"3":{"NumCycles":"50","IsIndexedRead":"N"}
+	}
+}
