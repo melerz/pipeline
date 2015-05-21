@@ -1,16 +1,17 @@
 {
 	"data":{
-		"name":"michal-80",
+		"name":"maayan",
 		"illumina":"http://132.65.52.13:8080/illuminaapi/illumina/141113_NS500183_0047_AH19CRBGXX/",
-		"csv":"michal-80",
+		"csv":"maayan",
 		"job_id":"1",
-		"illumina_name":"141113_NS500183_0047_AH19CRBGXX",
-		"url":"etgar_2015",
+		"illumina_name":"150521_NS500183_0129_AH7NTGBGXX",
+		"url":"maayan",
 		"configuration":{
-			"1":{"NumCycles":"75","IsIndexedRead":"Y"},
+			"1":{"NumCycles":"30","IsIndexedRead":"N"},
 
-			"2":{"NumCycles":"8","IsIndexedRead":"Y"}
-			
+			"2":{"NumCycles":"6","IsIndexedRead":"Y"},
+
+			"3":{"NumCycles":"50","IsIndexedRead":"N"}
 		}
 	},
 
@@ -25,8 +26,7 @@
 		},
 		"fastq_only":{
 			"pipeline":[
-				"sam_to_bam",
-				"analyze_coverage"
+				"bcl_to_fastq"
 			]
 		
 		}
@@ -35,13 +35,13 @@
 	"settings":{
 
 		"MEDIA_ROOT":"/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/",
-		"BASE_ILLUMINA_PATH":"/cs/nextseq/",
-		"WORKING_DIR":"/cs/wetlab/pipeline/etgar_2015/",
+		"BASE_ILLUMINA_PATH":"/cs/nextseq/NGS/",
+		"WORKING_DIR":"/cs/wetlab/melerz/website/",
 		"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
 		"GENOME":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/",
 		"GENOME_CHROME_SIZE":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",
 		"BOWTIE_OUTPUT_DIR":"bowtie_files/",
-		"BAM_OUTPUT_DIR":"bam_files/",
+		"BAM_OUTPUT_DIR":"bam_files_sorted/",
 		"BED_OUTPUT_DIR":"bed_files/",
 		"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
 		"tools":{

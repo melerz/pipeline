@@ -54,7 +54,7 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 				p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
 				output,err = p.communicate()
 				if err:
-					print "Errror:",err #output goes to file
+					print "Error:",err #output goes to file
 
 			#Create sorted BAM file
 			logger.debug("create_bam: sort bam file: %s",bam_sorted_file_path)
@@ -63,10 +63,10 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 				output,err = p.communicate()
 				if err:
 					print "Error:",err #output goes to file
-
-			#Delete the original BAM file
+				else:
+					#Delete the original BAM file
+					os.remove(bam_file_path)
 			logger.debug("Remove original BAM file: %s"%(bam_file_path))
-			os.remove(bam_file_path)
 
 		logger.debug("create_bam: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)

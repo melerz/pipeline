@@ -9,7 +9,8 @@ import importlib
 # generic function for running commands
 # library/class design
 # parameters instead of json configuration 
-# support files only in functions, in addition to folders
+# support files in functions, in addition to folders
+
 #Coverage:
 #fastq->->sam(bwt file)->bam->sorted bam->bedGraph->->bedClip->sorted BedGraph (we don't need) -> bigWig
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed

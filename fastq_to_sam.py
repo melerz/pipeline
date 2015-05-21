@@ -6,7 +6,7 @@ import sys
 import logging
 import re
 logger = logging.getLogger("__main__")
-PROCESS_FASTQ_FILES=1000
+PROCESS_FASTQ_FILES=1000000
 def run(config_file="./config.json"):
 	try:
 		currentLocation=os.getcwd()
