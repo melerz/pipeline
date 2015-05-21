@@ -17,7 +17,7 @@ def createRundir(experiment):
 	try:
 		logger.debug("start createRundir: {0}".format(experiment))
 		#Creating dir_name if not exists
-		dir_name = experiment['job_id']+"-"+experiment['name']
+		dir_name = experiment['name']
 		if not (os.path.isdir(dir_name)):
 			os.mkdir(dir_name)
 		#enter into dir.
@@ -25,7 +25,8 @@ def createRundir(experiment):
 		os.chdir(dir_name)
 
 		#create output folder in the WEBSITE_PATH global variable
-		output_folder = settings.WEBSITE_PATH+str(datetime.date.today())+"-%s" % dir_name
+		#Format: <job-id>-<dir_name>
+		output_folder = settings.WEBSITE_PATH+dir_name
 		if not (os.path.isdir(output_folder)):
 			os.mkdir(output_folder)
 			current_perm=os.stat(output_folder)

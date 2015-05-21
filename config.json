@@ -1,11 +1,8 @@
 {
 	"data":{
-		"name":"maayan",
-		"illumina":"http://132.65.52.13:8080/illuminaapi/illumina/141113_NS500183_0047_AH19CRBGXX/",
+		"name":"20-maayan",
 		"csv":"maayan_full_barcodes",
-		"job_id":"1",
 		"illumina_name":"150521_NS500183_0129_AH7NTGBGXX",
-		"url":"2015-05-26-1-maayan",
 		"configuration":{
 			"1":{"NumCycles":"30","IsIndexedRead":"N"},
 
