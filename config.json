@@ -5,9 +5,9 @@
 		"csv":"michal-80",
 		"job_id":"1",
 		"illumina_name":"141113_NS500183_0047_AH19CRBGXX",
-		"url":"michal-80",
+		"url":"etgar_2015",
 		"configuration":{
-			"1":{"NumCycles":"75","IsIndexedRead":"N"},
+			"1":{"NumCycles":"75","IsIndexedRead":"Y"},
 
 			"2":{"NumCycles":"8","IsIndexedRead":"Y"}
 			
@@ -25,8 +25,8 @@
 		},
 		"fastq_only":{
 			"pipeline":[
-				"fastq_to_sam",
-				"sam_to_bam"
+				"sam_to_bam",
+				"analyze_coverage"
 			]
 		
 		}
@@ -36,7 +36,7 @@
 
 		"MEDIA_ROOT":"/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/",
 		"BASE_ILLUMINA_PATH":"/cs/nextseq/",
-		"WORKING_DIR":"/cs/wetlab/melerz/website/",
+		"WORKING_DIR":"/cs/wetlab/pipeline/etgar_2015/",
 		"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
 		"GENOME":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/",
 		"GENOME_CHROME_SIZE":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",
