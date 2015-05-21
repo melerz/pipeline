@@ -2,7 +2,6 @@ import logging
 import os
 from lib import createfastq_operations as operations
 import sys
-import requests
 import json
 logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
