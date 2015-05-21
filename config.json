@@ -43,6 +43,7 @@
 		"BOWTIE_OUTPUT_DIR":"bowtie_files/",
 		"BAM_OUTPUT_DIR":"bam_files/",
 		"BED_OUTPUT_DIR":"bed_files/",
+		"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
 		"tools":{
 			"bcl2fastq":{
 				"exec":"/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq"
