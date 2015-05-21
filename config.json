@@ -1,68 +1,46 @@
 {
-	"data":{
-		"name":"20-maayan",
-		"csv":"maayan_full_barcodes",
-		"illumina_name":"150521_NS500183_0129_AH7NTGBGXX",
-		"configuration":{
-			"1":{"NumCycles":"30","IsIndexedRead":"N"},
 
-			"2":{"NumCycles":"6","IsIndexedRead":"Y"},
-
-			"3":{"NumCycles":"50","IsIndexedRead":"N"}
-		}
-	},
+	"MEDIA_ROOT":"/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/",
+	"BASE_ILLUMINA_PATH":"/cs/nextseq/NGS/",
+	"WORKING_DIR":"/cs/wetlab/melerz/website/",
+	"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
+	"GENOME":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/sacCer3",
+	"GENOME_CHROME_SIZE":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",
+	"BOWTIE_OUTPUT_DIR":"bowtie_files/",
+	"BAM_OUTPUT_DIR":"bam_files_sorted/",
+	"BED_OUTPUT_DIR":"bed_files/",
+	"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
 
 	"workflows":{
-		"bcl_to_genome_browser":{	
-			"pipeline":[
+		"bcl_to_genome_browser":[
 				"bcl_to_fastq",
 				"fastq_to_sam",
 				"sam_to_bam",
 				"bam_to_bigwig"
 			]
-		},
-		"fastq_only":{
-			"pipeline":[
+		,
+		"fastq_only":[
 				"bcl_to_fastq"
-			]
-		
-		}
+			]	
 	},
-
-	"settings":{
-
-		"MEDIA_ROOT":"/cs/wetlab/sequencerapi/sequencerapi/apps/illuminaapi/uploads/",
-		"BASE_ILLUMINA_PATH":"/cs/nextseq/NGS/",
-		"WORKING_DIR":"/cs/wetlab/melerz/website/",
-		"PUBLIC_WEBSITE":"http://www.cs.huji.ac.il/~melerz/",
-		"GENOME":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/sacCer3",
-		"GENOME_CHROME_SIZE":"/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",
-		"BOWTIE_OUTPUT_DIR":"bowtie_files/",
-		"BAM_OUTPUT_DIR":"bam_files_sorted/",
-		"BED_OUTPUT_DIR":"bed_files/",
-		"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
-		"tools":{
-			"bcl2fastq":{
-				"exec":"/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq"
-			},
-			"bowtie":{
-				"exec":"/cs/wetlab/pipeline/tools/bwt2/bowtie2"
-			},
-			"samtools":{
-				"exec":"/cs/wetlab/pipeline/tools/samtools/bin/samtools"
-			},
-			"bedtools":{
-				"exec":"/usr/bin/bedtools"
-			},
-			"bedClip":{
-				"exec":"/cs/wetlab/pipeline/tools/bedClip"
-			},
-			"bedGraphToBigWig":{
-				"exec":"/cs/wetlab/pipeline/tools/bedGraphToBigWig"
-			}
+	"tools":{
+		"bcl2fastq":{
+			"exec":"/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq"
+		},
+		"bowtie":{
+			"exec":"/cs/wetlab/pipeline/tools/bwt2/bowtie2"
+		},
+		"samtools":{
+			"exec":"/cs/wetlab/pipeline/tools/samtools/bin/samtools"
+		},
+		"bedtools":{
+			"exec":"/usr/bin/bedtools"
+		},
+		"bedClip":{
+			"exec":"/cs/wetlab/pipeline/tools/bedClip"
+		},
+		"bedGraphToBigWig":{
+			"exec":"/cs/wetlab/pipeline/tools/bedGraphToBigWig"
 		}
-
 	}
-
 }
-

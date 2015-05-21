@@ -6,20 +6,24 @@ import sys
 import logging
 import re
 logger = logging.getLogger("__main__")
-PROCESS_FASTQ_FILES=1000000
-def run(config_file="./config.json"):
+
+def run(config_file="./config.json",data_file="./data.json"):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
 		print "Running bowtie..."
+
+		logger.info("Loading config and data files...")
 		config = json.load(open(config_file))
-		logger.info("Loading Config files...")
-		fastq_dir = config['settings']['WORKING_DIR']+config['data']['name']
-		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
-		logger.info(fastq_dir)
-		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
-		bowtie_exec = config['settings']['tools']['bowtie']['exec']
-		genome = config['settings']['GENOME']
+		data   = json.load(open(data_file))
+
+		#Export params from JSON:
+		fastq_dir = config['WORKING_DIR']+data['name']
+		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
+		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
+		bowtie_exec = config['tools']['bowtie']['exec']
+		genome = config['GENOME']
+		#End xport params from JSON
 
 		#Check if the experiment is double read or not
 		paired = is_paired(config['data']['configuration'])

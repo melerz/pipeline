@@ -10,24 +10,30 @@ logger = logging.getLogger("__main__")
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(config_file="./config.json"):
+def run(config_file="./config.json",data_file="./data_file.json"):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")
 		print "Running coverage analyze"
-		if config_file:
+		if config_file and data_file:
+			logger.info("Loading config and data files...")
 			config = json.load(open(config_file))
-			logger.info("Loading Config files...")
-			working_dir = config['settings']['WORKING_DIR']+config['data']['name']
-			genome_chrome_size = config['settings']['GENOME_CHROME_SIZE			bedtools_exec = config['settings']['tools']['bedtools']['exec']
-			bw_exec = config['settings']['tools']['bedGraphToBigWig']['exec']
-			bed_dir = config['settings']['BED_OUTPUT_DIR']
-			bam_dir = config['settings']['BAM_OUTPUT_DIR']
-			bw_dir = config['settings']['BIG_WIG_OUTPUT_DIR']
-			bed_full_path=os.path.join(working_dir,bed_dir)
-			bam_full_path=os.path.join(working_dir,bam_dir)
-			bw_full_path =os.path.join(working_dir,bw_dir)
+			data   = json.load(open(data_file))
 
+			#Export params from JSON:
+			working_dir 		= config['WORKING_DIR']+data['name']
+			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
+			bedtools_exec 		= config['tools']['bedtools']['exec']
+			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
+			bed_dir 			= config['BED_OUTPUT_DIR']
+			bam_dir 			= config['BAM_OUTPUT_DIR']
+			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
+			#End export params from JSON:
+
+			bed_full_path       = os.path.join(working_dir,bed_dir)
+			bam_full_path       = os.path.join(working_dir,bam_dir)
+			bw_full_path        = os.path.join(working_dir,bw_dir)
+			
 			create_bed(bam_path=bam_full_path,output=bed_full_path,
 							exec_path=bedtools_exec)
 

@@ -6,17 +6,22 @@ import sys
 import logging
 import re
 logger = logging.getLogger("__main__")
-def run(config_file="./config.json"):
+def run(config_file="./config.json",data_file="./data.json"):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("sam to bam process....")
 		print "Running samtools..."
+
+		logger.info("Loading config and data files...")
 		config = json.load(open(config_file))
-		logger.info("Loading Config files...")
-		working_dir = config['settings']['WORKING_DIR']+config['data']['name']
-		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
-		bam_dir = config['settings']['BAM_OUTPUT_DIR']
-		samtools_exec = config['settings']['tools']['samtools']['exec']
+		data   = json.load(open(data_file))
+
+		#Export params from JSON:
+		working_dir = config['WORKING_DIR']+data['name']
+		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
+		bam_dir = config['BAM_OUTPUT_DIR']
+		samtools_exec = config['tools']['samtools']['exec']
+		#End export params from JSON
 
 		bowtie_full_path=os.path.join(working_dir,bowtie_dir)
 		bam_full_path=os.path.join(working_dir,bam_dir)

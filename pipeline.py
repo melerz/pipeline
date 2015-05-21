@@ -17,7 +17,7 @@ import importlib
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
-def run(config_file="./config.json",log=None):
+def run(config_file="./config.json",data="./data.json",log=None):
 	try:
 		if not log:
 			log = logging.getLogger(__name__)

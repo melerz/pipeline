@@ -13,20 +13,12 @@ import settings
 
 logger = logging.getLogger("__main__") #need to change that to __name__
 
-def createRundir(experiment):
+def popluateDir(name,fastq_output_dir,illumina_experiment_dir):
 	try:
-		logger.debug("start createRundir: {0}".format(experiment))
-		#Creating dir_name if not exists
-		dir_name = experiment['name']
-		if not (os.path.isdir(dir_name)):
-			os.mkdir(dir_name)
-		#enter into dir.
-		#From now on, our location will be ./dir_name
-		os.chdir(dir_name)
-
+		logger.debug("start popluateDir: {0}".format(name))
 		#create output folder in the WEBSITE_PATH global variable
-		#Format: <job-id>-<dir_name>
-		output_folder = settings.WEBSITE_PATH+dir_name
+		#Format: <job-id>-<name>
+		output_folder = fastq_output_dir+name
 		if not (os.path.isdir(output_folder)):
 			os.mkdir(output_folder)
 			current_perm=os.stat(output_folder)
@@ -34,7 +26,7 @@ def createRundir(experiment):
 			htaccess_file = open(output_folder+'/.htaccess',"w+")
 			htaccess_file.write("Options +Indexes")
 
-		destination_path=settings.BASE_ILLUMINA_PATH + experiment['illumina_name']
+		destination_path=illumina_experiment_dir
 
 		#check for destination_path trailing slash
 		if destination_path[-1:] == "/":
@@ -45,27 +37,27 @@ def createRundir(experiment):
 		out,err=p.communicate() #communicate() returns (stdout,stderr) tuple
 		if (p.returncode != 0):
 			raise Exception("Error in running bash commands: %s" %err)
-		logger.debug("End createRundir successfully")
+		logger.debug("End popluateDir successfully")
 	except Exception, e:
-		raise Exception("Exception in createRundir : %s" %e)
+		raise Exception("Exception in popluateDir : %s" %e)
 
-
-def runExpirement(experiment_data,xml_path="./RunInfo.xml"):
+def runExpirement(xml_configuration,samplesheet,xml_path="./RunInfo.xml"):
 	'''
-		This function should be run **after** createRundir function
+		This function should be run **after** popluateDir function
 		We assume we have RunInfo.xml (unlinked with destination folder) with clean reads
 		fastq folder should be a link to a website home directory.
 	'''
 	try:
-		logger.debug("start runExpirement: {0},{1}".format(experiment_data,xml_path))
+		logger.debug("start runExpirement: {0},{1},{2}".format(xml_configuration,
+																samplesheet,xml_path))
 		#clean xml from reads
 		cleanXML(xml_path)
 
 		#modify xml reads settings based on configuration setting
-		configureXML(experiment_data['configuration'],xml_path)
+		configureXML(xml_configuration,xml_path)
 
 		#create SampleSheet.csv based on samples settings
-		createSampleSheet(experiment_data['csv'],"./SampleSheet.csv")
+		createSampleSheet(samplesheet,"./SampleSheet.csv")
 
 		#run the bcl2fastq
 		p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"])
