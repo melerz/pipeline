@@ -70,8 +70,9 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 	if not (os.path.isdir(bowtie_dir)):
 		os.mkdir(bowtie_dir)
 
-	#Get all *R1* fastq files in directory
-	fastq_r1_files = (glob.glob('*R1*.fastq.gz'))[:PROCESS_FASTQ_FILES]
+	#Get all *R1* fastq files in directory, exclude 'Undetermined' files
+	fastq_r1_files = [fastq_file for fastq_file in 
+						glob.glob('*R1*.fastq.gz') if not re.match("Undetermined",fastq_file)]
 	for fastq_r1_file in fastq_r1_files:
 		#Create seperate sam file for each fastq file
 		sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
