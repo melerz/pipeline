@@ -23,7 +23,7 @@
 		},
 		"fastq_only":{
 			"pipeline":[
-				"fastq_to_sam"
+				"bcl_to_fastq"
 			]
 		
 		}
