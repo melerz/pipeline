@@ -23,7 +23,7 @@ def run(config_file="./config.json",data="./data.json",log=None):
 		log.info("loading config file...")
 		config = json.load(open(config_file))
 		workflow = config['workflows']['fastq_only']
-		for step in workflow['pipeline']:
+		for step in workflow:
 			log.info("Currently step:{0}".format(step))
 			print "Running step:%s"%step
 			step_module=importlib.import_module(step)
