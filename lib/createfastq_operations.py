@@ -67,7 +67,7 @@ def runExpirement(experiment_data,xml_path="./RunInfo.xml"):
 		createSampleSheet(experiment_data['csv'],"./SampleSheet.csv")
 
 		#run the bcl2fastq
-		#p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"])
+		p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"])
 		time.sleep(10)
 		#create download link - mayb we don't need that!
 
