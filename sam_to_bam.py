@@ -38,7 +38,7 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		currentLocation = os.getcwd()
 		os.chdir(bowtie_path)
-		for bowtie_file in glob.glob("*"):
+		for bowtie_file in glob.glob("**"):
 
 			#Init
 			bam_file_without_prefix = os.path.join(output,bowtie_file)
