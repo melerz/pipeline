@@ -6,9 +6,10 @@ import importlib
 
 
 #TODO:
+# Seperate data and configuration
+# parameters in addition to json configuration 
 # generic function for running commands
 # library/class design
-# parameters instead of json configuration 
 # support files in functions, in addition to folders
 
 #Coverage:
