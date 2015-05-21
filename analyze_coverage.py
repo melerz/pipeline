@@ -18,7 +18,7 @@ def run(config_file="./config.json"):
 		if config_file:
 			config = json.load(open(config_file))
 			logger.info("Loading Config files...")
-			working_dir = config['settings']['WORKING_DIR']+config['name']
+			working_dir = config['settings']['WORKING_DIR']+config['data']['name']
 			genome_chrome_size = config['settings']['GENOME_CHROME_SIZE			bedtools_exec = config['settings']['tools']['bedtools']['exec']
 			bw_exec = config['settings']['tools']['bedGraphToBigWig']['exec']
 			bed_dir = config['settings']['BED_OUTPUT_DIR']

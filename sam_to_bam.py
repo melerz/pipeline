@@ -13,7 +13,7 @@ def run(config_file="./config.json"):
 		print "Running samtools..."
 		config = json.load(open(config_file))
 		logger.info("Loading Config files...")
-		working_dir = config['settings']['WORKING_DIR']+config['name']
+		working_dir = config['settings']['WORKING_DIR']+config['data']['name']
 		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
 		bam_dir = config['settings']['BAM_OUTPUT_DIR']
 		samtools_exec = config['settings']['tools']['samtools']['exec']

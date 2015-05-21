@@ -14,7 +14,7 @@ def run(config_file="./config.json"):
 		print "Running bowtie..."
 		config = json.load(open(config_file))
 		logger.info("Loading Config files...")
-		fastq_dir = config['settings']['WORKING_DIR']+config['name']
+		fastq_dir = config['settings']['WORKING_DIR']+config['data']['name']
 		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
 		logger.info(fastq_dir)
 		bowtie_dir = config['settings']['BOWTIE_OUTPUT_DIR']
