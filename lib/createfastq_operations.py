@@ -25,7 +25,7 @@ def createRundir(experiment):
 		os.chdir(dir_name)
 
 		#create output folder in the WEBSITE_PATH global variable
-		output_folder = settings.WEBSITE_PATH+experiment['url']
+		output_folder = settings.WEBSITE_PATH+str(datetime.date.today())+"-%s" % dir_name
 		if not (os.path.isdir(output_folder)):
 			os.mkdir(output_folder)
 			current_perm=os.stat(output_folder)
