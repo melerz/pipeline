@@ -3,6 +3,7 @@ import os
 from lib import createfastq_operations as operations
 import sys
 import json
+
 logger = logging.getLogger("__main__")
 def run(config_file="./config.json"):
 	'''
@@ -15,6 +16,7 @@ def run(config_file="./config.json"):
 		and then, for each experiment it calls for runExpirement method
 	'''
 	try:
+		global logger
 		#This logger object is used in the library too
 		if not logger:
 			logger = logging.getLogger(__name__)
