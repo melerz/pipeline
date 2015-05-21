@@ -31,7 +31,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		#Export params from JSON
 		experiment_name 	   		= data['name']
 		samplesheet					= data['csv']
-		xml_configuration			= data['coniguration']
+		xml_configuration			= data['configuration']
 		illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+data['illumina_name']
 		output_dir 					= config['WORKING_DIR']
 		#End export params from JSON
@@ -69,5 +69,5 @@ def run(config_file="./config.json",data_file="./data.json"):
 	except Exception as e:
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
 		# 	{'status':'Failed','description':'%s'%e})
-		#os.chdir(currentLocation)
+		os.chdir(currentLocation)
 		raise Exception("Error in bcl_to_fastq.py: %s",e)
