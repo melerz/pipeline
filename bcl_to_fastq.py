@@ -36,10 +36,11 @@ def run(config_file="./config.json",data_file="./data.json"):
 		output_dir 					= config['WORKING_DIR']
 		#End export params from JSON
 
-		logger.info(("Currently experiment:{0}".format(experiment_name)))
-		
 		#Save the current location because this function change it
 		currentLocation=os.getcwd()
+		
+		logger.info(("Currently experiment:{0}".format(experiment_name)))
+		
 
 		#Check if experiment dir is already exist
 		if os.path.isdir(experiment_name):
