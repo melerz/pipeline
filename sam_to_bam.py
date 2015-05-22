@@ -78,8 +78,8 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 		logger.debug("create_bam:END")
 	except Exception as e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
-		raise Exception("Error in create_bam function: Message: %s : Type: %s : Object: %s : Line: %s",
-																	%(e,exc_type,exc_obj,exc_tb.tb_lineno))
+		raise Exception("Error in create_bam function: Message: %s : Type: %s : Object: %s : Line: %s"%(e,
+																			exc_type,exc_obj,exc_tb.tb_lineno))
 
 
 
