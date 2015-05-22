@@ -12,7 +12,7 @@ logger = logging.getLogger("__main__")
 	The module is currently working only on bigWig files for now
 '''
 
-def run(config_file="./config.json",data_file="./data_file.json"):
+def run(config_file="./config.json",data_file="./data.json"):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")

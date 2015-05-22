@@ -10,7 +10,7 @@ logger = logging.getLogger("__main__")
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(config_file="./config.json",data_file="./data_file.json"):
+def run(config_file="./config.json",data_file="./data.json"):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")
@@ -46,7 +46,7 @@ def run(config_file="./config.json",data_file="./data_file.json"):
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
-		raise Exception("Error in sam_to_bam: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
+		raise Exception("Error in analyze_coverage: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
 
 
 def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
