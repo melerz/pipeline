@@ -8,7 +8,7 @@
 # import logging
 # import time
 # import stat
-
+from .. import *
 logger = logging.getLogger("__main__") #need to change that to __name__
 
 def popluateDir(name,fastq_output_dir,illumina_experiment_dir):

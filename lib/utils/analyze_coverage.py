@@ -5,7 +5,7 @@
 # import sys
 # import logging
 # import re
-from . import config
+from .. import *
 logger = logging.getLogger("__main__")
 '''
 	This module receives BAM files, and output bedGraph file format along with

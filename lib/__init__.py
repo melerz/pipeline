@@ -14,4 +14,4 @@ import argparse
 import csv
 import xml.etree.ElementTree as ET
 
-from config import config
+from configuration import config

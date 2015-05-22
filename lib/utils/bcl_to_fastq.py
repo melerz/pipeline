@@ -4,7 +4,7 @@
 # import sys
 # import json
 # createRundir(name,fastq_output_dir,illumina_experiment_dir):
-from . import config
+from .. import *
 
 logger = logging.getLogger("__main__")
 def run(experiment_name,samplesheet_name,illumina_name,xml_configuration):
