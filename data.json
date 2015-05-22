@@ -8,5 +8,6 @@
 		"2":{"NumCycles":"6","IsIndexedRead":"Y"},
 
 		"3":{"NumCycles":"50","IsIndexedRead":"N"}
-	}
+	},
+	"workflow":"all"
 }

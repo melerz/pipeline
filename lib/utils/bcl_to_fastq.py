@@ -1,11 +1,13 @@
-import logging
-import os
-from lib import createfastq_operations as operations
-import sys
-import json
+# import logging
+# import os
+# from lib import createfastq_operations as operations
+# import sys
+# import json
 # createRundir(name,fastq_output_dir,illumina_experiment_dir):
+from . import config
+
 logger = logging.getLogger("__main__")
-def run(config_file="./config.json",data_file="./data.json"):
+def run(experiment_name,samplesheet_name,illumina_name,xml_configuration):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.
@@ -20,21 +22,14 @@ def run(config_file="./config.json",data_file="./data.json"):
 		#This logger object is used in the library too
 		if not logger:
 			logger = logging.getLogger(__name__)
-
-		#Load Configuration and data files
-		config 	= json.load(open(config_file))
-		data 	= json.load(open(data_file))
-
 		
 		print "Running bcl2fastq"
 
-		#Export params from JSON
-		experiment_name 	   		= data['name']
-		samplesheet					= data['csv']
-		xml_configuration			= data['configuration']
-		illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+data['illumina_name']
+		#Export from config
+		illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+illumina_name
 		output_dir 					= config['WORKING_DIR']
-		#End export params from JSON
+		csv_upload_dir				= config['MEDIA_ROOT']
+		#End export params from config
 
 		#Save the current location because this function change it
 		currentLocation=os.getcwd()
@@ -56,6 +51,9 @@ def run(config_file="./config.json",data_file="./data.json"):
 		logger.info("{0}: Run bcl2fastq".format(experiment_name))
 		#running bcl2fastq in the current experiment folder.
 		#Output folder is fastq, created by popluateDir
+
+		#Create samplesheet path
+		samplesheet = csv_upload_dir + samplesheet_name + ".csv"
 		operations.runExpirement(xml_configuration,samplesheet)
 
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],

@@ -1,15 +1,13 @@
-import subprocess
-import xml.etree.ElementTree as ET
-import datetime
-import os
-import sys
-import csv
-import json
-import shutil
-import logging
-import time
-import stat
-import settings
+# import subprocess
+# import datetime
+# import os
+# import sys
+# import csv
+# import json
+# import shutil
+# import logging
+# import time
+# import stat
 
 logger = logging.getLogger("__main__") #need to change that to __name__
 
@@ -61,7 +59,6 @@ def runExpirement(xml_configuration,samplesheet,xml_path="./RunInfo.xml"):
 
 		#run the bcl2fastq
 		p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"])
-		time.sleep(10)
 		#create download link - mayb we don't need that!
 
 		logger.debug("End runExpirement successfully")
@@ -107,7 +104,7 @@ def configureXML(configuration,path="./RunInfo.xml"):
 	except Exception, e:
 		raise Exception("Exception in configureXML : %s" %e)
 
-def createSampleSheet(csv_file_name,csv_dest="./SampleSheet.csv"):
+def createSampleSheet(csv_file,csv_dest="./SampleSheet.csv"):
 	'''
 		This function copies the uploaded csv file from the website to the experiment folder
 		We assume we are in the experiment folder already
@@ -115,8 +112,7 @@ def createSampleSheet(csv_file_name,csv_dest="./SampleSheet.csv"):
 
 	try:
 		logger.debug("Start createSampleSheet: csv filename: {0}, destinationl: {1}".format(csv_file_name,csv_dest))
-		src = os.path.join(settings.MEDIA_ROOT,csv_file_name + ".csv")
-		shutil.copyfile(src,csv_dest)
+		shutil.copyfile(csv_file,csv_dest)
 		logger.debug("End createSampleSheet")
 
 	except Exception, e:

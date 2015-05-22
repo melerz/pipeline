@@ -1,10 +1,4 @@
-import logging
-import os
-import sys
-import json
-import importlib
-import argparse
-
+import lib
 #TODO:
 # parameters in addition to json configuration 
 # generic function for running commands
@@ -20,19 +14,21 @@ import argparse
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
-def run(config_file="./config.json",data="./data.json",log=None):
+def run(name,csv,illumina_name,configuration,workflow,log=None):
 	try:
 		if not log:
 			log = logging.getLogger(__name__)
-		log.info("loading config file...")
-		config = json.load(open(config_file))
-		workflow = config['workflows']['fastq_only']
+
+		workflow = lib.config['workflows'][workflow]
 		for step in workflow:
-			log.info("Currently step:{0}".format(step))
 			print "Running step:%s"%step
-			step_module=importlib.import_module(step)
-			#step_module.run(config['data'],logger=log)
-			step_module.run()
+			log.info("Currently step:{0}".format(step))
+			step_module=importlib.import_module(lib.step)
+			if step == "bcl_to_fastq":
+				step_module.run(name,csv,illumina_name,configuration)
+			else:
+				step_module.run(name)
+				
 		log.info("Finished executing pipeline!")
 
 	except Exception as e:
@@ -40,7 +36,7 @@ def run(config_file="./config.json",data="./data.json",log=None):
 		if log:
 			log.exception("an error has been occured: %s"%e)
 		else:
-			print "Error while running pipeline!. See log file for further details:%s"%e
+			print "Error while running pipeline!. %s"%e
 
 
 
@@ -64,5 +60,16 @@ if __name__ == "__main__":
 	# parser.add_argument("log=DEBUG")	
 	# parser.add_argument("level=DEBUG")	
 	# parser.parse_args()
+	data_file="./data.json"
+	if data_file:
+
+		data= json.load(open(data))
+		data_name=data['name']
+		data_csv=data['csv']
+		data_illumina=data['illumina_name']
+		data_configuration=data['configuration']
+		data_workflow=data['workflow']
+
 	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
-	run(config_file="./config.json",data="./data.json",log=logger)
+	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
+				configuration=data_configuration,workflow=data_workflow,log=logger)

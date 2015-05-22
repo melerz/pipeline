@@ -1,16 +1,17 @@
-import json
-import subprocess
-import os
-import glob
-import sys
-import logging
-import re
+# import json
+# import subprocess
+# import os
+# import glob
+# import sys
+# import logging
+# import re
+from . import config
 logger = logging.getLogger("__main__")
 '''
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(config_file="./config.json",data_file="./data.json"):
+def run(experiment_name):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")

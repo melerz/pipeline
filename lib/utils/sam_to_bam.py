@@ -1,23 +1,20 @@
-import json
-import subprocess
-import os
-import glob
-import sys
-import logging
-import re
+# import json
+# import subprocess
+# import os
+# import glob
+# import sys
+# import logging
+# import re
+from . import config
 logger = logging.getLogger("__main__")
-def run(config_file="./config.json",data_file="./data.json"):
+def run(experiment_name):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("sam to bam process....")
 		print "Running samtools..."
 
-		logger.info("Loading config and data files...")
-		config = json.load(open(config_file))
-		data   = json.load(open(data_file))
-
 		#Export params from JSON:
-		working_dir 	= config['WORKING_DIR']+data['name']
+		working_dir 	= config['WORKING_DIR']+experiment_name
 		bowtie_dir 		= config['BOWTIE_OUTPUT_DIR']
 		bam_dir 		= config['BAM_OUTPUT_DIR']
 		samtools_exec 	= config['tools']['samtools']['exec']

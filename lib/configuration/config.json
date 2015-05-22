@@ -20,7 +20,7 @@
 				"bam_to_bigwig"
 			]
 		,
-		"fastq_only":[
+		"all":[
 				"fastq_to_sam",
 				"sam_to_bam",
 				"analyze_coverage",
