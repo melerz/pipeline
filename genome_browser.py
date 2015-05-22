@@ -17,7 +17,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")
 		print "Genome Browser: Creating hub directory"
-		if config_file and data_file:
+		if (config_file and data_file):
 			logger.info("Loading config and data files...")
 			config = json.load(open(config_file))
 			data   = json.load(open(data_file))
@@ -37,8 +37,8 @@ def run(config_file="./config.json",data_file="./data.json"):
 			create_hub_dir(experiment_name=experiment_name,trackdb_format=trackdb_format,
 							hub_dir=hub_full_path,bigwig_dir = bw_full_path)
 
-	        url = base_url+experiment_name+"/"+hub_dir
-	        print url
+			url = base_url+experiment_name+"/"+hub_dir
+			print url
 		else:
 			#check parameters....##future...
 			raise Exception("Couldn't load config file and parameters are not configured")
