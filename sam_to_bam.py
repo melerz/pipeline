@@ -58,14 +58,14 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 			logger.debug("create_bam: bam file: %s",bam_file_path)
 			with open(bam_file_path,"w+") as f:
 				p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
-				output,err = p.communicate()
+				output_cmd,err = p.communicate()
 				if err:
 					print "Error while executing samtools:",err #output goes to file
 
 			#Create sorted BAM file
 			logger.debug("create_bam: sort bam file: %s",bam_sorted_file_path)
 			p = subprocess.Popen(cmd_sort,stderr=subprocess.PIPE)
-			output,err = p.communicate()
+			output_cmd,err = p.communicate()
 			if err:
 				print "Error while executing samtools sort:",err #output goes to file
 			else:
