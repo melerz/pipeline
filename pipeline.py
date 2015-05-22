@@ -58,11 +58,11 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser()
-	parser.add_argument("--config","-c",help="The path to configuration file in JSON format")	
-	parser.add_argument("--data","-d",help="The path to data file in JSON format")
-	parser.add_argument("log=DEBUG")	
-	parser.add_argument("level=DEBUG")	
-	parser.parse_args()
-	#logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
-	#run(config_file="./config.json",data="./data.json",log=logger)
+	# parser = argparse.ArgumentParser()
+	# parser.add_argument("--config","-c",help="The path to configuration file in JSON format")	
+	# parser.add_argument("--data","-d",help="The path to data file in JSON format")
+	# parser.add_argument("log=DEBUG")	
+	# parser.add_argument("level=DEBUG")	
+	# parser.parse_args()
+	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
+	run(config_file="./config.json",data="./data.json",log=logger)
