@@ -37,6 +37,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 
 
 def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools"):
+	try:
 		logger.debug("create_bam:START")
 		if not (os.path.isdir(output)):
 			os.mkdir(output)
@@ -75,5 +76,8 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 		logger.debug("create_bam: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)
 		logger.debug("create_bam:END")
+	except:
+		exc_type,exc_obj,exc_tb = sys.exc.info()
+		raise Exception("Exception in create_bam: line : %s"%(exc_tb))
 
 
