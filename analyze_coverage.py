@@ -55,7 +55,7 @@ def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
 	logger.debug("create_bed:START")
 	if not (os.path.isdir(output)):
 		os.mkdir(output)
-	logger.debug("create_bam: changing dir: %s"%bam_path)
+	logger.debug("create_bed: changing dir: %s"%bam_path)
 	currentLocation = os.getcwd()
 	os.chdir(bam_path)
 
