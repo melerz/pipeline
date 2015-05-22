@@ -99,7 +99,7 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 			p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 			output_cmd,err = p.communicate() #Blocking...
 			if p.returncode != 0:
-				raise("Error in running bowtie tool for: %s : %s"%(fastq_r1_file,err))
+				raise Exception("Error in running bowtie tool for: %s : %s"%(fastq_r1_file,err))
 
 			#Handling output.
 			#1) Output relevant lines to the user
@@ -115,7 +115,8 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 		logger.debug("create_bowtie: END")
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
-		raise ("Error in create_bowtie function: Message: %s : Type: %s : Object: %s : Line: %s",%(e,exc_type,exc_obj,exc_tb.tb_lineno))
+		raise Exception("Error in create_bowtie function: Message: %s : Type: %s : Object: %s : Line: %s",
+																		%(e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
 def unite_bowtie(path="."):
@@ -160,7 +161,8 @@ def unite_bowtie(path="."):
 		logger.debug("unite_bowtie: END")
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
-		raise ("Error in unite_bowtie function: Message: %s : Type: %s : Object: %s : Line: %s",%(e,exc_type,exc_obj,exc_tb.tb_lineno))
+		raise Exception("Error in unite_bowtie function: Message: %s : Type: %s : Object: %s : Line: %s",
+																		%(e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
 
