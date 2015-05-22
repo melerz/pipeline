@@ -73,8 +73,8 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		logger.debug("Creating hub file")
 		with open("hub.txt","w+") as hub_file:	
 			hub_file.write("hub %s\n"%(experiment_name))
-			hub_file.write("shortLable %s %s experiment\n"%(experiment_name,date_str))
-			hub_file.write("longLable %s %s experiment\n"%(experiment_name,date_str))
+			hub_file.write("shortLabel %s %s experiment\n"%(experiment_name,date_str))
+			hub_file.write("longLabel %s %s experiment\n"%(experiment_name,date_str))
 			hub_file.write("genomesFile genomes.txt\n")
 			hub_file.write("email nflab@mail.huji.ac.il\n")
 
@@ -82,9 +82,12 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		logger.debug("Creating genomes.txt file")
 		with open("genomes.txt","w+") as genomes_file:
 			genomes_file.write("genome sacCer3\n") 
-			genomes_file.write("genome sacCer3/trackDb.txt\n")
+			genomes_file.write("trackDb sacCer3/trackDb.txt\n")
 
-		#Create sacCer3 directory, linked to the bigWig files
+		#Create sacCer3 directory, with the bigWig files from the original bigWig folder
+		#One may think we could link the new sacCer3 directory to the relevant files, however,
+		#we need to allow FollowSymLink in the .htaccess file - but we can't (error 500), probably
+		#because this setting can't be overidden (by httpd.conf file)
 		logger.debug("Creating sacCer3 folder")
 		shutil.copytree(bigwig_dir,"sacCer3")
 		current_perm=os.stat("sacCer3")
@@ -112,8 +115,8 @@ def create_trackdb(format,path="./",name="trackDb.txt"):
 		with open(name,"w+") as trackdb_file:
 			for bigwig_file in bigwig_files:
 				format['track']=bigwig_file
-				format['shortLable']=bigwig_file
-				format['longLable']=bigwig_file
+				format['shortLabel']=bigwig_file
+				format['longLabel']=bigwig_file
 				format['bigDataUrl']=bigwig_file
 				for key,value in format.iteritems():
 					trackdb_file.write("%s %s\n"%(key,value))
