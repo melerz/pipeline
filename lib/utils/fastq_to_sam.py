@@ -5,20 +5,19 @@
 # import sys
 # import logging
 # import re
+
+from . import config
+
 logger = logging.getLogger("__main__")
 
-def run(config_file="./config.json",data_file="./data.json"):
+def run(experiment_name):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
 		print "Running bowtie..."
 
-		logger.info("Loading config and data files...")
-		config = json.load(open(config_file))
-		data   = json.load(open(data_file))
-
 		#Export params from JSON:
-		fastq_dir = config['WORKING_DIR']+data['name']
+		fastq_dir = config['WORKING_DIR']+experiment_name
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']
@@ -26,7 +25,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		#End xport params from JSON
 
 		#Check if the experiment is double read or not
-		paired = is_paired(data['configuration'])
+		paired = is_paired(fastq_dir)
 
 		#Create the bowtie files
 		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
@@ -45,19 +44,17 @@ def run(config_file="./config.json",data_file="./data.json"):
 
 
 
-def is_paired(experiment_configuration):
+def is_paired(fastq_dir):
 	'''
 		This helper function determines if the current experiment is paired-read
 		or not. It does so by examine the json configuration data
 	'''
 	try:
 		logger.debug("is_paired: START")
-		count=0
-		for val in experiment_configuration.values():
-			if val['IsIndexedRead']=='N':
-				count+=1
-		logger.debug("is_paired: END")
-		return count==2
+		if glob.glob("*_R2_*"):
+			return True
+		else:
+			return False
 	except Exception, e:
 		raise Exception("Error in is_paired: %s",e)
 

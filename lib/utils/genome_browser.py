@@ -14,18 +14,13 @@ logger = logging.getLogger("__main__")
 	The module is currently working only on bigWig files for now
 '''
 
-def run(config_file="./config.json",data_file="./data.json"):
+def run(experiment_name):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")
 		print "Genome Browser: Creating hub directory"
-		if (config_file and data_file):
-			logger.info("Loading config and data files...")
-			config = json.load(open(config_file))
-			data   = json.load(open(data_file))
-
+		if experiment_name:
 			#Export params from JSON:
-			experiment_name		= data['name']
 			working_dir 		= config['WORKING_DIR'] + experiment_name
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			hub_dir				= config['HUB_OUTPUT_DIR']
@@ -43,7 +38,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 			print url
 		else:
 			#check parameters....##future...
-			raise Exception("Couldn't load config file and parameters are not configured")
+			raise Exception("Please provide experiment's name")
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

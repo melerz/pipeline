@@ -16,13 +16,9 @@ def run(experiment_name):
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")
 		print "Running coverage analyze"
-		if config_file and data_file:
-			logger.info("Loading config and data files...")
-			config = json.load(open(config_file))
-			data   = json.load(open(data_file))
-
+		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= config['WORKING_DIR']+data['name']
+			working_dir 		= config['WORKING_DIR']+experiment_name
 			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
 			bedtools_exec 		= config['tools']['bedtools']['exec']
 			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
@@ -42,7 +38,7 @@ def run(experiment_name):
 							exec_path=bw_exec,chrome_size=genome_chrome_size)
 		else:
 			#check parameters....##future...
-			raise Exception("Couldn't load config file and parameters are not configured")
+			raise Exception("Please provide experiment's name")
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
