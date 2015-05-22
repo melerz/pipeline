@@ -59,7 +59,7 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		if not (os.path.isdir(hub_dir)):
 			os.mkdir(hub_dir)
 			current_perm=os.stat(hub_dir)
-			os.chmod(hub_dir,current_perm.st_mode|os.stat.S_IXOTH)
+			os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
 		else:
 			raise Exception("There is alreay hub folder in this directory")
 		if not os.path.isdir(bigwig_dir):
@@ -101,7 +101,7 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		logger.debug("create_hub_dir:END")
 	except Exception,e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
-		raise Exception("Exception in create_trackdb: type: %s : line : %s"%(exc_type,exc_tb.tb_lineno))
+		raise Exception("Exception in create_hub_dir: type: %s : line : %s"%(exc_type,exc_tb.tb_lineno))
 
 def create_trackdb(format,path="./",name="trackDb.txt"):
 	#full_path=os.path.join(path,name)
