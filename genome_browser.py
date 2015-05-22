@@ -100,9 +100,8 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 
 		logger.debug("create_hub_dir:END")
 	except Exception,e:
-		print "Error:%s"%(e.message)
-	finally:
-		os.chdir(currentLocation)
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		raise Exception("Exception in create_trackdb: type: %s : line : %s"%(exc_type,exc_tb.tb_lineno))
 
 def create_trackdb(format,path="./",name="trackDb.txt"):
 	#full_path=os.path.join(path,name)
@@ -120,7 +119,5 @@ def create_trackdb(format,path="./",name="trackDb.txt"):
 					trackdb_file.write("%s %s\n"%(key,value))
 				trackdb_file.write("\n")
 	except Exception,e:
-		#logger.error("Error in creating trackDb file: %s"%(e.message))
-		print "Error in creating trackDb file: %s"%(e)
-	finally:
-		os.chdir(currentLocation)
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		raise Exception("Exception in create_trackdb: type: %s : line : %s"%(exc_type,exc_tb.tb_lineno))
