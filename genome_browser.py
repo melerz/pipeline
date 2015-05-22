@@ -86,7 +86,7 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 
 		#Create sacCer3 directory, linked to the bigWig files
 		logger.debug("Creating sacCer3 folder")
-		shutil.copytree(bigwig_dir,sacCer3)
+		shutil.copytree(bigwig_dir,"sacCer3")
 		#os.symlink(os.path.join(currentLocation,bigwig_dir), "sacCer3")
 
 
