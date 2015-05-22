@@ -48,7 +48,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
-		raise Exception("Error in sam_to_bam: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
+		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
 def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./bw_files"):

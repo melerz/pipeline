@@ -11,6 +11,7 @@
 	"BED_OUTPUT_DIR":"bed_files/",
 	"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
 	"HUB_OUTPUT_DIR":"hub/",
+	"SKIP_EXISTING":"true",
 	"workflows":{
 		"bcl_to_genome_browser":[
 				"bcl_to_fastq",

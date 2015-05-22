@@ -46,7 +46,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
-		raise Exception("Error in analyze_coverage: %s,%s,%s,%s"%(e,exc_type,exc_obj,fname))
+		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
 def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
@@ -68,8 +68,8 @@ def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
 			with open(bed_file,"w+") as f:
 				p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
 				output_cmd,err = p.communicate()
-				if err:
-					print "Error:",err
+				if p.returncode != 0 :
+					raise Exception("creating bedGraph file: %s : Error: %s"%(bed_file,err))
 
 		#Go back to parent directory
 		logger.debug("create_bed: changing dir: %s"%currentLocation)
@@ -97,17 +97,17 @@ def create_bigwig_from_bed(bed_path,output="./bigwig_files/",
 			bw_file=os.path.join(output,(bed_file+".bw"))
 			cmd=[exec_path,bed_file,chrome_size,bw_file]
 			
-			#Create bigWif file
+			#Create bigWig file
 			p = subprocess.Popen(cmd,stderr=subprocess.PIPE)
 			output_cmd,err = p.communicate()
-			if err:
-				print "Error:",err
+			if p.returncode != 0 :
+				raise Exception("creating bigWig file: %s : Error: %s"%(bw_file,err))
 
 		#Go back to parent directory
 		logger.debug("create_bigwig_from_bed: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)
 
 		logger.debug("create_bigwig_from_bed:END")
-	except:
+	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		raise Exception("Exception in create_bigwig_from_bed: line : %s"%(exc_tb.tb_lineno))

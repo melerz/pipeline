@@ -11,6 +11,8 @@ import argparse
 # library/class design
 # support files in functions, in addition to folders
 
+
+# store bowtie output
 # create_trackdb format parameter
 
 #Coverage:
@@ -34,9 +36,7 @@ def run(config_file="./config.json",data="./data.json",log=None):
 		log.info("Finished executing pipeline!")
 
 	except Exception as e:
-		exc_type,exc_obj,exc_tb = sys.exc_info()
-		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-		print(exc_type,fname,exc_tb.tb_lineno)
+		print e
 		if log:
 			log.exception("an error has been occured: %s"%e)
 		else:
