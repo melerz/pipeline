@@ -57,7 +57,6 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		logger.debug("create_hub_dir:START")
 		if not (os.path.isdir(hub_dir)):
 			os.mkdir(hub_dir)
-			mkdir creates by default execution permissions
 			current_perm=os.stat(hub_dir)
 			os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
 		else:
