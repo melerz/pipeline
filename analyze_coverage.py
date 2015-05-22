@@ -67,7 +67,7 @@ def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
 			#Create bedGraph file
 			with open(bed_file,"w+") as f:
 				p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
-				output,err = p.communicate()
+				output_cmd,err = p.communicate()
 				if err:
 					print "Error:",err
 
@@ -99,7 +99,7 @@ def create_bigwig_from_bed(bed_path,output="./bigwig_files/",
 			
 			#Create bigWif file
 			p = subprocess.Popen(cmd,stderr=subprocess.PIPE)
-			output,err = p.communicate()
+			output_cmd,err = p.communicate()
 			if err:
 				print "Error:",err
 
