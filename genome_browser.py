@@ -6,6 +6,7 @@ import sys
 import logging
 import re
 import datetime
+import shutil
 logger = logging.getLogger("__main__")
 '''
 	This module creates an hub folder for UCSC Genome Browser.
@@ -56,9 +57,9 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		logger.debug("create_hub_dir:START")
 		if not (os.path.isdir(hub_dir)):
 			os.mkdir(hub_dir)
-			#mkdir creates by default execution permissions
-			# current_perm=os.stat(hub_dir)
-			# os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
+			mkdir creates by default execution permissions
+			current_perm=os.stat(hub_dir)
+			os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
 		else:
 			raise Exception("There is alreay hub folder in this directory")
 		if not os.path.isdir(bigwig_dir):
@@ -85,8 +86,8 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 
 		#Create sacCer3 directory, linked to the bigWig files
 		logger.debug("Creating sacCer3 folder")
-		print os.path.join(currentLocation,bigwig_dir)
-		os.symlink(os.path.join(currentLocation,bigwig_dir), "sacCer3")
+		shutil.copytree(bigwig_dir,sacCer3)
+		#os.symlink(os.path.join(currentLocation,bigwig_dir), "sacCer3")
 
 
 		#Create trackDb.txt file in the bigWig folder
