@@ -69,5 +69,8 @@ def run(config_file="./config.json",data_file="./data.json"):
 	except Exception as e:
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
 		# 	{'status':'Failed','description':'%s'%e})
-		os.chdir(currentLocation)
-		raise Exception("Error in bcl_to_fastq.py: %s",e)
+		try:
+			#Maybe currentLocation is not set yet
+			os.chdir(currentLocation)
+		finally:
+			raise Exception("Error in bcl_to_fastq.py: %s",e)

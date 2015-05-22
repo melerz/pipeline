@@ -3,13 +3,15 @@ import os
 import sys
 import json
 import importlib
-
+import argparse
 
 #TODO:
 # parameters in addition to json configuration 
 # generic function for running commands
 # library/class design
 # support files in functions, in addition to folders
+
+# create_trackdb format parameter
 
 #Coverage:
 #fastq->->sam(bwt file)->bam->sorted bam->bedGraph->->bedClip->sorted BedGraph (we don't need) -> bigWig
@@ -56,5 +58,11 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 
 
 if __name__ == "__main__":
-	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
-	run(config_file="./config.json",log=logger)
+	parser = argparse.ArgumentParser()
+	parser.add_argument("--config","-c",help="The path to configuration file in JSON format")	
+	parser.add_argument("--data","-d",help="The path to data file in JSON format")
+	parser.add_argument("log=DEBUG")	
+	parser.add_argument("level=DEBUG")	
+	parser.parse_args()
+	#logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
+	#run(config_file="./config.json",data="./data.json",log=logger)

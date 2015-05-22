@@ -10,7 +10,7 @@
 	"BAM_OUTPUT_DIR":"bam_files_sorted/",
 	"BED_OUTPUT_DIR":"bed_files/",
 	"BIG_WIG_OUTPUT_DIR":"bigwig_files/",
-
+	"HUB_OUTPUT_DIR":"hub/",
 	"workflows":{
 		"bcl_to_genome_browser":[
 				"bcl_to_fastq",
@@ -42,5 +42,21 @@
 		"bedGraphToBigWig":{
 			"exec":"/cs/wetlab/pipeline/tools/bedGraphToBigWig"
 		}
+	},
+
+	"trackdb":
+	{
+
+		"track":"",
+		"type":"bigWig 0 1000",
+		"maxHeightPixels":"128:32:8",
+		"shortLabel":"",
+		"longLabel":"",
+		"color":"0,0,63",
+		"type":"bigWig 0 1000",
+		"autoScale":"on",
+		"visibility":"full",
+		"yLineOnOff":"on",
+		"bigDataUrl":""
 	}
 }
