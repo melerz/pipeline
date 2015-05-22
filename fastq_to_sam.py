@@ -26,7 +26,7 @@ def run(config_file="./config.json",data_file="./data.json"):
 		#End xport params from JSON
 
 		#Check if the experiment is double read or not
-		paired = is_paired(config['data']['configuration'])
+		paired = is_paired(data['configuration'])
 
 		#Create the bowtie files
 		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
