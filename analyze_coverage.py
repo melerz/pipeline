@@ -50,57 +50,64 @@ def run(config_file="./config.json",data_file="./data.json"):
 
 
 def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
+	try:
+		#Create if not exist bed directory
+		logger.debug("create_bed:START")
+		if not (os.path.isdir(output)):
+			os.mkdir(output)
+		logger.debug("create_bed: changing dir: %s"%bam_path)
+		currentLocation = os.getcwd()
+		os.chdir(bam_path)
 
-	#Create if not exist bed directory
-	logger.debug("create_bed:START")
-	if not (os.path.isdir(output)):
-		os.mkdir(output)
-	logger.debug("create_bed: changing dir: %s"%bam_path)
-	currentLocation = os.getcwd()
-	os.chdir(bam_path)
+		for sorted_bam in glob.glob("*"):
+			logger.debug("Currently processing BAM file: %s"%(sorted_bam))
+			cmd=[exec_path,"genomecov","-bg","-ibam",sorted_bam]
+			bed_file=os.path.join(output,(sorted_bam+".bed"))
+			
+			#Create bedGraph file
+			with open(bed_file,"w+") as f:
+				p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
+				output,err = p.communicate()
+				if err:
+					print "Error:",err
 
-	for sorted_bam in glob.glob("*"):
-		logger.debug("Currently processing BAM file: %s"%(sorted_bam))
-		cmd=[exec_path,"genomecov","-bg","-ibam",sorted_bam]
-		bed_file=os.path.join(output,(sorted_bam+".bed"))
-		
-		#Create bedGraph file
-		with open(bed_file,"w+") as f:
-			p = subprocess.Popen(cmd,stdout=f,stderr=subprocess.PIPE)
-			output,err = p.communicate()
-			if err:
-				print "Error:",err
+		#Go back to parent directory
+		logger.debug("create_bed: changing dir: %s"%currentLocation)
+		os.chdir(currentLocation)
 
-	#Go back to parent directory
-	logger.debug("create_bed: changing dir: %s"%currentLocation)
-	os.chdir(currentLocation)
-
-	logger.debug("create_bed:END")
+		logger.debug("create_bed:END")
+	except:
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		raise Exception("Exception in create_bed: line : %s"%(exc_tb.tb_lineno))
 
 def create_bigwig_from_bed(bed_path,output="./bigwig_files/",
 								exec_path="/cs/wetlab/pipeline/bedGraphToBigWig",
 										chrome_size="/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt"):
-	#Create if not exist bed directory
-	logger.debug("create_bigwig_from_bed:START")
-	if not (os.path.isdir(output)):
-		os.mkdir(output)
-	logger.debug("create_bigwig_from_bed: changing dir: %s"%bed_path)
-	currentLocation = os.getcwd()
-	os.chdir(bed_path)
+	try:
+		#Create if not exist bed directory
+		logger.debug("create_bigwig_from_bed:START")
+		if not (os.path.isdir(output)):
+			os.mkdir(output)
+		logger.debug("create_bigwig_from_bed: changing dir: %s"%bed_path)
+		currentLocation = os.getcwd()
+		os.chdir(bed_path)
 
-	for bed_file in glob.glob("*"):
-		logger.debug("Currently processing bed file: %s"%(bed_file))
-		bw_file=os.path.join(output,(bed_file+".bw"))
-		cmd=[exec_path,bed_file,chrome_size,bw_file]
-		
-		#Create bigWif file
-		p = subprocess.Popen(cmd,stderr=subprocess.PIPE)
-		output,err = p.communicate()
-		if err:
-			print "Error:",err
+		for bed_file in glob.glob("*"):
+			logger.debug("Currently processing bed file: %s"%(bed_file))
+			bw_file=os.path.join(output,(bed_file+".bw"))
+			cmd=[exec_path,bed_file,chrome_size,bw_file]
+			
+			#Create bigWif file
+			p = subprocess.Popen(cmd,stderr=subprocess.PIPE)
+			output,err = p.communicate()
+			if err:
+				print "Error:",err
 
-	#Go back to parent directory
-	logger.debug("create_bigwig_from_bed: changing dir: %s"%currentLocation)
-	os.chdir(currentLocation)
+		#Go back to parent directory
+		logger.debug("create_bigwig_from_bed: changing dir: %s"%currentLocation)
+		os.chdir(currentLocation)
 
-	logger.debug("create_bigwig_from_bed:END")
+		logger.debug("create_bigwig_from_bed:END")
+	except:
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		raise Exception("Exception in create_bigwig_from_bed: line : %s"%(exc_tb.tb_lineno))
