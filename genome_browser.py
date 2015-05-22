@@ -32,13 +32,13 @@ def run(config_file="./config.json",data_file="./data.json"):
 			#End export params from JSON:
 
 			bw_full_path        = os.path.join(working_dir,bw_dir)
-			hub_full_path             = os.path.join(working_dir,hub_dir)
+			hub_full_path       = os.path.join(working_dir,hub_dir)
 
 			create_hub_dir(experiment_name=experiment_name,trackdb_format=trackdb_format,
 							hub_dir=hub_full_path,bigwig_dir = bw_full_path)
+
 	        url = base_url+experiment_name+"/"+hub_dir
 	        print url
-
 		else:
 			#check parameters....##future...
 			raise Exception("Couldn't load config file and parameters are not configured")

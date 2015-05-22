@@ -71,7 +71,7 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 			else:
 				#Delete the original BAM file
 				logger.debug("Remove original BAM file: %s"%(bam_file_path))
-				#os.remove(bam_file_path)
+				os.remove(bam_file_path)
 
 		logger.debug("create_bam: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)
