@@ -96,10 +96,10 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 						]
 				logger.debug("Processing unpaired file:%s"%(fastq_r1_file))
 
-			p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			p = subprocess.Popen(cmd,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 			output_cmd,err = p.communicate() #Blocking...
 			if p.returncode != 0:
-				raise Exception("Error in running bowtie tool for: %s : %s"%(fastq_r1_file,err))
+				raise Exception("Error in running bowtie tool for: %s : %s"%(fastq_r1_file,output_cmd))
 
 			#Handling output.
 			#1) Output relevant lines to the user
