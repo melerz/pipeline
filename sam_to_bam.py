@@ -77,7 +77,8 @@ def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/
 		os.chdir(currentLocation)
 		logger.debug("create_bam:END")
 	except:
-		exc_type,exc_obj,exc_tb = sys.exc.info()
-		raise Exception("Exception in create_bam: line : %s"%(exc_tb))
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		raise Exception("Exception in create_bam: line : %s"%(exc_tb.tb_lineno))
+
 
 
