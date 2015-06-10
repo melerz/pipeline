@@ -9,7 +9,7 @@
 # import time
 # import stat
 from .. import *
-import createfastq_operations as operations
+
 logger = logging.getLogger("__main__") #need to change that to __name__
 
 def popluateDir(name,fastq_output_dir,illumina_experiment_dir):
