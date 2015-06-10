@@ -112,7 +112,7 @@ def createSampleSheet(csv_file,csv_dest="./SampleSheet.csv"):
 	'''
 
 	try:
-		logger.debug("Start createSampleSheet: csv filename: {0}, destinationl: {1}".format(csv_file_name,csv_dest))
+		logger.debug("Start createSampleSheet: csv filename: {0}, destinationl: {1}".format(csv_file,csv_dest))
 		shutil.copyfile(csv_file,csv_dest)
 		logger.debug("End createSampleSheet")
 
