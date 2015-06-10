@@ -13,6 +13,7 @@ import argparse
 import csv
 import importlib
 import utils
+import createfastq_operations as operations
 import xml.etree.ElementTree as ET
 
 from configuration.config import config #config is variable contains JSON configuration data
