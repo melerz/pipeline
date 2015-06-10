@@ -47,13 +47,14 @@ def runExpirement(xml_configuration,samplesheet,xml_path="./RunInfo.xml"):
 		fastq folder should be a link to a website home directory.
 	'''
 	try:
-		logger.debug("start runExpirement: {0},{1},{2}".format(xml_configuration,
+		logger.debug("start runExpirement: {0},{1},{2}".format(xml_configuration,		
 																samplesheet,xml_path))
-		#clean xml from reads
-		cleanXML(xml_path)
+		if xml_configuration:
+			#clean xml from reads
+			cleanXML(xml_path)
 
-		#modify xml reads settings based on configuration setting
-		configureXML(xml_configuration,xml_path)
+			#modify xml reads settings based on configuration setting
+			configureXML(xml_configuration,xml_path)
 
 		#create SampleSheet.csv based on samples settings
 		createSampleSheet(samplesheet,"./SampleSheet.csv")
@@ -91,13 +92,11 @@ def configureXML(configuration,path="./RunInfo.xml"):
 
 	try:
 		logger.debug("start configureXML: {0},{1}".format(configuration,path))
-		print 'begiining configure xml'
 		tree = ET.parse(path)
 		root = tree.getroot()
 		readsElement=root.find(".//Reads")
 		#Creates new reads based on configuration
 		for readIndex in configuration.keys():
-			print readIndex
 			ET.SubElement(readsElement,'Read',dict(Number=readIndex,NumCycles=configuration[readIndex]['NumCycles'],IsIndexedRead=configuration[readIndex]['IsIndexedRead']))
 
 		tree.write(path)

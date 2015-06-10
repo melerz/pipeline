@@ -23,12 +23,9 @@ def run(experiment_name):
 		genome = config['GENOME']
 		#End xport params from JSON
 
-		#Check if the experiment is double read or not
-		paired = is_paired(fastq_dir)
-
 		#Create the bowtie files
 		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
-						bowtie_dir=bowtie_dir,paired=paired)
+						bowtie_dir=bowtie_dir)
 
 		full_bowtie_dir=os.path.join(fastq_dir,bowtie_dir)
 
@@ -43,21 +40,21 @@ def run(experiment_name):
 
 
 
-def is_paired(fastq_dir):
+def is_paired(fastq_path):
 	'''
 		This helper function determines if the current experiment is paired-read
-		or not. It does so by examine the json configuration data
+		or not. It does so by checking if there is *R2* files in the fastq directory
 	'''
 	try:
 		logger.debug("is_paired: START")
-		if glob.glob("*_R2_*"):
+		if glob.glob(fastq_path+"/*_R2_*"):
 			return True
 		else:
 			return False
 	except Exception, e:
 		raise Exception("Error in is_paired: %s",e)
 
-def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/"):
+def create_bowtie(genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/"):
 	'''
 		This helper function create bowtie files
 	'''
@@ -71,6 +68,8 @@ def create_bowtie(paired,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/b
 		if not (os.path.isdir(bowtie_dir)):
 			os.mkdir(bowtie_dir)
 
+		#Check if the fastq files are paired or not
+		paired = is_paired(fastq_path=path)
 		#Get all *R1* fastq files in directory, exclude 'Undetermined' files
 		fastq_r1_files = [fastq_file for fastq_file in 
 							glob.glob('*R1*.fastq.gz') if not re.match("Undetermined",fastq_file)]

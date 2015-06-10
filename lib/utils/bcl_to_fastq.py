@@ -53,7 +53,10 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration):
 		#Output folder is fastq, created by popluateDir
 
 		#Create samplesheet path
-		samplesheet = csv_upload_dir + samplesheet_name + ".csv"
+		if not samplesheet.endswith(".csv"):
+			samplesheet = csv_upload_dir + samplesheet_name + ".csv"
+		else:
+			samplesheet = csv_upload_dir + samplesheet_name 
 		operations.runExpirement(xml_configuration,samplesheet)
 
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
