@@ -1,4 +1,4 @@
-import lib
+from lib import *
 #TODO:
 # parameters in addition to json configuration 
 # generic function for running commands
@@ -19,11 +19,11 @@ def run(name,csv,illumina_name,configuration,workflow,log=None):
 		if not log:
 			log = logging.getLogger(__name__)
 
-		workflow = lib.config['workflows'][workflow]
+		workflow = config['workflows'][workflow]
 		for step in workflow:
 			print "Running step:%s"%step
 			log.info("Currently step:{0}".format(step))
-			step_module=importlib.import_module(lib.step)
+			step_module=importlib.import_module("lib.utils.%s"%step)
 			if step == "bcl_to_fastq":
 				step_module.run(name,csv,illumina_name,configuration)
 			else:
@@ -63,7 +63,7 @@ if __name__ == "__main__":
 	data_file="./data.json"
 	if data_file:
 
-		data= json.load(open(data))
+		data= json.load(open(data_file))
 		data_name=data['name']
 		data_csv=data['csv']
 		data_illumina=data['illumina_name']

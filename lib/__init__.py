@@ -9,9 +9,10 @@ import datetime
 import shutil
 import stat
 import logging
-import importlib
 import argparse
 import csv
+import importlib
+import utils
 import xml.etree.ElementTree as ET
 
-from configuration import config
+from configuration.config import config #config is variable contains JSON configuration data
