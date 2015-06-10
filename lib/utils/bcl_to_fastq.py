@@ -62,7 +62,7 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration):
 
 		os.chdir(currentLocation)
 
-		logger.info("{0}: Finished".format(data['name']))
+		logger.info("{0}: Finished".format(experiment_name))
 
 	except Exception as e:
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],

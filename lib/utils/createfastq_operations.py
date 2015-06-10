@@ -59,9 +59,10 @@ def runExpirement(xml_configuration,samplesheet,xml_path="./RunInfo.xml"):
 		createSampleSheet(samplesheet,"./SampleSheet.csv")
 
 		#run the bcl2fastq
-		p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"])
-		#create download link - mayb we don't need that!
-
+		p = subprocess.Popen(["/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq","-o","fastq","-p","8","-d","6","-r","4","-w","4"],
+									stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+		#Blocking?
+		out,err=p.communicate() #Blocking...
 		logger.debug("End runExpirement successfully")
 	except Exception, e:
 		raise Exception("Exception in runExpirement : %s" %e)
