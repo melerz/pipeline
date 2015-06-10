@@ -11,7 +11,7 @@ logger = logging.getLogger("__main__")
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(experiment_name):
+def run(experiment_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")

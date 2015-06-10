@@ -7,7 +7,7 @@
 from .. import *
 import createfastq_operations as operations
 logger = logging.getLogger("__main__")
-def run(experiment_name,samplesheet_name,illumina_name,xml_configuration):
+def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwargs):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.

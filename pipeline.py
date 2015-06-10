@@ -1,8 +1,8 @@
 from lib import *
 #TODO:
-# parameters in addition to json configuration 
+
 # generic function for running commands
-# library/class design
+
 # support files in functions, in addition to folders
 
 
@@ -14,7 +14,7 @@ from lib import *
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
-def run(name,csv,illumina_name,workflow,configuration=None,log=None):
+def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False):
 	try:
 		if not log:
 			log = logging.getLogger(__name__)
@@ -103,12 +103,12 @@ if __name__ == "__main__":
 
 	configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
 	
-	data_name = validate_param("name", args.name)
-	data_csv = validate_param("csv", args.csv)
-	data_illumina = validate_param("illumina", args.illumina)
-	data_workflow = validate_param("workflow", args.workflow)
-	data_configuration=configuration
-
+	data_force			= args.force
+	data_name 			= validate_param("name", args.name)
+	data_csv 			= validate_param("csv", args.csv)
+	data_illumina 		= validate_param("illumina", args.illumina)
+	data_workflow 		= validate_param("workflow", args.workflow)
+	data_configuration  = configuration
 	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
 	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
-				configuration=data_configuration,workflow=data_workflow,log=logger)
+				configuration=data_configuration,workflow=data_workflow,log=logger,force=data_force)

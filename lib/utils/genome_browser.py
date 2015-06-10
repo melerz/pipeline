@@ -15,7 +15,7 @@ logger = logging.getLogger("__main__")
 	The module is currently working only on bigWig files for now
 '''
 
-def run(experiment_name):
+def run(experiment_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")

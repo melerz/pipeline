@@ -9,7 +9,7 @@
 from .. import *
 logger = logging.getLogger("__main__")
 
-def run(experiment_name):
+def run(experiment_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
