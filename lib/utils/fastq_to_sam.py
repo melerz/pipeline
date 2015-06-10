@@ -7,7 +7,6 @@
 # import re
 
 from .. import *
-print "heyyyyyy"
 logger = logging.getLogger("__main__")
 
 def run(experiment_name):
