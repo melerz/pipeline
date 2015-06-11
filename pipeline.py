@@ -12,7 +12,7 @@ from lib.server import api
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
 menue={
-		"name":"get_name"
+		"name":"get_name",
 		"csv":"get_csv_list",
 		"illumina":"get_illumina",
 		"workflow":"get_workflow"
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
 	configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
 	#Initiate client client api class
-	client = api.Lab(args.ipaddress)
+	#client = api.Lab(args.ipaddress)
 
 	data_force			= args.force
 	data_name 			= validate_param("name", args.name)
