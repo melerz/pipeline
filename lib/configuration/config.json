@@ -21,6 +21,7 @@
 			]
 		,
 		"all":[
+				"bcl_to_fastq",
 				"fastq_to_sam",
 				"sam_to_bam",
 				"analyze_coverage",
