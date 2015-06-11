@@ -53,7 +53,7 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		#Output folder is fastq, created by popluateDir
 
 		#Create samplesheet path
-		if not samplesheet.endswith(".csv"):
+		if not samplesheet_name.endswith(".csv"):
 			samplesheet = csv_upload_dir + samplesheet_name + ".csv"
 		else:
 			samplesheet = csv_upload_dir + samplesheet_name 
