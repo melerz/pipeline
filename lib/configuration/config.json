@@ -25,7 +25,8 @@
 				"sam_to_bam",
 				"analyze_coverage",
 				"genome_browser"
-			]	
+			],
+		"bcl_to_fastsq":["bcl_to_fastq"]	
 	},
 	"tools":{
 		"bcl2fastq":{
@@ -52,12 +53,11 @@
 	{
 
 		"track":"",
-		"type":"bigWig 0 1000",
+		"type":"bigWig",
 		"maxHeightPixels":"128:32:8",
 		"shortLabel":"",
 		"longLabel":"",
 		"color":"0,0,63",
-		"type":"bigWig 0 1000",
 		"autoScale":"on",
 		"visibility":"full",
 		"yLineOnOff":"on",

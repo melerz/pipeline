@@ -11,6 +11,9 @@ class Lab():
 			self._upload_endpoint 	= upload_endpoint
 			self._run_endpoint 		= run_endpoint
 
+	def get_experiment(self):
+		pass
+
 	def get_illumina(self):
 		return requests.get(server+_illumina_endpoint)
 

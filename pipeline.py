@@ -1,12 +1,9 @@
 from lib import *
+from lib.server import api
 #TODO:
-
-# generic function for running commands
 
 # support files in functions, in addition to folders
 
-
-# store bowtie output
 # create_trackdb format parameter
 
 #Coverage:
@@ -14,6 +11,12 @@ from lib import *
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
+menue={
+		"name":"get_name"
+		"csv":"get_csv_list",
+		"illumina":"get_illumina",
+		"workflow":"get_workflow"
+}
 def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False):
 	try:
 		if not log:
@@ -93,16 +96,19 @@ if __name__ == "__main__":
 	parser.add_argument("-i","--illumina",
 						help="The name of the illumina data dir.This is the folder where the RAW data is")	
 	parser.add_argument("-w","--workflow",help="The name of the workflow you want to execute")
+	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-r1",help="R1 configuratin (read,indexed)",type=get_read)
 	parser.add_argument("-r2",help="R2 configuratin (read,indexed)",type=get_read)
 	parser.add_argument("-r3",help="R3 configuratin (read,indexed)",type=get_read)
 	parser.add_argument("-r4",help="R4 configuratin (read,indexed)",type=get_read)
-	parser.add_argument("--force","-f",help="Deleting existing folders while executing the pipeline",action="store_true")		
+	parser.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
 
 	args=parser.parse_args()
 
 	configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
-	
+	#Initiate client client api class
+	client = api.Lab(args.ipaddress)
+
 	data_force			= args.force
 	data_name 			= validate_param("name", args.name)
 	data_csv 			= validate_param("csv", args.csv)

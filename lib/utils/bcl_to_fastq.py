@@ -18,8 +18,9 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		and then, for each experiment it calls for runExpirement method
 	'''
 	try:
-		global logger
 		#This logger object is used in the library too
+		global logger
+		currentLocation=os.getcwd()
 		if not logger:
 			logger = logging.getLogger(__name__)
 		
@@ -32,7 +33,6 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		#End export params from config
 
 		#Save the current location because this function change it
-		currentLocation=os.getcwd()
 
 		logger.info(("Currently experiment:{0}".format(experiment_name)))
 		
@@ -68,10 +68,8 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		logger.info("{0}: Finished".format(experiment_name))
 
 	except Exception as e:
-		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
-		# 	{'status':'Failed','description':'%s'%e})
-		try:
-			#Maybe currentLocation is not set yet
+		exc_type,exc_obj,exc_tb = sys.exc_info()
+		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		if currentLocation:
 			os.chdir(currentLocation)
-		finally:
-			raise Exception("Error in bcl_to_fastq.py: %s",e)
+		rraise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
