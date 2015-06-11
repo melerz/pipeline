@@ -72,4 +72,4 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		if currentLocation:
 			os.chdir(currentLocation)
-		rraise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
+		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
