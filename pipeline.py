@@ -1,5 +1,5 @@
 from lib import *
-#from lib.server import api
+from lib.server import api
 #TODO:
 
 # support files in functions, in addition to folders
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
 	configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
 	#Initiate client client api class
-	#client = api.Lab(args.ipaddress)
+	client = api.Lab(args.ipaddress)
 
 	data_force			= args.force
 	data_name 			= validate_param("name", args.name)
