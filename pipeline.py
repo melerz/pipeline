@@ -79,7 +79,7 @@ def format_configuration(r1,r2,r3,r4):
 	print r1,r2,r3,r4
 	for current_read in read_list:
 		if current_read:
-			if not type(current_read)=="tuple":
+			if not type(current_read)==tuple:
 				raise Exception("%s is not a tuple"%current_read)
 			read,index = current_read
 			configuration[str(count)]={"NumCycles":read,"IsIndexedRead":index}
