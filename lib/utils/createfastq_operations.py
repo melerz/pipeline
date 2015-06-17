@@ -96,8 +96,8 @@ def configureXML(configuration,path="./RunInfo.xml"):
 		root = tree.getroot()
 		readsElement=root.find(".//Reads")
 		#Creates new reads based on configuration
-		for readIndex in configuration.keys():
-			ET.SubElement(readsElement,'Read',dict(Number=readIndex,NumCycles=configuration[readIndex]['NumCycles'],IsIndexedRead=configuration[readIndex]['IsIndexedRead']))
+		for read_data in configuration:
+			ET.SubElement(readsElement,'Read',dict(Number=read_data[0],NumCycles=read_data[1],IsIndexedRead=read_data[2]))
 
 		tree.write(path)
 		logger.debug("End configureXML successfully")

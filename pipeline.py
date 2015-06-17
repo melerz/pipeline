@@ -55,15 +55,19 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 	logger.addHandler(file_handler)
 	return logger
 
-def get_read(read):
+def get_read(configuration):
 	'''
 		Argument type helper function for argparse
 	'''
 	try:
-		read,index=read.split(",")
-		if(int(read) and (index in ["y","Y","n","N"])):
-			index=index.upper()
-			return read,index
+		read_data_list=configuration.split(",")
+		read_list=[]
+		for read in read_data_list:
+			read_list.append(read[1:-1].split(","))
+
+		#if(int(read) and (index in ["y","Y","n","N"])):
+		#	index=index.upper()
+		return read_list
 		else:
 			raise Exception()
 	except:
@@ -98,15 +102,18 @@ if __name__ == "__main__":
 						help="The name of the illumina data dir.This is the folder where the RAW data is")	
 	parser.add_argument("-w","--workflow",help="The name of the workflow you want to execute")
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
-	parser.add_argument("-r1",help="R1 configuratin (read,indexed)",type=get_read)
-	parser.add_argument("-r2",help="R2 configuratin (read,indexed)",type=get_read)
-	parser.add_argument("-r3",help="R3 configuratin (read,indexed)",type=get_read)
-	parser.add_argument("-r4",help="R4 configuratin (read,indexed)",type=get_read)
+	parser.add_argument("-c","--configuration",help="Read configuration .\
+													 (read,cycles,isIndexed) - One or more comma-seperated tuples",type=get_read)
+	# parser.add_argument("-r2",help="R2 configuratin (read,indexed)",type=get_read)
+	# parser.add_argument("-r3",help="R3 configuratin (read,indexed)",type=get_read)
+	# parser.add_argument("-r4",help="R4 configuratin (read,indexed)",type=get_read)
 	parser.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
 
 	args=parser.parse_args()
 
-	configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
+	#configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
+	configuration=format_configuration(args.configuration)
+
 	#Initiate client client api class
 	#client = api.Lab(args.ipaddress)
 
