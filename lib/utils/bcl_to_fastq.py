@@ -27,9 +27,12 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 		print "Running bcl2fastq"
 
 		#Export from config
-		illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+illumina_name
-		output_dir 					= funcs.get_working_directory(experiment_name)#Function in configuration.config
-		csv_upload_dir				= config['MEDIA_ROOT']
+		if not os.path.isabs(illumina_name):
+			illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+illumina_name
+		else:
+			illumina_experiment_data 	= illumina_name
+		output_dir 						= funcs.get_working_directory(experiment_name)#Function in configuration.config
+		csv_upload_dir					= config['MEDIA_ROOT']
 		#End export params from config
 
 		#Save the current location because this function change it

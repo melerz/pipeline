@@ -5,11 +5,14 @@ This module loads the configuration file
 from .. import *
 from os.path import expanduser
 import inspect, os
+import getpass
+import time
+
 CONFIG_NAME="config.json"
 
-current_file_path=inspect.getfile(inspect.currentframe())
-current_dir_path = os.path.dirname(current_file_path)
-configuration_path = os.path.join(current_dir_path,CONFIG_NAME)
+current_file_path	=	inspect.getfile(inspect.currentframe())
+current_dir_path 	= 	os.path.dirname(current_file_path)
+configuration_path 	= 	os.path.join(current_dir_path,CONFIG_NAME)
 config=json.load(open(configuration_path))
 
 def get_working_directory(name):
@@ -21,10 +24,13 @@ def get_working_directory(name):
 	
 	if not os.path.isdir(experiment_dir):
 		print "Creating the experiment directory in: %s"%(experiment_dir)
+		username = getpass.getuser()
+		current_datetime = time.strftime("%d-%m-%y-%H-%M")
 		#Creating relevant experiment dir in working directory
 		working_directory = config['WORKING_DIR']
-		experiment_wd_dir = os.path.join(working_directory,name)
-		os.mkdir(experiment_wd_dir)
+		experiment_wd_dir = os.path.join(working_directory,username+"-"+current_datetime+"-"+name)
+
+		os.mkdir(usernexperiment_wd_dir)
 
 		#Set Mode
 		current_perm=os.stat(experiment_wd_dir)
