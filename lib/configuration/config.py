@@ -3,8 +3,8 @@ This module loads the configuration file
 '''
 
 from .. import *
+from os.path import expanduser
 import inspect, os
-
 CONFIG_NAME="config.json"
 
 current_file_path=inspect.getfile(inspect.currentframe())
