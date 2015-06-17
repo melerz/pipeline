@@ -1,4 +1,5 @@
 from lib import *
+from os.path import expanduser
 #from lib.server import api
 #TODO:
 
@@ -118,3 +119,5 @@ if __name__ == "__main__":
 	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
 	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
 				configuration=data_configuration,workflow=data_workflow,log=logger,force=data_force)
+
+

@@ -16,7 +16,7 @@ def run(experiment_name,**kwargs):
 		print "Running bowtie..."
 
 		#Export params from JSON:
-		fastq_dir = config['WORKING_DIR']+experiment_name
+		fastq_dir = get_working_directory(experiment_name)
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']

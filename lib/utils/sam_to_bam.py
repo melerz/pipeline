@@ -14,7 +14,7 @@ def run(experiment_name,**kwargs):
 		print "Running samtools..."
 
 		#Export params from JSON:
-		working_dir 	= config['WORKING_DIR']+experiment_name
+		working_dir 	= get_working_directory(experiment_name)
 		bowtie_dir 		= config['BOWTIE_OUTPUT_DIR']
 		bam_dir 		= config['BAM_OUTPUT_DIR']
 		samtools_exec 	= config['tools']['samtools']['exec']
