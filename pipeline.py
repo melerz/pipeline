@@ -73,21 +73,21 @@ def get_read(configuration):
 	except:
 		raise argparse.ArgumentTypeError("read must be x,y. x - read numbers and y - y/n values")
 
-def format_configuration(r1,r2,r3,r4):
-	'''
-		r1/2/3/4 is a tuple
-	'''
-	configuration={}
-	read_list = [r1,r2,r3,r4]
-	count=1
-	for current_read in read_list:
-		if current_read:
-			if not type(current_read)==tuple:
-				raise Exception("%s is not a tuple"%current_read)
-			read,index = current_read
-			configuration[str(count)]={"NumCycles":read,"IsIndexedRead":index}
-			count+=1
-	return configuration
+# def format_configuration(r1,r2,r3,r4):
+# 	'''
+# 		r1/2/3/4 is a tuple
+# 	'''
+# 	configuration={}
+# 	read_list = [r1,r2,r3,r4]
+# 	count=1
+# 	for current_read in read_list:
+# 		if current_read:
+# 			if not type(current_read)==tuple:
+# 				raise Exception("%s is not a tuple"%current_read)
+# 			read,index = current_read
+# 			configuration[str(count)]={"NumCycles":read,"IsIndexedRead":index}
+# 			count+=1
+# 	return configuration
 
 def validate_param(name,value):
 	if not value:
@@ -112,7 +112,7 @@ if __name__ == "__main__":
 	args=parser.parse_args()
 
 	#configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
-	configuration=format_configuration(args.configuration)
+	#configuration=format_configuration(args.configuration)
 
 	#Initiate client client api class
 	#client = api.Lab(args.ipaddress)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 	data_csv 			= validate_param("csv", args.csv)
 	data_illumina 		= validate_param("illumina", args.illumina)
 	data_workflow 		= validate_param("workflow", args.workflow)
-	data_configuration  = configuration
+	data_configuration  = args.configuration
 	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
 	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
 				configuration=data_configuration,workflow=data_workflow,log=logger,force=data_force)
