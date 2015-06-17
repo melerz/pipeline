@@ -24,13 +24,13 @@ def get_working_directory(name):
 		#Creating relevant experiment dir in working directory
 		working_directory = config['WORKING_DIR']
 		experiment_wd_dir = os.path.join(working_directory,name)
-		os.path.mkdir(experiment_wd_dir)
+		os.mkdir(experiment_wd_dir)
 
 		#Creating a linked directory inside the ~/www, to the working directory
 
 		#Create www folder if doesn't exist
 		if not os.path.isdir(www_path):
-			os.path.mkdir(www_path)
+			os.mkdir(www_path)
 
 		#Create the experiment folder inside the www folder
 		os.symlink(experiment_wd_dir,experiment_dir)
