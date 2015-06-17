@@ -97,6 +97,7 @@ def configureXML(configuration,path="./RunInfo.xml"):
 		readsElement=root.find(".//Reads")
 		#Creates new reads based on configuration
 		for read_data in configuration:
+			print read_data
 			ET.SubElement(readsElement,'Read',dict(Number=read_data[0],NumCycles=read_data[1],IsIndexedRead=read_data[2]))
 
 		tree.write(path)
