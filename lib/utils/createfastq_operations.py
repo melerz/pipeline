@@ -17,7 +17,7 @@ def popluateDir(name,fastq_output_dir,illumina_experiment_dir):
 		logger.debug("start popluateDir: {0}".format(name))
 		#create output folder in the WEBSITE_PATH global variable
 		#Format: <job-id>-<name>
-		output_folder = fastq_output_dir+name
+		output_folder = fastq_output_dir
 		if not (os.path.isdir(output_folder)):
 			os.mkdir(output_folder)
 			current_perm=os.stat(output_folder)
