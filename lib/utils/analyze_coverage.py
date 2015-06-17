@@ -18,7 +18,7 @@ def run(experiment_name,**kwargs):
 		print "Running coverage analyze"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= get_working_directory(experiment_name)
+			working_dir 		= funcs.get_working_directory(experiment_name)
 			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
 			bedtools_exec 		= config['tools']['bedtools']['exec']
 			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']

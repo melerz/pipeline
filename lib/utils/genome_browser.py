@@ -22,7 +22,7 @@ def run(experiment_name,**kwargs):
 		print "Genome Browser: Creating hub directory"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= get_working_directory(experiment_name)
+			working_dir 		= funcs.get_working_directory(experiment_name)
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			hub_dir				= config['HUB_OUTPUT_DIR']
 			trackdb_format		= config['trackdb']

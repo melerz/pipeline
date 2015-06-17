@@ -28,7 +28,7 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,**kwarg
 
 		#Export from config
 		illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+illumina_name
-		output_dir 					= get_working_directory(experiment_name)#Function in configuration.config
+		output_dir 					= funcs.get_working_directory(experiment_name)#Function in configuration.config
 		csv_upload_dir				= config['MEDIA_ROOT']
 		#End export params from config
 
