@@ -35,7 +35,7 @@ def run(experiment_name,**kwargs):
 			create_hub_dir(experiment_name=experiment_name,trackdb_format=trackdb_format,
 							hub_dir=hub_full_path,bigwig_dir = bw_full_path)
 
-			url = base_url+experiment_name+"/"+hub_dir
+			url = base_url+"~"+getpass.getuser()+"/"+experiment_name+"/"+hub_dir+"hub.txt"
 			print url
 		else:
 			#check parameters....##future...
