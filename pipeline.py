@@ -60,7 +60,7 @@ def get_read(configuration):
 		Argument type helper function for argparse
 	'''
 	try:
-		read_data_list=configuration.split(",")
+		read_data_list=configuration.split(":")
 		read_list=[]
 		for read in read_data_list:
 			read_list.append(read[1:-1].split(","))
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 	parser.add_argument("-w","--workflow",help="The name of the workflow you want to execute")
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-c","--configuration",help="Read configuration .\
-													 (read,cycles,isIndexed) - One or more comma-seperated tuples",type=get_read)
+													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
 	# parser.add_argument("-r2",help="R2 configuratin (read,indexed)",type=get_read)
 	# parser.add_argument("-r3",help="R3 configuratin (read,indexed)",type=get_read)
 	# parser.add_argument("-r4",help="R4 configuratin (read,indexed)",type=get_read)
