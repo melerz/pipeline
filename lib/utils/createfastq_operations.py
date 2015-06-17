@@ -17,13 +17,10 @@ def popluateDir(name,fastq_output_dir,illumina_experiment_dir):
 		logger.debug("start popluateDir: {0}".format(name))
 		#create output folder in the WEBSITE_PATH global variable
 		#Format: <job-id>-<name>
+		'''
+			Assumes output folder is already exist
+		'''
 		output_folder = fastq_output_dir
-		if not (os.path.isdir(output_folder)):
-			os.mkdir(output_folder)
-			current_perm=os.stat(output_folder)
-			os.chmod(output_folder,current_perm.st_mode|stat.S_IXOTH)
-			htaccess_file = open(output_folder+'/.htaccess',"w+")
-			htaccess_file.write("Options +Indexes")
 
 		destination_path=illumina_experiment_dir
 
