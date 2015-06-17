@@ -26,6 +26,12 @@ def get_working_directory(name):
 		experiment_wd_dir = os.path.join(working_directory,name)
 		os.mkdir(experiment_wd_dir)
 
+		#Set Mode
+		current_perm=os.stat(experiment_wd_dir)
+		os.chmod(experiment_wd_dir,current_perm.st_mode|stat.S_IXOTH)
+		htaccess_file = open(experiment_wd_dir+'/.htaccess',"w+")
+		htaccess_file.write("Options +Indexes")
+
 		#Creating a linked directory inside the ~/www, to the working directory
 
 		#Create www folder if doesn't exist
@@ -34,4 +40,5 @@ def get_working_directory(name):
 
 		#Create the experiment folder inside the www folder
 		os.symlink(experiment_wd_dir,experiment_dir)
+
 	return experiment_dir
