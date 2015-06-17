@@ -68,8 +68,8 @@ def get_read(configuration):
 		#if(int(read) and (index in ["y","Y","n","N"])):
 		#	index=index.upper()
 		return read_list
-		else:
-			raise Exception()
+		# else:
+		# 	raise Exception()
 	except:
 		raise argparse.ArgumentTypeError("read must be x,y. x - read numbers and y - y/n values")
 
