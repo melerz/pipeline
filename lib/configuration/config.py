@@ -30,7 +30,7 @@ def get_working_directory(name):
 		working_directory = config['WORKING_DIR']
 		experiment_wd_dir = os.path.join(working_directory,username+"-"+current_datetime+"-"+name)
 
-		os.mkdir(usernexperiment_wd_dir)
+		os.mkdir(experiment_wd_dir)
 
 		#Set Mode
 		current_perm=os.stat(experiment_wd_dir)
