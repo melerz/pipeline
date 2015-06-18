@@ -27,7 +27,7 @@
 				"analyze_coverage",
 				"genome_browser"
 			],
-		"bcl_to_fastsq":["bcl_to_fastq"]	
+		"bcl_to_fastq":["bcl_to_fastq"]	
 	},
 	"tools":{
 		"bcl2fastq":{

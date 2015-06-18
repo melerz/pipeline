@@ -34,8 +34,7 @@ def get_working_directory(name):
 
 		#Set Mode
 		current_perm=os.stat(experiment_wd_dir)
-		os.chmod(experiment_wd_dir,current_perm.st_mode|stat.S_IXOTH) #o+x
-		os.chmod(experiment_wd_dir,current_perm.st_mode|stat.S_IXGRP) #g+x
+		os.chmod(experiment_wd_dir,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP) #o+x
 		htaccess_file = open(experiment_wd_dir+'/.htaccess',"w+")
 		htaccess_file.write("Options +Indexes")
 
