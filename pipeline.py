@@ -63,31 +63,13 @@ def get_read(configuration):
 		read_data_list=configuration.split(":")
 		read_list=[]
 		for read in read_data_list:
-			read_list.append(read[1:-1].split(","))
-
-		#if(int(read) and (index in ["y","Y","n","N"])):
-		#	index=index.upper()
+			read_number,cycles,is_indexed = read[1:-1].split(",")
+			is_indexed = is_indexed.upper()
+			read_list.append((read_number,cycles,is_indexed))
 		return read_list
-		# else:
-		# 	raise Exception()
-	except:
-		raise argparse.ArgumentTypeError("read must be x,y. x - read numbers and y - y/n values")
+	except Exception, e:
+		raise argparse.ArgumentTypeError(e.message)
 
-# def format_configuration(r1,r2,r3,r4):
-# 	'''
-# 		r1/2/3/4 is a tuple
-# 	'''
-# 	configuration={}
-# 	read_list = [r1,r2,r3,r4]
-# 	count=1
-# 	for current_read in read_list:
-# 		if current_read:
-# 			if not type(current_read)==tuple:
-# 				raise Exception("%s is not a tuple"%current_read)
-# 			read,index = current_read
-# 			configuration[str(count)]={"NumCycles":read,"IsIndexedRead":index}
-# 			count+=1
-# 	return configuration
 
 def validate_param(name,value):
 	if not value:
@@ -104,18 +86,9 @@ if __name__ == "__main__":
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
-	# parser.add_argument("-r2",help="R2 configuratin (read,indexed)",type=get_read)
-	# parser.add_argument("-r3",help="R3 configuratin (read,indexed)",type=get_read)
-	# parser.add_argument("-r4",help="R4 configuratin (read,indexed)",type=get_read)
 	parser.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
 
 	args=parser.parse_args()
-
-	#configuration=format_configuration(args.r1,args.r2,args.r3,args.r4)
-	#configuration=format_configuration(args.configuration)
-
-	#Initiate client client api class
-	#client = api.Lab(args.ipaddress)
 
 	data_force			= args.force
 	data_name 			= validate_param("name", args.name)
