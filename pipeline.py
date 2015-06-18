@@ -82,7 +82,7 @@ if __name__ == "__main__":
 	parser.add_argument("-csv","--csv",help="The name of the SampleSheet.csv file you want to use")
 	parser.add_argument("-i","--illumina",
 						help="The name of the illumina data dir.This is the folder where the RAW data is")	
-	parser.add_argument("-w","--workflow",help="The name of the workflow you want to execute")
+	parser.add_argument("-w","--workflow",help="The name of the workflow you want to execute",default="all")
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
