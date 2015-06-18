@@ -13,13 +13,6 @@
 	"HUB_OUTPUT_DIR":"hub/",
 	"SKIP_EXISTING":"true",
 	"workflows":{
-		"bcl_to_genome_browser":[
-				"bcl_to_fastq",
-				"fastq_to_sam",
-				"sam_to_bam",
-				"bam_to_bigwig"
-			]
-		,
 		"all":[
 				"bcl_to_fastq",
 				"fastq_to_sam",
@@ -27,6 +20,12 @@
 				"analyze_coverage",
 				"genome_browser"
 			],
+		"fastq_to_browser":[
+				"fastq_to_sam",
+				"sam_to_bam",
+				"analyze_coverage",
+				"genome_browser"		
+		],
 		"bcl_to_fastq":["bcl_to_fastq"]	
 	},
 	"tools":{
