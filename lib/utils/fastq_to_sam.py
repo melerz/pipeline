@@ -82,7 +82,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 		#Get all *R1* fastq files in directory, exclude 'Undetermined' files
 
 		fastq_r1_files = [fastq_file for fastq_file in 
-							glob.glob(os.path.join(fastq_path,"*{sample}*_R1*.fastq.gz".format(sample=sample_name))) 
+							glob.glob(os.path.join(fastq_dir,"*{sample}*_R1*.fastq.gz".format(sample=sample_name))) 
 																	if not re.match("Undetermined*",fastq_file)]
 
 		#Check if we have files to work on...
