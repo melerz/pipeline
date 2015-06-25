@@ -15,9 +15,17 @@ current_dir_path 	= 	os.path.dirname(current_file_path)
 configuration_path 	= 	os.path.join(current_dir_path,CONFIG_NAME)
 config=json.load(open(configuration_path))
 
-def get_working_directory(name):
+def get_working_directory(name,sample_name=None):
 	'''
-		Creates the experiment directory in a sub-directory within the www folder in the user profile
+		Creates/Gets the experiment directory in a sub-directory within the www folder in the user profile.
+		If sample_name is specified, than it creates/gets a sub-folder inside the experiment directory by the name of the
+		current sample name that is processed by the pipeline
+		Args:
+			- name: The experiment name
+			- sample_name: The sample name
+
+		Return:
+			The full path to the experiment dir / sample dir inside the user profile
 	'''
 	www_path = expanduser("~/www")
 	experiment_dir = os.path.join(www_path,name)
@@ -47,4 +55,12 @@ def get_working_directory(name):
 		#Create the experiment folder inside the www folder
 		os.symlink(experiment_wd_dir,experiment_dir)
 
+	if sample_name:
+		sample_dir=os.path.join(experiment_dir,sample_name)
+		if not os.path.isdir(sample_dir):
+			print "Creating sample dir of sample: {sample} of the experiment: {experiment}".format(sample=sample_name,experiment=name)
+			os.mkdir(sample_dir)
+		return sample_dir
+		
+	#If sample_name is not specified, return the experiment dir path only	
 	return experiment_dir

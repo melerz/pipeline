@@ -3,6 +3,12 @@ from os.path import expanduser
 #from lib.server import api
 #TODO:
 
+# -f switch implementation
+# - beutify output
+# - slum permissions
+# - multiprocessing pooling
+# -improve logging -> log for each experiment + time
+# -
 # support files in functions, in addition to folders
 
 # create_trackdb format parameter
@@ -19,19 +25,38 @@ menue={
 		"workflow":"get_workflow"
 }
 def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False):
+	'''
+		Args:
+			name - The name of the experiment
+			csv  - The name of the csv file
+			illumina_name - The full path / name of the Illumina RAW data folder
+			workflow - The name of the workflow you want to use (*All* workflows start with bcl_to_fastq step)
+			configuration - The customized configuration you want for the RunInfo.xml file
+			log - logger
+			force - Override existing folders all along the pipeline process
+
+		Returns:
+			In case the workflow contains genome browser, the function returns the URL for the hub directory,
+			otherwise, void.
+	'''
+
+
 	try:
 		if not log:
 			log = logging.getLogger(__name__)
 		workflow = config['workflows'][workflow]
-		for step in workflow:
-			print "Running step:%s"%step
-			log.info("Currently step:{0}".format(step))
-			step_module=importlib.import_module("lib.utils.%s"%step)
-			if step == "bcl_to_fastq":
-				step_module.run(name,csv,illumina_name,configuration)
-			else:
-				step_module.run(name)
-				
+
+		step_module=importlib.import_module("lib.utils.bcl_to_fastq")
+
+		step_module.run(name,csv,illumina_name,configuration,workflow)
+		# for step in workflow:
+		# 	print "Running step:%s"%step
+		# 	log.info("Currently step:{0}".format(step))
+		# 	step_module=importlib.import_module("lib.utils.%s"%step)
+		# 	if step == "bcl_to_fastq":
+		# 		step_module.run(name,csv,illumina_name,configuration)
+		# 	else:
+		# 		step_module.run(name)
 		log.info("Finished executing pipeline!")
 
 	except Exception as e:
@@ -86,7 +111,7 @@ if __name__ == "__main__":
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
-	parser.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
+	parser.add_argument("-f","--force",helpr="Deleting existing folders while executing the pipeline",action="store_true")		
 
 	args=parser.parse_args()
 

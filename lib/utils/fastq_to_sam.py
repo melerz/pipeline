@@ -9,14 +9,14 @@
 from .. import *
 logger = logging.getLogger("__main__")
 
-def run(experiment_name,**kwargs):
+def run(experiment_name,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
 		print "Running bowtie..."
 
 		#Export params from JSON:
-		fastq_dir = funcs.get_working_directory(experiment_name)
+		sample_dir = funcs.get_working_directory(experiment_name,sample_name)
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']
@@ -24,10 +24,10 @@ def run(experiment_name,**kwargs):
 		#End xport params from JSON
 
 		#Create the bowtie files
-		create_bowtie(path=fastq_dir,genome=genome,bowtie_exec=bowtie_exec,
-						bowtie_dir=bowtie_dir)
+		create_bowtie(fastq_dir=os.path.dirname(sample_dir),sample_name=sample_name,
+								path=sample_dir,genome=genome,bowtie_exec=bowtie_exec,bowtie_dir=bowtie_dir)
 
-		full_bowtie_dir=os.path.join(fastq_dir,bowtie_dir)
+		full_bowtie_dir=os.path.join(sample_dir,bowtie_dir)
 
 		#Unite L1/2/3/4 bowtie files into one file
 		unite_bowtie(path=full_bowtie_dir)
@@ -40,28 +40,37 @@ def run(experiment_name,**kwargs):
 
 
 
-def is_paired(fastq_path):
+def is_paired(fastq_path,sample_name):
 	'''
 		This helper function determines if the current experiment is paired-read
 		or not. It does so by checking if there is *R2* files in the fastq directory
 	'''
 	try:
 		logger.debug("is_paired: START")
-		if glob.glob(fastq_path+"/*_R2_*"):
+		fastq_sample_format = os.path.join(fastq_path,"*{sample}*_R2*".format(sample=sample_name))
+		if glob.glob(fastq_sample_format):
 			return True
 		else:
 			return False
 	except Exception, e:
 		raise Exception("Error in is_paired: %s",e)
 
-def create_bowtie(genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/"):
+def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/"):
 	'''
 		This helper function create bowtie files
+		Args:
+		 - fastq_dir: The fastq dir where the fastq files resides
+		 - sample_name: The sample name we want to bowtie
+		 - genome: The referenced genome dir
+		 - path: The working directory
+		 - bowtie_dir: The sub-directory that will be created in the 'path' location and where the bowtie files will be.
+		 - bowtie_exec: The full path of the bowtie binary tool
 	'''
 	try:
 		logger.debug("create_bowtie: START")
 		currentLocation = os.getcwd()
 		logger.debug("create_bowtie: changing dir: %s"%path)
+		#path should be a sample dir
 		os.chdir(path)
 		#Create bowtie dir
 		logger.info("current directory:%s"%(os.getcwd()))
@@ -69,10 +78,12 @@ def create_bowtie(genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2"
 			os.mkdir(bowtie_dir)
 
 		#Check if the fastq files are paired or not
-		paired = is_paired(fastq_path=path)
+		paired = is_paired(fastq_path=fastq_dir,sample_name=sample_name)
 		#Get all *R1* fastq files in directory, exclude 'Undetermined' files
+
 		fastq_r1_files = [fastq_file for fastq_file in 
-							glob.glob('*R1*.fastq.gz') if not re.match("Undetermined",fastq_file)]
+							glob.glob(os.path.join(fastq_path,"*{sample}*_R1*.fastq.gz".format(sample=sample_name))) 
+																	if not re.match("Undetermined*",fastq_file)]
 
 		#Check if we have files to work on...
 		if not fastq_r1_files:
