@@ -28,8 +28,8 @@ def get_working_directory(name,sample_name=None):
 			The full path to the experiment dir / sample dir inside the user profile
 	'''
 	www_path = expanduser("~/www")
-	experiment_dir = os.path.join(www_path,name)
-	
+	#experiment_dir = os.path.join(www_path,name)
+	experiment_dir="/cs/wetlab/melerz/website/60-maayan/"
 	if not os.path.isdir(experiment_dir):
 		print "Creating the experiment directory in: %s"%(experiment_dir)
 		username = getpass.getuser()
