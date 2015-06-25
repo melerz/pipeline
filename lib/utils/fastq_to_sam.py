@@ -91,7 +91,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 			
 		for fastq_r1_file in fastq_r1_files:
 			#Create seperate sam file for each fastq file
-			sam_file = bowtie_dir + (fastq_r1_file.split("_R1")[0]+".bwt")
+			sam_file = bowtie_dir + os.path.basename((fastq_r1_file.split("_R1")[0]+".bwt"))
 
 			if paired:
 				#find his pair
