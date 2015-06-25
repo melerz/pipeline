@@ -15,14 +15,14 @@ logger = logging.getLogger("__main__")
 	The module is currently working only on bigWig files for now
 '''
 
-def run(experiment_name,**kwargs):
+def run(experiment_name,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")
 		print "Genome Browser: Creating hub directory"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= funcs.get_working_directory(experiment_name)
+			working_dir 		= funcs.get_working_directory(experiment_name,sample_name)
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			hub_dir				= config['HUB_OUTPUT_DIR']
 			trackdb_format		= config['trackdb']
