@@ -44,7 +44,7 @@ def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False,
 
 	try:
 		if not log:
-			log = logging.getLogger(__name__)
+			global log = logging.getLogger(__name__)
 		workflow = config['workflows'][workflow]
 
 		experiment_working_directory = funcs.get_working_directory(name)#Function in configuration.config
