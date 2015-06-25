@@ -14,27 +14,37 @@ logger = logging.getLogger("__main__")
 '''
 	This module creates an hub folder for UCSC Genome Browser.
 	The module is currently working only on bigWig files for now
+
+	IMPORTANT:
+		The hub module doesn't create hub for each sample seperately.
+		Instead, it creates an experiment-wide hub directory and copies all the .bigwig files
+		inside the samples-* dirs in the experiment dir.
+		/-experimen_dir
+			-../sample-1
+			-../sample-2
+			-../hub
 '''
 
-def run(experiment_name,sample_name,**kwargs):
+def run(experiment_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Running genome_browser")
 		print "Genome Browser: Creating hub directory"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= funcs.get_working_directory(experiment_name,sample_name)
+			working_dir 		= funcs.get_working_directory(experiment_name)
+			sample_dirs			= funcs.get_samples(experiment_name)
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			hub_dir				= config['HUB_OUTPUT_DIR']
 			trackdb_format		= config['trackdb']
 			base_url 			= config['PUBLIC_WEBSITE']
 			#End export params from JSON:
 
-			bw_full_path        = os.path.join(working_dir,bw_dir)
 			hub_full_path       = os.path.join(working_dir,hub_dir)
 
+			sample_bowtie_dirs_list = [os.path.join(sample,bw_dir) for sample in sample_dirs]
 			create_hub_dir(experiment_name=experiment_name,trackdb_format=trackdb_format,
-							hub_dir=hub_full_path,bigwig_dir = bw_full_path)
+							hub_dir=hub_full_path,bigwig_dirs = sample_bowtie_dirs_list)
 
 			url = base_url+"~"+getpass.getuser()+"/"+experiment_name+"/"+hub_dir+"hub.txt"
 			print url
@@ -48,7 +58,7 @@ def run(experiment_name,sample_name,**kwargs):
 		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
-def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./bw_files"):
+def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dirs="./bw_files"):
 	try:
 		currentLocation = os.getcwd()
 		#Create hub directory if doesnt exist
@@ -59,8 +69,8 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 			os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
 		else:
 			raise Exception("There is alreay hub folder in this directory")
-		if not os.path.isdir(bigwig_dir):
-			raise Exception("%s doesn't exist"%(bigwig_dir))
+		if not bigwig_dirs:
+			raise Exception("No bigwig dirs found!")
 
 		logger.debug("create_hub_dir: changing dir: %s"%hub_dir)
 		os.chdir(hub_dir)
@@ -86,12 +96,16 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dir="./
 		#we need to allow FollowSymLink in the .htaccess file - but we can't (error 500), probably
 		#because this setting can't be overidden (by httpd.conf file)
 		logger.debug("Creating sacCer3 folder")
-		shutil.copytree(bigwig_dir,"sacCer3")
+		#[shutil.copytree(bigwig_dir,"sacCer3") for bigwig_dir in bigwig_dirs]
+		for bigwig_dir in bigwig_dirs:
+			bigwig_files = [f for f in glob.glob(os.path.join(bigwig_dir,"*")) if os.path.isfile(f)]
+			for bigwig_file in bigwig_files:
+				shutil.copy(bigwig_file,"sacCer3")
 		current_perm=os.stat("sacCer3")
 		os.chmod("sacCer3",current_perm.st_mode|stat.S_IXOTH)
 
 		#Create trackDb.txt file in the bigWig folder
-		logger.debug("Creating tackDb.txt file")	
+		#logger.debug("Creating tackDb.txt file")	
 		create_trackdb(format=trackdb_format,path="sacCer3",name="trackDb.txt")
 
 		#Go back to parent directory

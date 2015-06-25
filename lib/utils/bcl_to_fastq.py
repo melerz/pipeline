@@ -6,9 +6,9 @@
 # createRundir(name,fastq_output_dir,illumina_experiment_dir):
 from .. import *
 import createfastq_operations as operations
-import multiprocessing
+
 logger = logging.getLogger("__main__")
-def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,workflow,**kwargs):
+def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_configuration,**kwargs):
 	'''
 		For each expierment in the data, create a folder with the expirement name, and init it by
 		calling the createRundir function.
@@ -32,7 +32,7 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,workflo
 			illumina_experiment_data    = config['BASE_ILLUMINA_PATH']+illumina_name
 		else:
 			illumina_experiment_data 	= illumina_name
-		output_dir 						= funcs.get_working_directory(experiment_name)#Function in configuration.config
+		output_dir 						= fastq_directory
 		csv_upload_dir					= config['MEDIA_ROOT']
 		#End export params from config
 
@@ -69,15 +69,6 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,workflo
 
 
 		logger.info("{0}: Finished".format(experiment_name))
-
-		#If we have genome_browser in the workflow, create the hub directory first
-		# if 'genome_browser' in workflow:
-		# 	#create folder
-
-		#Get samples list from the experiment folder
-		samples_list = get_samples_from_fastq_dir(output_dir)
-		#For each of every sample, we will run the workflow process
-		run_samples(experiment_name,samples_list,workflow)
 		
 		os.chdir(currentLocation)
 	except Exception as e:
@@ -87,47 +78,3 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,workflo
 			os.chdir(currentLocation)
 		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
-
-def get_samples_from_fastq_dir(path):
-	'''
-		This function return a set (unique values) of sample names inside the fastq dir (only their names)
-		Ex:
-			If we have a fastq file named - 'GCY20-02_S3_R001_L001.fastq.gz', than the name will be: 'GCY20-02'
-		Args: 
-			path: path to the fastq files dir
-		Returns: 
-			A set of samples names
-	'''
-	return set([os.path.basename(fastq.split("_")[0]) for 
-						fastq in glob.glob(os.path.join(path,"*.fastq.gz") )
-										if not re.match(".*Undetermined.*",fastq)])
-
-def pool_init(lock_obj):
-	global lock
-	lock = lock_obj
-
-def run_workflow_on_sample(params):
-	'''
-		The target function for the Pool.map function
-		Args:
-			- params: tuple of the form: (experiment_name,sample_name,workflow)
-	'''
-	experiment_name,sample_name,workflow = params
-	for step in workflow:
-		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
-		logger.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
-		step_module=importlib.import_module("lib.utils.%s"%step)
-
-		step_module.run(experiment_name,sample_name)
-
-def run_samples(experiment_name,samples_list,workflow):
-	lock_obj = multiprocessing.Lock()
-	throttle_limit = len(samples_list)
-	pool = multiprocessing.Pool(processes=throttle_limit,initializer=pool_init,initargs=(1,))
-
-	#Build tuple list for passing more than one argument to the Pool.map() function - 
-	#[(experiment_name,sample_name1,workflow),(experiment_name,sample_name2,workflow)]
-
-	tuple_params = [(experiment_name,sample,workflow) for sample in samples_list]
-
-	pool.map(run_workflow_on_sample, tuple_params)

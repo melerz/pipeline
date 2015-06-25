@@ -16,14 +16,12 @@
 		"all":[
 				"fastq_to_sam",
 				"sam_to_bam",
-				"analyze_coverage",
-				"genome_browser"
+				"analyze_coverage"
 			],
 		"fastq_to_browser":[
 				"fastq_to_sam",
 				"sam_to_bam",
-				"analyze_coverage",
-				"genome_browser"		
+				"analyze_coverage"	
 		],
 		"bcl_to_fastq":["bcl_to_fastq"]	
 	},
