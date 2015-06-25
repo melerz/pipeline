@@ -9,6 +9,7 @@
 # import shutil
 # import stat
 from .. import *
+import getpass
 logger = logging.getLogger("__main__")
 '''
 	This module creates an hub folder for UCSC Genome Browser.
