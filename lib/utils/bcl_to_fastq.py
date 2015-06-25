@@ -71,8 +71,8 @@ def run(experiment_name,samplesheet_name,illumina_name,xml_configuration,workflo
 		logger.info("{0}: Finished".format(experiment_name))
 
 		#If we have genome_browser in the workflow, create the hub directory first
-		if 'genome_browser' in workflow:
-			#create folder
+		# if 'genome_browser' in workflow:
+		# 	#create folder
 
 		#Get samples list from the experiment folder
 		samples_list = get_samples_from_fastq_dir(output_dir)
@@ -112,13 +112,13 @@ def run_workflow_on_sample(params):
 		Args:
 			- params: tuple of the form: (experiment_name,sample_name,workflow)
 	'''
-		experiment_name,sample_name,workflow = params
-		for step in workflow:
-			print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
-			log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step)
-			step_module=importlib.import_module("lib.utils.%s"%step)
+	experiment_name,sample_name,workflow = params
+	for step in workflow:
+		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
+		log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
+		step_module=importlib.import_module("lib.utils.%s"%step)
 
-			step_module.run(experiment_name,sample_name)
+		step_module.run(experiment_name,sample_name)
 
 def run_samples(experiment_name,samples_list,workflow):
 	lock_obj = multiprocessing.Lock()
