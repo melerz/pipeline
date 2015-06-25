@@ -44,7 +44,6 @@ def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False,
 
 	try:
 		if not log:
-			global log
 			log = logging.getLogger(__name__)
 		workflow = config['workflows'][workflow]
 
@@ -103,7 +102,7 @@ def run_workflow_on_sample(params):
 	experiment_name,sample_name,workflow = params
 	for step in workflow:
 		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
-		log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
+		#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 		step_module=importlib.import_module("lib.utils.%s"%step)
 
 		step_module.run(experiment_name,sample_name)
