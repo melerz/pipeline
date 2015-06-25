@@ -96,6 +96,8 @@ def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dirs=".
 		#we need to allow FollowSymLink in the .htaccess file - but we can't (error 500), probably
 		#because this setting can't be overidden (by httpd.conf file)
 		logger.debug("Creating sacCer3 folder")
+		if not(os.path.isdir("sacCer3")):
+			os.mkdir("sacCer3")
 		#[shutil.copytree(bigwig_dir,"sacCer3") for bigwig_dir in bigwig_dirs]
 		for bigwig_dir in bigwig_dirs:
 			bigwig_files = [f for f in glob.glob(os.path.join(bigwig_dir,"*")) if os.path.isfile(f)]
