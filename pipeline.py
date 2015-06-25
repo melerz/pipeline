@@ -111,7 +111,7 @@ if __name__ == "__main__":
 	parser.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	parser.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
-	parser.add_argument("-f","--force",helpr="Deleting existing folders while executing the pipeline",action="store_true")		
+	parser.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
 
 	args=parser.parse_args()
 
