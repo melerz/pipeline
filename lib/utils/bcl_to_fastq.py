@@ -46,6 +46,12 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(experiment_name,os.getcwd())
 
 		os.mkdir(experiment_name)
+
+		#Setting permissions
+		current_perm=os.stat(experiment_name)
+		os.chmod(experiment_name,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP) #og+x
+
+		#Enters our new directory
 		os.chdir(experiment_name)
 
 		logger.info("{0}: Init Directory".format(experiment_name))
