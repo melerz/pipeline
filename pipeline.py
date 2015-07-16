@@ -85,7 +85,7 @@ def get_samples_from_fastq_dir(path):
 		Returns: 
 			A set of samples names
 	'''
-	return set([os.path.basename(fastq.split("_")[0]) for 
+	return set([os.path.basename(fastq).split("_")[0]] for 
 						fastq in glob.glob(os.path.join(path,"*.fastq.gz") )
 										if not re.match(".*Undetermined.*",fastq)])
 
