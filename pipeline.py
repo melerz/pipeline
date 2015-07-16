@@ -7,7 +7,6 @@ import multiprocessing
 # -f switch implementation
 # - beutify output
 # - slum permissions
-# - multiprocessing pooling
 # -improve logging -> log for each experiment + time
 # -
 # support files in functions, in addition to folders
@@ -128,6 +127,7 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 	logger=logging.getLogger(__name__)
 	logger.setLevel(loglevel)
 	log_file_full_path = os.path.join(os.getcwd(),log_file)
+	print log_file_full_path
 	file_handler = logging.FileHandler(log_file_full_path)
 	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 	file_handler.setFormatter(formatter)
