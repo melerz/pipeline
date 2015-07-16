@@ -42,26 +42,26 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 		
 
 		#Check if experiment dir is already exist
-#		if os.path.isdir(experiment_name):
-#			raise Exception("Experiment dir is already exist! exiting now...")
+		if os.path.isdir(experiment_name):
+			raise Exception("Experiment dir is already exist! exiting now...")
 
-#		os.mkdir(experiment_name)
-#		os.chdir(experiment_name)
+		os.mkdir(experiment_name)
+		os.chdir(experiment_name)
 
-#		logger.info("{0}: Init Directory".format(experiment_name))
+		logger.info("{0}: Init Directory".format(experiment_name))
 		#Init experiment folder (Link files, RunInfo.xml, create output directory)
-#		operations.popluateDir(experiment_name,output_dir,illumina_experiment_data)
+		operations.popluateDir(experiment_name,output_dir,illumina_experiment_data)
 
-#		logger.info("{0}: Run bcl2fastq".format(experiment_name))
+		logger.info("{0}: Run bcl2fastq".format(experiment_name))
 		#running bcl2fastq in the current experiment folder.
 		#Output folder is fastq, created by popluateDir
 
 		#Create samplesheet path
-#		if not samplesheet_name.endswith(".csv"):
-#			samplesheet = csv_upload_dir + samplesheet_name + ".csv"
-#		else:
-#			samplesheet = csv_upload_dir + samplesheet_name 
-#		operations.runExpirement(xml_configuration,samplesheet)
+		if not samplesheet_name.endswith(".csv"):
+			samplesheet = csv_upload_dir + samplesheet_name + ".csv"
+		else:
+			samplesheet = csv_upload_dir + samplesheet_name 
+		operations.runExpirement(xml_configuration,samplesheet)
 
 		# update_data(settings.JOB_ENDPOINT+"%s/"%data['job_id'],
 		# 		{'status':'Finished','description':'Succefully Finished to generate fastq'})
