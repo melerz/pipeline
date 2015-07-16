@@ -43,7 +43,7 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 
 		#Check if experiment dir is already exist
 		if os.path.isdir(experiment_name):
-			raise Exception("Experiment dir is already exist! exiting now...")
+			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(experiment_name,os.getcwd())
 
 		os.mkdir(experiment_name)
 		os.chdir(experiment_name)
