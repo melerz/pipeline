@@ -126,7 +126,7 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 		raise Exception("Invalid log level: %s" %loglevel)
 	logger=logging.getLogger(__name__)
 	logger.setLevel(loglevel)
-	log_file_full_path = os.path.join(os.getcwd(),log_file)
+	log_file_full_path = os.path.join(os.getcwd(),log_file+".log")
 	print log_file_full_path
 	file_handler = logging.FileHandler(log_file_full_path)
 	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
