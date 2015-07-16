@@ -51,7 +51,7 @@ def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False,
 
 		step_module=importlib.import_module("lib.utils.bcl_to_fastq")
 
-		step_module.run(name,experiment_working_directory,csv,illumina_name,configuration)
+		#step_module.run(name,experiment_working_directory,csv,illumina_name,configuration)
 
 		if workflow:
 			#Get samples list from the experiment folder
