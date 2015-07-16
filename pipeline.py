@@ -35,6 +35,7 @@ def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False,
 			configuration - The customized configuration you want for the RunInfo.xml file
 			log - logger
 			force - Override existing folders all along the pipeline process
+			disable_hub - True/False - To create hub or not.
 
 		Returns:
 			In case the workflow contains genome browser, the function returns the URL for the hub directory,
@@ -126,7 +127,8 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 		raise Exception("Invalid log level: %s" %loglevel)
 	logger=logging.getLogger(__name__)
 	logger.setLevel(loglevel)
-	file_handler = logging.FileHandler(log_file)
+	log_file_full_path = os.path.join(os.getcwd(),log_file)
+	file_handler = logging.FileHandler(log_file_full_path)
 	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 	file_handler.setFormatter(formatter)
 	logger.addHandler(file_handler)
@@ -175,7 +177,7 @@ if __name__ == "__main__":
 	data_illumina 		= validate_param("illumina", args.illumina)
 	data_workflow 		= validate_param("workflow", args.workflow)
 	data_configuration  = args.configuration
-	logger = configure_logging(log_level="DEBUG",log_file="./pipeline.log")
+	logger = configure_logging(log_level="DEBUG",log_file=data_name)
 	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
 				configuration=data_configuration,workflow=data_workflow,log=logger,force=data_force,disable_hub=data_hub)
 
