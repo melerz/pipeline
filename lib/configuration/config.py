@@ -17,6 +17,8 @@ current_dir_path 	= 	os.path.dirname(current_file_path)
 configuration_path 	= 	os.path.join(current_dir_path,CONFIG_NAME)
 config=json.load(open(configuration_path))
 
+#www_path = expanduser("~/www")
+
 SAMPLE_DIR_FORMAT="sample-"
 
 def build_profile_dir_path(name):
@@ -94,8 +96,8 @@ def get_working_directory(name,sample_name=None):
 		#Creating a linked directory inside the ~/www, to the working directory
 
 		#Create www folder if doesn't exist
-		if not os.path.isdir(www_path):
-			os.mkdir(www_path)
+		if not os.path.isdir(os.path.dirname(experiment_dir)):
+			os.mkdir(os.path.dirname(experiment_dir))
 
 		#Create the experiment folder inside the www folder
 		os.symlink(experiment_wd_dir,experiment_dir)
