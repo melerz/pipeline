@@ -175,7 +175,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 	try:
 		#Extract kwargs
 		log = kwargs.get('log',None)
-		#force = kwargs.get('force',None)
+		force = kwargs.get('force',None)
 		workingdir = kwargs.get('workingdir',None)
 		configuration = kwargs.get('configuration',None)
 		disable_hub = kwargs.get('disable_hub',None)
@@ -194,7 +194,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 		if not workingdir:
 			step_module=importlib.import_module("lib.utils.bcl_to_fastq")
 
-			step_module.run(name,experiment_working_directory,csv,illumina_name,configuration)
+			step_module.run(name,experiment_working_directory,csv,illumina_name,configuration,force)
 
 		if workflow:
 			#Get samples list from the experiment folder

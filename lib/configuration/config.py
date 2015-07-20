@@ -28,7 +28,10 @@ def create_dir(path,force=False):
 		if not force:
 			raise Exception("Directory %s in %s is already exist! exiting now..."%(path,os.getcwd()))
 		#Force was specified, delete the directory
-		shutil.rmtree(path,ignore_errors=True)		
+		shutil.rmtree(path,ignore_errors=True)	#ignore_errors for non-empty folders	
+		#Becuase we ignore errors, we need to check if the dir was actually deleted
+		if os.path.isdir(path):
+			raise Exception("Directory %s in %s couldn't be deleted for some reason."%(path,os.getcwd()))
 	os.mkdir(path)
 	current_perm=os.stat(path)
 	os.chmod(path,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP)
