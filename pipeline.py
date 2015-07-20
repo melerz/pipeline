@@ -30,17 +30,17 @@ def run_workflow_on_sample(params):
 	'''
 		The target function for the Pool.map function
 		Args:
-			- params: tuple of the form: (experiment_name,sample_name,workflow)
+			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,kwargs)
 	'''
-	experiment_name,sample_name,workflow,kwargs = params
+	experiment_name,sample_name,workflow,working_directory,kwargs = params
 	for step in workflow:
 		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
 		#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 		step_module=importlib.import_module("lib.utils.%s"%step)
 
-		step_module.run(experiment_name,sample_name,**kwargs)
+		step_module.run(experiment_name,sample_name,working_directory,**kwargs)
 
-def run_samples(experiment_name,samples_list,workflow,**kwargs):
+def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs):
 	lock_obj = multiprocessing.Lock()
 	throttle_limit = len(samples_list)
 	pool = multiprocessing.Pool(processes=throttle_limit,initializer=pool_init,initargs=(1,))
@@ -48,7 +48,7 @@ def run_samples(experiment_name,samples_list,workflow,**kwargs):
 	#Build tuple list for passing more than one argument to the Pool.map() function - 
 	#[(experiment_name,sample_name1,workflow),(experiment_name,sample_name2,workflow)]
 
-	tuple_params = [(experiment_name,sample,workflow,kwargs) for sample in samples_list]
+	tuple_params = [(experiment_name,sample,workflow,working_directory,kwargs) for sample in samples_list]
 
 	pool.map(run_workflow_on_sample, tuple_params)
 
@@ -178,7 +178,9 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 
 		workflow = config['workflows'][workflow]
 
-		experiment_working_directory = funcs.get_working_directory(name)#Function in configuration.config
+
+		experiment_working_directory = workingdir or funcs.get_working_directory(name)#Function in configuration.config
+		#if os.path.isdir(experiment_working_directory) and glob.glob(os.path.join(working_dir_from_user,"*.fastq.gz")):
 
 		#Run bcl_to_fastq only when working dir path is not specified
 		if not workingdir:
@@ -190,7 +192,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 			#Get samples list from the experiment folder
 			samples_list = get_samples_from_fastq_dir(experiment_working_directory)
 			#For each of every sample, we will run the workflow process
-			run_samples(name,samples_list,workflow)
+			run_samples(name,samples_list,workflow,experiment_working_directory)
 
 		#
 		#If we have genome_browser in the workflow, create the hub directory first
@@ -198,7 +200,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 			print("Creating unified hub directory")
 			hub_module = importlib.import_module("lib.utils.genome_browser")
 			#Create the hub directory
-			hub_module.run(name)				
+			hub_module.run(name,experiment_working_directory)				
 
 		log.info("Finished executing pipeline!")
 
@@ -221,11 +223,13 @@ if __name__ == "__main__":
 	run_group.add_argument("-i","--illumina",
 						help="The name of the illumina data dir.This is the folder where the RAW data is")	
 	run_group.add_argument("-w","--workflow",help="The name of the workflow you want to execute",default="all")
-	run_group.add_argument("-wd","--workingdir",help="The path to a folder contains fastq files. All files will be created in this folder")		
+	run_group.add_argument("-skip","--skipfastq",help="The path to a folder contains fastq files.\
+																	 All files will be created in this folder. If specified without value, \
+																	 										defaults to ~/www/<experiment_name>",const=funcs.build_profile_dir_path,nargs='?')		
 	run_group.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	run_group.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
-	run_group.add_argument("-f","--force",help="Deleting existing folders while executing the pipeline",action="store_true")		
+	run_group.add_argument("-f","--force",help="Overiding existing folders while executing the pipeline",action="store_true")		
 	run_group.add_argument("--nohub",help="If set, it won't create a hub directory for all bigwig files.",action="store_true")		
 
 	clean_group = parser.add_argument_group('Clean','Clean an experiment')
@@ -255,7 +259,7 @@ if __name__ == "__main__":
 		"disable_hub":args.nohub,
 		"force":args.force,
 		"configuration":args.configuration,
-		"workingdir":args.workingdir,
+		"workingdir":args.skipfastq,
 		"log":logger
 	}
 

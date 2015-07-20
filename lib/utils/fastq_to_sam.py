@@ -9,14 +9,14 @@
 from .. import *
 logger = logging.getLogger("__main__")
 
-def run(experiment_name,sample_name,**kwargs):
+def run(experiment_name,sample_name,working_directory,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
 		print "Running bowtie..."
 
 		#Export params from JSON:
-		sample_dir = funcs.get_working_directory(experiment_name,sample_name,**kwrags)
+		sample_dir = working_directory
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']

@@ -23,16 +23,16 @@ SAMPLE_DIR_FORMAT="sample-"
 
 def create_dir(path,force=False):
 	#Check if experiment dir is already exist
-	if os.path.isdir(experiment_name):
+	if os.path.isdir(path):
 		#Check if force was specified
 		if not force:
-			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(experiment_name,os.getcwd()))
+			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(path,os.getcwd()))
 		#force was specified. Delete the dir
 		else:
 			shutil.rmtree(path,ignore_errors=True)		
-	os.mkdir(experiment_name)
-	current_perm=os.stat(experiment_name)
-	os.chmod(experiment_name,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP)
+	os.mkdir(path)
+	current_perm=os.stat(path)
+	os.chmod(path,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP)
 
 def build_profile_dir_path(name):
 	'''
@@ -47,7 +47,6 @@ def build_profile_dir_path(name):
 
 	www_path = expanduser("~/www")
 	experiment_dir = os.path.join(www_path,name)
-	#experiment_dir="/cs/wetlab/melerz/website/60-maayan/"
 	return experiment_dir	
 
 def build_cs_dir_path(name):
@@ -94,17 +93,6 @@ def get_working_directory(name,sample_name=None,**kwrags):
 		Return:
 			The full path to the experiment dir / sample dir inside the user profile
 	'''
-
-	#Return the supplied working directory (if any).
-	#This directory will be validated in two ways:
-		#1) We'll check if this is a directory
-		#2) We'll check if in there are fastq files in this directory
-	working_dir_from_user = kwrags.get('workingdir',None)
-	if working_dir_from_user:
-		if os.path.isdir(working_dir_from_user) and glob.glob(os.path.join(working_dir_from_user,"*.fastq.gz")):
-			return working_dir_from_user
-		else:
-			raise Exception("Invalid Directory %s"%working_dir_from_user)
 
 	experiment_dir=build_profile_dir_path(name)
 	if not os.path.isdir(experiment_dir):
