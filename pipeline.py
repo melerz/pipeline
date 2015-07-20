@@ -215,7 +215,7 @@ if __name__ == "__main__":
 
 	#Save current location (Mainly for SIGINT [CTL+C] handler)
 	main_dir = os.getcwd()
-	
+
 	#Init Arguments
 	parser = argparse.ArgumentParser()
 	parser.add_argument("name",help="The experiment name")
@@ -243,6 +243,10 @@ if __name__ == "__main__":
 	data_name = validate_param("name", args.name)
 	data_clean = args.clean
 
+	#Logging
+	log_file = os.path.join(os.getcwd(),data_name+".log")
+	logger = configure_logging(log_level="DEBUG",log_file=log_file)
+	
 	if(data_clean):
 		answer = raw_input("Are you sure you want to delete experiment %s? [no/yes]"%data_name)
 		if answer.lower() == "yes": 
@@ -254,9 +258,6 @@ if __name__ == "__main__":
 	data_illumina 		= validate_param("illumina", args.illumina)
 	data_workflow 		= validate_param("workflow", args.workflow)
 
-	#Logging
-	log_file = os.path.join(os.getcwd(),data_name+".log")
-	logger = configure_logging(log_level="DEBUG",log_file=log_file)
 
 	#Non-Required Parameters
 	kwrags = {
