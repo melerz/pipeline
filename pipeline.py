@@ -36,7 +36,7 @@ def run_workflow_on_sample(params):
 		experiment_name,sample_name,workflow,working_directory,force = params
 
 		#Set working directory outside the script
-		sample_working_directory = funcs.get_sample_dir(os.path.join(working_directory,sample_name),force)
+		sample_working_directory = os.path.join(working_directory,funcs.get_sample_dir(sample_name,force))
 		os.chdir(sample_working_directory)
 		for step in workflow:
 			print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
