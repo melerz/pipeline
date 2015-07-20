@@ -272,7 +272,7 @@ if __name__ == "__main__":
 		"disable_hub":args.nohub,
 		"force":args.force,
 		"configuration":args.configuration,
-		"workingdir":args.skipfastq,
+		"workingdir":skipfastq,
 		"log":logger
 	}
 
