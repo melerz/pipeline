@@ -241,9 +241,9 @@ if __name__ == "__main__":
 	data_clean = args.clean
 
 	if(data_clean):
-		answer = raw_input("Are you sure you want to delete experiment %s?"%data_name)
+		answer = raw_input("Are you sure you want to delete experiment %s? [no/yes]"%data_name)
 		if answer.lower() == "yes": 
-			cleanup(name)
+			cleanup(data_name)
 		sys.exit(0)
 
 	#Required Parameters
