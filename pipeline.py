@@ -35,14 +35,16 @@ def run_workflow_on_sample(params):
 	try:
 		experiment_name,sample_name,workflow,working_directory,force = params
 
-		#Set working directory out side the script
-		os.chdir(working_directory)
+		#Set working directory outside the script
+		sample_working_directory = funcs.get_sample_dir(os.path.join(working_directory,sample_name),force)
+		os.chdir(sample_working_directory)
 		for step in workflow:
 			print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
 			#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 			step_module=importlib.import_module("lib.utils.%s"%step)
 
-			step_module.run(experiment_name,sample_name,force=force)
+			step_module.run(wokring_directory=sample_working_directory,sample_name=sample_name
+															experiment_name=experiment_name,force=force)
 	except Exception, e:
 		print "error in %s: %s"%(sample_name,str(e))
 

@@ -91,8 +91,7 @@ def get_sample_dir(sample_name,force=False):
 		Returns:
 			The full path of the sample dir
 	'''
-	sample_dir_name = build_sample_dir_path(sample_name)
-	sample_dir=os.path.join(os.getcwd(),sample_dir_name)
+	sample_dir = build_sample_dir_path(sample_name)
 	create_dir(sample_dir,force)
 	return sample_dir
 

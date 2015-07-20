@@ -7,7 +7,7 @@
 # import re
 from .. import *
 logger = logging.getLogger("__main__")
-def run(experiment_name,sample_name,**kwargs):
+def run(working_directory,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("sam to bam process....")
@@ -16,7 +16,7 @@ def run(experiment_name,sample_name,**kwargs):
 		force = kwargs.get('force')
 		
 		#Export params from JSON:
-		working_dir 	= funcs.get_sample_dir(sample_name,force)
+		working_dir 	= working_directory
 		bowtie_dir 		= config['BOWTIE_OUTPUT_DIR']
 		bam_dir 		= config['BAM_OUTPUT_DIR']
 		samtools_exec 	= config['tools']['samtools']['exec']
@@ -38,7 +38,6 @@ def run(experiment_name,sample_name,**kwargs):
 def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools",force=None):
 	try:
 		logger.debug("create_bam:START")
-		print "im in create_bam and trying to create dir %s" %output
 		funcs.create_dir(output,force)
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		currentLocation = os.getcwd()

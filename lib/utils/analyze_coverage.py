@@ -11,39 +11,34 @@ logger = logging.getLogger("__main__")
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(experiment_name,sample_name,**kwargs):
+def run(working_directory,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")
-		print "Running coverage analyze"
 
 		force = kwargs.get('force',None)
+
+		#Export params from JSON:
+		working_dir 		= working_directory
+		genome_chrome_size 	= config['GENOME_CHROME_SIZE']
+		bedtools_exec 		= config['tools']['bedtools']['exec']
+		bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
+		bed_dir 			= config['BED_OUTPUT_DIR']
+		bam_dir 			= config['BAM_OUTPUT_DIR']
+		bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
+		#End export params from JSON:
+
+
+		bed_full_path       = os.path.join(working_dir,bed_dir)
+		bam_full_path       = os.path.join(working_dir,bam_dir)
+		bw_full_path        = os.path.join(working_dir,bw_dir)
 		
-		if experiment_name:
-			#Export params from JSON:
-			working_dir 		= funcs.get_sample_dir(sample_name,force)
-			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
-			bedtools_exec 		= config['tools']['bedtools']['exec']
-			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
-			bed_dir 			= config['BED_OUTPUT_DIR']
-			bam_dir 			= config['BAM_OUTPUT_DIR']
-			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
-			#End export params from JSON:
+		create_bed(bam_path=bam_full_path,output=bed_full_path,
+						exec_path=bedtools_exec,force=force)
 
-
-			bed_full_path       = os.path.join(working_dir,bed_dir)
-			bam_full_path       = os.path.join(working_dir,bam_dir)
-			bw_full_path        = os.path.join(working_dir,bw_dir)
-			
-			create_bed(bam_path=bam_full_path,output=bed_full_path,
-							exec_path=bedtools_exec,force=force)
-
-			create_bigwig_from_bed(bed_path=bed_full_path,output=bw_full_path,
-							exec_path=bw_exec,chrome_size=genome_chrome_size,force=force)
-		else:
-			#check parameters....##future...
-			raise Exception("Please provide experiment's name")
-	except Exception, e:
+		create_bigwig_from_bed(bed_path=bed_full_path,output=bw_full_path,
+						exec_path=bw_exec,chrome_size=genome_chrome_size,force=force)
+except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
