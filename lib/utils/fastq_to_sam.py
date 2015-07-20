@@ -131,7 +131,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 
 			#4) Save the sum of the reads in a new file
 			with open("reads.txt","a+") as f:
-				f.write(sample_name+":"+reads_sum)
+				f.write(sample_name+":"+str(reads_sum))
 
 		logger.debug("create_bowtie: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)
