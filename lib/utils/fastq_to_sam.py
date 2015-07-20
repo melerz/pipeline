@@ -78,6 +78,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 		logger.info("current directory:%s"%(os.getcwd()))
 		# if not (os.path.isdir(bowtie_dir)):
 		# 	os.mkdir(bowtie_dir)
+		print os.path.join(os.getcwd(),bowtie_dir)
 		funcs.create_dir(bowtie_dir,force)
 		#Check if the fastq files are paired or not
 		paired = is_paired(fastq_path=fastq_dir,sample_name=sample_name)
