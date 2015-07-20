@@ -23,15 +23,12 @@ SAMPLE_DIR_FORMAT="sample-"
 
 def create_dir(path,force=False):
 	#Check if dir is already exist
-	print path
 	if os.path.isdir(path):
 		#Check if force was specified
 		if not force:
 			raise Exception("Directory %s in %s is already exist! exiting now..."%(path,os.getcwd()))
-		#force was specified. Delete the dir
-		else:
-			shutil.rmtree(path,ignore_errors=True)		
-	print "just before creating dir %s in %s" %(path,os.getcwd())
+		#Force was specified, delete the directory
+		shutil.rmtree(path,ignore_errors=True)		
 	os.mkdir(path)
 	current_perm=os.stat(path)
 	os.chmod(path,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP)
