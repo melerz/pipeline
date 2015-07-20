@@ -7,20 +7,21 @@
 # import re
 from .. import *
 logger = logging.getLogger("__main__")
-def run(experiment_name,sample_name,working_directory,**kwargs):
+def run(experiment_name,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("sam to bam process....")
 		print "Running samtools..."
 
+		force = kwargs.get('force')
+		
 		#Export params from JSON:
-		working_dir 	= working_directory
+		working_dir 	= funcs.get_sample_dir(sample_name,force)
 		bowtie_dir 		= config['BOWTIE_OUTPUT_DIR']
 		bam_dir 		= config['BAM_OUTPUT_DIR']
 		samtools_exec 	= config['tools']['samtools']['exec']
 		#End export params from JSON
 
-		force = kwargs.get('force')
 		bowtie_full_path=os.path.join(working_dir,bowtie_dir)
 		bam_full_path=os.path.join(working_dir,bam_dir)
 

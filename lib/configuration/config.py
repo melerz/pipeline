@@ -22,11 +22,11 @@ config=json.load(open(configuration_path))
 SAMPLE_DIR_FORMAT="sample-"
 
 def create_dir(path,force=False):
-	#Check if experiment dir is already exist
+	#Check if dir is already exist
 	if os.path.isdir(path):
 		#Check if force was specified
 		if not force:
-			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(path,os.getcwd()))
+			raise Exception("Directory %s in %s is already exist! exiting now..."%(path,os.getcwd()))
 		#force was specified. Delete the dir
 		else:
 			shutil.rmtree(path,ignore_errors=True)		
@@ -62,8 +62,6 @@ def build_cs_dir_path(name):
 			The path for the experiment dir inside the WORKING_DIR config setting
 	'''
 	username = getpass.getuser()
-	#current_datetime = time.strftime("%d-%m-%y-%H-%M")
-	#Creating relevant experiment dir in working directory
 	working_directory = config['WORKING_DIR']
 	experiment_wd_dir = os.path.join(working_directory,username+"-"+name)
 	return experiment_wd_dir
@@ -81,14 +79,28 @@ def build_sample_dir_path(sample_name):
 	path=SAMPLE_DIR_FORMAT+sample_name
 	return path
 
-def get_working_directory(name,sample_name=None,**kwrags):
+
+def get_sample_dir(sample_name,working_dir,**kwrags):
+	'''
+		Creates/Gets a sub-folder inside the working dir by the name of the
+		current sample name that is processed by the pipeline
+		Args:
+			- sample_name (str): The sample name
+			- working_dir (str): A path to a fastq folder
+	'''
+	sample_dir_name = build_sample_dir_path(sample_name)
+	sample_dir=os.path.join(working_dir,sample_dir_name)
+	create_dir(sample_dir,kwrags.get('force',None))
+	return sample_dir
+
+def get_working_directory(name,**kwrags):
 	'''
 		Creates/Gets the experiment directory in a sub-directory within the www folder in the user profile.
 		If sample_name is specified, than it creates/gets a sub-folder inside the experiment directory by the name of the
 		current sample name that is processed by the pipeline
 		Args:
-			- name: The experiment name
-			- sample_name: The sample name
+			- name (str): The experiment name
+			- sample_name (str) : The sample name
 
 		Return:
 			The full path to the experiment dir / sample dir inside the user profile
@@ -114,14 +126,6 @@ def get_working_directory(name,sample_name=None,**kwrags):
 
 		#Create the experiment folder inside the www folder
 		os.symlink(experiment_wd_dir,experiment_dir)
-
-	if sample_name:
-		sample_dir_name = build_sample_dir_path(sample_name)
-		sample_dir=os.path.join(experiment_dir,sample_dir_name)
-		if not os.path.isdir(sample_dir):
-			print "Creating sample dir of sample: {sample} of the experiment: {experiment}".format(sample=sample_name,experiment=name)
-			os.mkdir(sample_dir)
-		return sample_dir
 
 	#If sample_name is not specified, return the experiment dir path only	
 	return experiment_dir

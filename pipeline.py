@@ -33,12 +33,15 @@ def run_workflow_on_sample(params):
 			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,kwargs)
 	'''
 	experiment_name,sample_name,workflow,working_directory,kwargs = params
+
+	#Set working directory out side the script
+	os.chdir(working_directory)
 	for step in workflow:
 		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
 		#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 		step_module=importlib.import_module("lib.utils.%s"%step)
 
-		step_module.run(experiment_name,sample_name,working_directory,**kwargs)
+		step_module.run(experiment_name,sample_name,**kwargs)
 
 def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs):
 	lock_obj = multiprocessing.Lock()

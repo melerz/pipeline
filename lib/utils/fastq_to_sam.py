@@ -9,21 +9,22 @@
 from .. import *
 logger = logging.getLogger("__main__")
 
-def run(experiment_name,sample_name,working_directory,**kwargs):
+def run(experiment_name,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
 		print "Running bowtie..."
 
+		force = kwargs.get('force',None)
+		
 		#Export params from JSON:
-		sample_dir = working_directory
+		sample_dir = funcs.get_sample_dir(sample_name,force)
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']
 		genome = config['GENOME']
 		#End xport params from JSON
 
-		force = kwargs.get('force',None)
 		#Create the bowtie files
 		create_bowtie(fastq_dir=os.path.dirname(sample_dir),sample_name=sample_name,
 								path=sample_dir,genome=genome,bowtie_exec=bowtie_exec,bowtie_dir=bowtie_dir,force=force)

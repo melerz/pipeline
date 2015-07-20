@@ -11,14 +11,17 @@ logger = logging.getLogger("__main__")
 	This module receives BAM files, and output bedGraph file format along with
 	bigWig file format.
 '''
-def run(experiment_name,sample_name,working_directory,**kwargs):
+def run(experiment_name,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("analyze:coverage")
 		print "Running coverage analyze"
+
+		force = kwargs.get('force',None)
+		
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= working_directory
+			working_dir 		= funcs.get_sample_dir(sample_name,force)
 			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
 			bedtools_exec 		= config['tools']['bedtools']['exec']
 			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
@@ -27,7 +30,6 @@ def run(experiment_name,sample_name,working_directory,**kwargs):
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			#End export params from JSON:
 
-			force = kwargs.get('force',None)
 
 			bed_full_path       = os.path.join(working_dir,bed_dir)
 			bam_full_path       = os.path.join(working_dir,bam_dir)
