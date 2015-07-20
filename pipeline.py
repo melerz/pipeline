@@ -194,7 +194,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 		if not workingdir:
 			step_module=importlib.import_module("lib.utils.bcl_to_fastq")
 
-			step_module.run(name,experiment_working_directory,csv,illumina_name,configuration,force)
+			step_module.run(name,experiment_working_directory,csv,illumina_name,configuration,force=force)
 
 		if workflow:
 			#Get samples list from the experiment folder
