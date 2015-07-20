@@ -33,7 +33,7 @@ def run_workflow_on_sample(params):
 			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,kwargs)
 	'''
 	experiment_name,sample_name,workflow,working_directory,kwargs = params
-	print kwargs.get('force',None)
+	print kwrags
 	#Set working directory out side the script
 	os.chdir(working_directory)
 	for step in workflow:
@@ -195,7 +195,7 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 			#Get samples list from the experiment folder
 			samples_list = get_samples_from_fastq_dir(experiment_working_directory)
 			#For each of every sample, we will run the workflow process
-			run_samples(name,samples_list,workflow,experiment_working_directory)
+			run_samples(name,samples_list,workflow,experiment_working_directory,**kwargs)
 
 		#
 		#If we have genome_browser in the workflow, create the hub directory first
