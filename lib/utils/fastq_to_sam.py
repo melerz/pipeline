@@ -16,16 +16,17 @@ def run(experiment_name,sample_name,**kwargs):
 		print "Running bowtie..."
 
 		#Export params from JSON:
-		sample_dir = funcs.get_working_directory(experiment_name,sample_name)
+		sample_dir = funcs.get_working_directory(experiment_name,sample_name,**kwrags)
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
 		bowtie_exec = config['tools']['bowtie']['exec']
 		genome = config['GENOME']
 		#End xport params from JSON
 
+		force = kwargs.get('force',None)
 		#Create the bowtie files
 		create_bowtie(fastq_dir=os.path.dirname(sample_dir),sample_name=sample_name,
-								path=sample_dir,genome=genome,bowtie_exec=bowtie_exec,bowtie_dir=bowtie_dir)
+								path=sample_dir,genome=genome,bowtie_exec=bowtie_exec,bowtie_dir=bowtie_dir,force=force)
 
 		full_bowtie_dir=os.path.join(sample_dir,bowtie_dir)
 
@@ -55,7 +56,7 @@ def is_paired(fastq_path,sample_name):
 	except Exception, e:
 		raise Exception("Error in is_paired: %s",e)
 
-def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/"):
+def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/pipeline/bwt2/bowtie2",bowtie_dir="bowtie_files/",force=None):
 	'''
 		This helper function create bowtie files
 		Args:
@@ -74,9 +75,9 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 		os.chdir(path)
 		#Create bowtie dir
 		logger.info("current directory:%s"%(os.getcwd()))
-		if not (os.path.isdir(bowtie_dir)):
-			os.mkdir(bowtie_dir)
-
+		# if not (os.path.isdir(bowtie_dir)):
+		# 	os.mkdir(bowtie_dir)
+		funcs.create_dir(bowtie_dir,force)
 		#Check if the fastq files are paired or not
 		paired = is_paired(fastq_path=fastq_dir,sample_name=sample_name)
 		#Get all *R1* fastq files in directory, exclude 'Undetermined' files
@@ -114,12 +115,22 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 
 			#Handling output.
 			#1) Output relevant lines to the user
-			#2) Save the output in a unified files
+			#2) Save the raw output in a unified files
 			print "Alignment rate: %s : %s"%(sam_file,output_cmd)
 			with open("bowtie_stats.txt","a+") as f:
-				f.write("---------")
-				f.write(sam_file)
+				f.write("#--------#\n")
+				f.write(sam_file+"\n")
 				f.write(output_cmd)
+
+			#3) Sum all reads for this sample
+			reads_sum = 0
+			for line in sam_file:
+				if "reads;" in line:
+					reads_sum+=int(line.split(" ")[0])
+
+			#4) Save the sum of the reads in a new file
+			with open("reads.txt") as f:
+				f.write(sample_name+":"+reads_sum)
 
 		logger.debug("create_bowtie: changing dir: %s"%currentLocation)
 		os.chdir(currentLocation)

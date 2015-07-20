@@ -14,17 +14,18 @@ def run(experiment_name,sample_name,**kwargs):
 		print "Running samtools..."
 
 		#Export params from JSON:
-		working_dir 	= funcs.get_working_directory(experiment_name,sample_name)
+		working_dir 	= funcs.get_working_directory(experiment_name,sample_name,**kwargs)
 		bowtie_dir 		= config['BOWTIE_OUTPUT_DIR']
 		bam_dir 		= config['BAM_OUTPUT_DIR']
 		samtools_exec 	= config['tools']['samtools']['exec']
 		#End export params from JSON
 
+		force = kwargs.get('force')
 		bowtie_full_path=os.path.join(working_dir,bowtie_dir)
 		bam_full_path=os.path.join(working_dir,bam_dir)
 
 
-		create_bam(bowtie_path=bowtie_full_path,output=bam_full_path,exec_path=samtools_exec)
+		create_bam(bowtie_path=bowtie_full_path,output=bam_full_path,exec_path=samtools_exec,force=force)
 
 	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
@@ -33,11 +34,10 @@ def run(experiment_name,sample_name,**kwargs):
 		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
-def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools"):
+def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools",force=None):
 	try:
 		logger.debug("create_bam:START")
-		if not (os.path.isdir(output)):
-			os.mkdir(output)
+		funcs.create_dir(output,force)
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		currentLocation = os.getcwd()
 		os.chdir(bowtie_path)

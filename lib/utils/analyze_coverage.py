@@ -18,7 +18,7 @@ def run(experiment_name,sample_name,**kwargs):
 		print "Running coverage analyze"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= funcs.get_working_directory(experiment_name,sample_name)
+			working_dir 		= funcs.get_working_directory(experiment_name,sample_name,**kwargs)
 			genome_chrome_size 	= config['GENOME_CHROME_SIZE']
 			bedtools_exec 		= config['tools']['bedtools']['exec']
 			bw_exec 			= config['tools']['bedGraphToBigWig']['exec']
@@ -27,15 +27,17 @@ def run(experiment_name,sample_name,**kwargs):
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			#End export params from JSON:
 
+			force = kwargs.get('force',None)
+
 			bed_full_path       = os.path.join(working_dir,bed_dir)
 			bam_full_path       = os.path.join(working_dir,bam_dir)
 			bw_full_path        = os.path.join(working_dir,bw_dir)
 			
 			create_bed(bam_path=bam_full_path,output=bed_full_path,
-							exec_path=bedtools_exec)
+							exec_path=bedtools_exec,force=force)
 
 			create_bigwig_from_bed(bed_path=bed_full_path,output=bw_full_path,
-							exec_path=bw_exec,chrome_size=genome_chrome_size)
+							exec_path=bw_exec,chrome_size=genome_chrome_size,force=force)
 		else:
 			#check parameters....##future...
 			raise Exception("Please provide experiment's name")
@@ -46,12 +48,11 @@ def run(experiment_name,sample_name,**kwargs):
 		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
-def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
+def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools",force=None):
 	try:
 		#Create if not exist bed directory
 		logger.debug("create_bed:START")
-		if not (os.path.isdir(output)):
-			os.mkdir(output)
+		funcs.create_dir(output,force)
 		logger.debug("create_bed: changing dir: %s"%bam_path)
 		currentLocation = os.getcwd()
 		os.chdir(bam_path)
@@ -79,12 +80,11 @@ def create_bed(bam_path,output="./bed_files/",exec_path="/usr/bin/bedtools"):
 
 def create_bigwig_from_bed(bed_path,output="./bigwig_files/",
 								exec_path="/cs/wetlab/pipeline/bedGraphToBigWig",
-										chrome_size="/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt"):
+										chrome_size="/cs/wetlab/pipeline/SC_GENOME/sacCer3_indexed/genome_chrome_size.txt",force=None):
 	try:
 		#Create if not exist bed directory
 		logger.debug("create_bigwig_from_bed:START")
-		if not (os.path.isdir(output)):
-			os.mkdir(output)
+		funcs.create_dir(output,force)
 		logger.debug("create_bigwig_from_bed: changing dir: %s"%bed_path)
 		currentLocation = os.getcwd()
 		os.chdir(bed_path)

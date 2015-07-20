@@ -23,7 +23,8 @@
 				"sam_to_bam",
 				"analyze_coverage"	
 		],
-		"fastq":[]	
+		"fastq":[]	,
+		"bowtie":["fastq_to_sam"]
 	},
 	"tools":{
 		"bcl2fastq":{

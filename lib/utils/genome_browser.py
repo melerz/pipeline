@@ -32,7 +32,7 @@ def run(experiment_name,**kwargs):
 		print "Genome Browser: Creating hub directory"
 		if experiment_name:
 			#Export params from JSON:
-			working_dir 		= funcs.get_working_directory(experiment_name)
+			working_dir 		= funcs.get_working_directory(experiment_name,**kwargs)
 			sample_dirs			= funcs.get_samples(experiment_name)
 			bw_dir 				= config['BIG_WIG_OUTPUT_DIR']
 			hub_dir				= config['HUB_OUTPUT_DIR']
@@ -40,11 +40,13 @@ def run(experiment_name,**kwargs):
 			base_url 			= config['PUBLIC_WEBSITE']
 			#End export params from JSON:
 
+			force = kwargs.get('force',None)
+
 			hub_full_path       = os.path.join(working_dir,hub_dir)
 
 			sample_bowtie_dirs_list = [os.path.join(sample,bw_dir) for sample in sample_dirs]
 			create_hub_dir(experiment_name=experiment_name,trackdb_format=trackdb_format,
-							hub_dir=hub_full_path,bigwig_dirs = sample_bowtie_dirs_list)
+							hub_dir=hub_full_path,bigwig_dirs = sample_bowtie_dirs_list,force=force)
 
 			url = base_url+"~"+getpass.getuser()+"/"+experiment_name+"/"+hub_dir+"hub.txt"
 			print url
@@ -58,17 +60,12 @@ def run(experiment_name,**kwargs):
 		raise Exception("Error in %s: %s,%s,%s,%s"%(fname,e,exc_type,exc_obj,exc_tb.tb_lineno))
 
 
-def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dirs="./bw_files"):
+def create_hub_dir(experiment_name,trackdb_format,hub_dir="./hub",bigwig_dirs="./bw_files",force=None):
 	try:
 		currentLocation = os.getcwd()
 		#Create hub directory if doesnt exist
 		logger.debug("create_hub_dir:START")
-		if not (os.path.isdir(hub_dir)):
-			os.mkdir(hub_dir)
-			current_perm=os.stat(hub_dir)
-			os.chmod(hub_dir,current_perm.st_mode|stat.S_IXOTH)
-		else:
-			raise Exception("There is alreay hub folder in this directory")
+		funcs.create_dir(hub_dir,force)
 		if not bigwig_dirs:
 			raise Exception("No bigwig dirs found!")
 

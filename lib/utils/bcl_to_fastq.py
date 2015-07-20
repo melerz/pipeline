@@ -41,11 +41,17 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 		logger.info(("Currently experiment:{0}".format(experiment_name)))
 		
 
+		#Create experiment dir
+		funcs.create_dir(experiment_name,kwargs.get('force',None))
 		#Check if experiment dir is already exist
-		if os.path.isdir(experiment_name):
-			raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(experiment_name,os.getcwd()))
-			
-		os.mkdir(experiment_name)
+		# if os.path.isdir(experiment_name):
+		# 	#Check if force was specified
+		# 	if not kwargs.get('force',None):
+		# 		raise Exception("Experiment dir %s in %s is already exist! exiting now..."%(experiment_name,os.getcwd()))
+		# 	#force was specified. Delete the dir
+		# 	else:
+		# 		shutil.rmtree(experiment_name,ignore_errors=True)		
+		# os.mkdir(experiment_name)
 
 		#Setting permissions
 		current_perm=os.stat(experiment_name)
