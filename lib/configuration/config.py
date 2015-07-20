@@ -24,6 +24,7 @@ SAMPLE_DIR_FORMAT="sample-"
 def create_dir(path,force=False):
 	#Check if dir is already exist
 	if os.path.isdir(path):
+		print "create dir currently deletes the folder: %s"%path
 		#Check if force was specified
 		if not force:
 			raise Exception("Directory %s in %s is already exist! exiting now..."%(path,os.getcwd()))
