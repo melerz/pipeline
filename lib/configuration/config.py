@@ -80,7 +80,7 @@ def build_sample_dir_path(sample_name):
 	return path
 
 
-def get_sample_dir(sample_name,working_dir,**kwrags):
+def get_sample_dir(sample_name,force=False):
 	'''
 		Creates/Gets a sub-folder inside the working dir by the name of the
 		current sample name that is processed by the pipeline
@@ -90,7 +90,7 @@ def get_sample_dir(sample_name,working_dir,**kwrags):
 	'''
 	sample_dir_name = build_sample_dir_path(sample_name)
 	sample_dir=os.path.join(working_dir,sample_dir_name)
-	create_dir(sample_dir,kwrags.get('force',None))
+	create_dir(sample_dir,force)
 	return sample_dir
 
 def get_working_directory(name,**kwrags):
