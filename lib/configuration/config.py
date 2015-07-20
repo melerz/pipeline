@@ -31,7 +31,7 @@ def create_dir(path,force=False):
 		#force was specified. Delete the dir
 		else:
 			shutil.rmtree(path,ignore_errors=True)		
-	print "just before creating dir %s" %path
+	print "just before creating dir %s in %s" %(path,os.getcwd())
 	os.mkdir(path)
 	current_perm=os.stat(path)
 	os.chmod(path,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP)
