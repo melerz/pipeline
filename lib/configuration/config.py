@@ -88,8 +88,7 @@ def get_sample_dir(sample_name,force=False):
 			- sample_name (str): The sample name
 			- working_dir (str): A path to a fastq folder
 	'''
-	sample_dir_name = build_sample_dir_path(sample_name)
-	sample_dir=os.path.join(working_dir,sample_dir_name)
+	sample_dir = build_sample_dir_path(sample_name)
 	create_dir(sample_dir,force)
 	return sample_dir
 
