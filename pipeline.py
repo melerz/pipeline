@@ -43,7 +43,7 @@ def run_workflow_on_sample(params):
 			#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 			step_module=importlib.import_module("lib.utils.%s"%step)
 
-			step_module.run(wokring_directory=sample_working_directory,sample_name=sample_name,
+			step_module.run(working_directory=sample_working_directory,sample_name=sample_name,
 															experiment_name=experiment_name,force=force)
 	except Exception, e:
 		print "error in %s: %s"%(sample_name,str(e))
