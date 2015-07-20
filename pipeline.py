@@ -30,9 +30,9 @@ def run_workflow_on_sample(params):
 	'''
 		The target function for the Pool.map function
 		Args:
-			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,kwargs)
+			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,force)
 	'''
-	experiment_name,sample_name,workflow,working_directory,kwargs = params
+	experiment_name,sample_name,workflow,working_directory,force = params
 	print kwrags
 	#Set working directory out side the script
 	os.chdir(working_directory)
@@ -41,7 +41,7 @@ def run_workflow_on_sample(params):
 		#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
 		step_module=importlib.import_module("lib.utils.%s"%step)
 
-		step_module.run(experiment_name,sample_name,**kwargs)
+		step_module.run(experiment_name,sample_name,force=force)
 
 def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs):
 	lock_obj = multiprocessing.Lock()
@@ -51,7 +51,7 @@ def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs
 	#Build tuple list for passing more than one argument to the Pool.map() function - 
 	#[(experiment_name,sample_name1,workflow),(experiment_name,sample_name2,workflow)]
 
-	tuple_params = [(experiment_name,sample,workflow,working_directory,kwargs) for sample in samples_list]
+	tuple_params = [(experiment_name,sample,workflow,working_directory,kwargs.get('force',None)) for sample in samples_list]
 
 	print kwargs
 	pool.map(run_workflow_on_sample, tuple_params)
