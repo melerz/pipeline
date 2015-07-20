@@ -53,6 +53,7 @@ def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs
 
 	tuple_params = [(experiment_name,sample,workflow,working_directory,kwargs) for sample in samples_list]
 
+	print kwargs
 	pool.map(run_workflow_on_sample, tuple_params)
 
 def configure_logging(log_level="INFO",log_file="./pipeline.log"):
