@@ -13,7 +13,6 @@ def run(working_directory,sample_name,**kwargs):
 	try:
 		currentLocation=os.getcwd()
 		logger.info("Alignment process....")
-		print "Running bowtie..."
 
 		force = kwargs.get('force',None)
 
@@ -76,9 +75,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 		os.chdir(path)
 		#Create bowtie dir
 		logger.info("current directory:%s"%(os.getcwd()))
-		# if not (os.path.isdir(bowtie_dir)):
-		# 	os.mkdir(bowtie_dir)
-		print os.path.join(os.getcwd(),bowtie_dir)
+
 		funcs.create_dir(bowtie_dir,force)
 		#Check if the fastq files are paired or not
 		paired = is_paired(fastq_path=fastq_dir,sample_name=sample_name)

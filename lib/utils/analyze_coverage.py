@@ -38,7 +38,7 @@ def run(working_directory,sample_name,**kwargs):
 
 		create_bigwig_from_bed(bed_path=bed_full_path,output=bw_full_path,
 						exec_path=bw_exec,chrome_size=genome_chrome_size,force=force)
-except Exception, e:
+	except Exception, e:
 		exc_type,exc_obj,exc_tb = sys.exc_info()
 		fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 		os.chdir(currentLocation)
