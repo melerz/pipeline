@@ -86,7 +86,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 
 		fastq_r1_files = [fastq_file for fastq_file in 
 							glob.glob(os.path.join(fastq_dir,"*{sample}*_R1*.fastq.gz".format(sample=sample_name))) 
-																	if not re.match("Undetermined*",fastq_file)]
+																	if not re.match("Undetermined*",fastq_file) and os.path.getsize(fastq_file)>0]
 
 		#Check if we have files to work on...
 		if not fastq_r1_files:
@@ -118,7 +118,6 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 			#Handling output.
 			#1) Output relevant lines to the user
 			#2) Save the raw output in a unified files
-			print "Alignment rate: %s : %s"%(sam_file,output_cmd)
 			with open("bowtie_stats.txt","a+") as f:
 				f.write("#--------#\n")
 				f.write(sam_file+"\n")

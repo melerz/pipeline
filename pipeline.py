@@ -20,7 +20,7 @@ def get_samples_from_fastq_dir(path):
 	'''
 	return set([os.path.basename(fastq).split("_")[0] for 
 						fastq in glob.glob(os.path.join(path,"*.fastq.gz") )
-										if not re.match(".*Undetermined.*",fastq)])
+										if not re.match(".*Undetermined.*",fastq) and os.path.getsize(fastq) > 0 ])
 
 def pool_init(lock_obj):
 	global lock
@@ -32,16 +32,19 @@ def run_workflow_on_sample(params):
 		Args:
 			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,force)
 	'''
-	experiment_name,sample_name,workflow,working_directory,force = params
-	print kwrags
-	#Set working directory out side the script
-	os.chdir(working_directory)
-	for step in workflow:
-		print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
-		#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
-		step_module=importlib.import_module("lib.utils.%s"%step)
+	try:
+		experiment_name,sample_name,workflow,working_directory,force = params
 
-		step_module.run(experiment_name,sample_name,force=force)
+		#Set working directory out side the script
+		os.chdir(working_directory)
+		for step in workflow:
+			print "{sample}: Running step:{step}".format(sample=sample_name,step=step)
+			#log.info("{sample}: Currently step:{step}".format(sample=sample_name,step=step))
+			step_module=importlib.import_module("lib.utils.%s"%step)
+
+			step_module.run(experiment_name,sample_name,force=force)
+	except Exception, e:
+		print "error in %s: %s"%(sample_name,str(e))
 
 def run_samples(experiment_name,samples_list,workflow,working_directory,**kwargs):
 	lock_obj = multiprocessing.Lock()
