@@ -38,6 +38,7 @@ def run(experiment_name,sample_name,**kwargs):
 def create_bam(bowtie_path,output="./bam_files/",exec_path="/cs/wetlab/pipeline/samtools/bin/samtools",force=None):
 	try:
 		logger.debug("create_bam:START")
+		print "im in create_bam and trying to create dir %s" %output
 		funcs.create_dir(output,force)
 		logger.debug("create_bam: changing dir: %s"%bowtie_path)
 		currentLocation = os.getcwd()
