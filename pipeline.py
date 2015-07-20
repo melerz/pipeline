@@ -231,7 +231,7 @@ if __name__ == "__main__":
 	run_group.add_argument("-w","--workflow",help="The name of the workflow you want to execute",default="all")
 	run_group.add_argument("-skip","--skipfastq",help="The path to a folder contains fastq files.\
 																	 All files will be created in this folder. If specified without value, \
-																	 										defaults to ~/www/<experiment_name>",const=funcs.build_profile_dir_path,nargs='?')		
+																	 										defaults to ~/www/<experiment_name>",const=funcs.build_profile_dir_path(),nargs='?')		
 	run_group.add_argument("-ip","--ipaddress",help="The IP Address of the API server",default="127.0.0.1")
 	run_group.add_argument("-c","--configuration",help="Read configuration .\
 													 (read,cycles,isIndexed) - One or more ':' separated tuples",type=get_read)
