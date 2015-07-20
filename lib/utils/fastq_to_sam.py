@@ -16,7 +16,7 @@ def run(experiment_name,sample_name,**kwargs):
 		print "Running bowtie..."
 
 		force = kwargs.get('force',None)
-		
+
 		#Export params from JSON:
 		sample_dir = funcs.get_sample_dir(sample_name,force)
 		bowtie_dir = config['BOWTIE_OUTPUT_DIR']
@@ -130,7 +130,7 @@ def create_bowtie(fastq_dir,sample_name,genome,path=".",bowtie_exec="/cs/wetlab/
 					reads_sum+=int(line.split(" ")[0])
 
 			#4) Save the sum of the reads in a new file
-			with open("reads.txt") as f:
+			with open("reads.txt","a+") as f:
 				f.write(sample_name+":"+reads_sum)
 
 		logger.debug("create_bowtie: changing dir: %s"%currentLocation)
