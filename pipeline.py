@@ -213,6 +213,9 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 
 if __name__ == "__main__":
 
+	#Save current location (Mainly for SIGINT [CTL+C] handler)
+	main_dir = os.getcwd()
+	
 	#Init Arguments
 	parser = argparse.ArgumentParser()
 	parser.add_argument("name",help="The experiment name")
@@ -265,8 +268,6 @@ if __name__ == "__main__":
 	}
 
 
-	#Save current location (Mainly for SIGINT [CTL+C] handler)
-	main_dir = os.getcwd()
 	#Init SIGINT signal handler
 	#init_sigint_handler(signal.SIGINT)
 
