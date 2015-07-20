@@ -110,9 +110,7 @@ def configure_logging(log_level="INFO",log_file="./pipeline.log"):
 		raise Exception("Invalid log level: %s" %loglevel)
 	logger=logging.getLogger(__name__)
 	logger.setLevel(loglevel)
-	log_file_full_path = os.path.join(os.getcwd(),log_file+".log")
-	print log_file_full_path
-	file_handler = logging.FileHandler(log_file_full_path)
+	file_handler = logging.FileHandler(log_file)
 	formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 	file_handler.setFormatter(formatter)
 	logger.addHandler(file_handler)
@@ -159,7 +157,7 @@ def cleanup(name):
 
 	#Delete CS directory
 	try:
-		shutil.rmtree(cs_dir,ignore_error=True)
+		shutil.rmtree(cs_dir,ignore_errors=True)
 		print "%s:Cleaned %s"%(name,cs_dir)
 	except Exception,e:
 		print "Cleanup: Couldn't delete %s: %s"%(cs_dir,str(e))
@@ -177,6 +175,14 @@ def cleanup(name):
 		print "%s:Cleaned %s"%(name,init_dir)
 	except Exception,e:
 		print "Cleanup: Couldn't delete %s: %s"%(init_dir,str(e))
+
+	#Delete log file
+	#log_file is declared in main
+	try:
+		os.remove(log_file)
+		print "%s:Cleaned %s"%(name,log_file)
+	except Exception,e:
+		print "Cleanup: Couldn't delete %s: %s"%(log_file,str(e))
 
 def signal_handler(signal,frame):
 	if not data_name:
@@ -212,7 +218,8 @@ if __name__ == "__main__":
 	data_illumina 		= validate_param("illumina", args.illumina)
 	data_workflow 		= validate_param("workflow", args.workflow)
 	data_configuration  = args.configuration
-	logger = configure_logging(log_level="DEBUG",log_file=data_name)
+	log_file = os.path.join(os.getcwd(),data_name+".log")
+	logger = configure_logging(log_level="DEBUG",log_file=log_file)
 
 	#Save current location (Mainly for SIGINT [CTL+C] handler)
 	main_dir = os.getcwd()
