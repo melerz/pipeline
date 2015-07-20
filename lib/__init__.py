@@ -12,6 +12,7 @@ import logging
 import argparse
 import csv
 import importlib
+import signal
 import xml.etree.ElementTree as ET
 import configuration.config as funcs
 from configuration.config import config #config is variable contains JSON configuration data

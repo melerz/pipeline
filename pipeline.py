@@ -1,29 +1,13 @@
 from lib import *
 from os.path import expanduser
 import multiprocessing
-#from lib.server import api
-#TODO:
-
-# -f switch implementation
-# - beutify output
-# - slum permissions
-# -improve logging -> log for each experiment + time
-# -
-# support files in functions, in addition to folders
-
-# create_trackdb format parameter
 
 #Coverage:
 #fastq->->sam(bwt file)->bam->sorted bam->bedGraph->->bedClip->sorted BedGraph (we don't need) -> bigWig
 #bedtools genomecov -bg -ibam /cs/wetlab/melerz/nisoy/bam_files/8-NoIAA-6Alpha_S3_sorted.bam -g sacCer3.genome > genome_coverage_bigbed.bigbed
 #sort -k1,1 -k2,2n genome_coverage_bigbed.bigbed > sorted.bedGraph
 #./bedGraphToBigWig bedClip_output.bed genome_reference_sorted.sacC nisoy.bw
-menue={
-		"name":"get_name",
-		"csv":"get_csv_list",
-		"illumina":"get_illumina",
-		"workflow":"get_workflow"
-}
+
 def run(name,csv,illumina_name,workflow,configuration=None,log=None,force=False,disable_hub=False):
 	'''
 		Args:
@@ -155,7 +139,55 @@ def validate_param(name,value):
 		#menu enters here
 		raise Exception("You've forgot to specify %s"%name)
 	return value
+
+
+def cleanup(name):
+	if not name:
+		raise Exception("No experiment to clean")
+
+	#CS Directory
+	cs_dir = funcs.build_cs_dir_path(name)
+
+	#Working directory dir
+	wd_dir = funcs.get_working_directory(name)
+
+	#Initial directory
+	init_dir = os.path.join(os.getcwd(),name)
+
+	#Delete CS directory
+	try:
+		shutil.rmtree(cs_dir)
+		print "%s:Cleaned %s"%(name,cs_dir)
+	except Exception,e:
+		print "Cleanup: Couldn't delete %s: %s"%(cs_dir,str(e))
+
+	#Delete working directory (~/www/)
+	try:
+		shutil.rmtree(wd_dir)
+		print "%s:Cleaned %s"%(name,wd_dir)
+	except Exception,e:
+		print "Cleanup: Couldn't delete %s: %s"%(wd_dir,str(e))
+
+	#Delete initial directory (local directory linked to the Illumina data)
+	try:
+		shutil.rmtree(init_dir)
+		print "%s:Cleaned %s"%(name,init_dir)
+	except Exception,e:
+		print "Cleanup: Couldn't delete %s: %s"%(init_dir,str(e))
+
+def signal_handler(signal,frame):
+	if not data_name:
+		raise Exception("No experiment to clean")
+	cleanup(name = data_name )
+	sys.exit(0)
+
+def init_sigint_handler(event):
+	signal.signal(event, signal_handler)
+
+
 if __name__ == "__main__":
+
+	#Init Arguments
 	parser = argparse.ArgumentParser()
 	parser.add_argument("-n","--name",help="The experiment name")	
 	parser.add_argument("-csv","--csv",help="The name of the SampleSheet.csv file you want to use")
@@ -178,6 +210,11 @@ if __name__ == "__main__":
 	data_workflow 		= validate_param("workflow", args.workflow)
 	data_configuration  = args.configuration
 	logger = configure_logging(log_level="DEBUG",log_file=data_name)
+
+	#Init SIGINT signal handler
+	init_sigint_handler(signal.SIGINT)
+
+	#Run main functin
 	run(name=data_name,csv=data_csv,illumina_name=data_illumina,
 				configuration=data_configuration,workflow=data_workflow,log=logger,force=data_force,disable_hub=data_hub)
 

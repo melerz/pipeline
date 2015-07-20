@@ -50,10 +50,10 @@ def build_cs_dir_path(name):
 			The path for the experiment dir inside the WORKING_DIR config setting
 	'''
 	username = getpass.getuser()
-	current_datetime = time.strftime("%d-%m-%y-%H-%M")
+	#current_datetime = time.strftime("%d-%m-%y-%H-%M")
 	#Creating relevant experiment dir in working directory
 	working_directory = config['WORKING_DIR']
-	experiment_wd_dir = os.path.join(working_directory,username+"-"+current_datetime+"-"+name)
+	experiment_wd_dir = os.path.join(working_directory,username+"-"+name)
 	return experiment_wd_dir
 
 def build_sample_dir_path(sample_name):
