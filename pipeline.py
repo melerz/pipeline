@@ -234,7 +234,8 @@ if __name__ == "__main__":
 
 	clean_group = parser.add_argument_group('Clean','Clean an experiment')
 	clean_group.add_argument("-cl","--clean",help="Deletes all experiment directories and data",action="store_true")
-	parser = argparse.ArgumentParser()
+	
+	args=parser.parse_args()
 
 	data_name = validate_param("name", args.name)
 	data_clean = args.clean

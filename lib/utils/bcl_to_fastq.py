@@ -44,10 +44,6 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 		#Create experiment dir
 		funcs.create_dir(experiment_name,kwargs.get('force',None))
 
-		#Setting permissions
-		current_perm=os.stat(experiment_name)
-		os.chmod(experiment_name,current_perm.st_mode|stat.S_IXOTH|stat.S_IXGRP) #og+x
-
 		#Enters our new directory
 		os.chdir(experiment_name)
 
@@ -57,7 +53,6 @@ def run(experiment_name,fastq_directory,samplesheet_name,illumina_name,xml_confi
 
 		logger.info("{0}: Run bcl2fastq".format(experiment_name))
 		#running bcl2fastq in the current experiment folder.
-		#Output folder is fastq, created by popluateDir
 
 		#Create samplesheet path
 		if not samplesheet_name.endswith(".csv"):
