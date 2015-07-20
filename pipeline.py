@@ -145,6 +145,9 @@ def cleanup(name):
 	if not name:
 		raise Exception("No experiment to clean")
 
+	#Back to the main dir
+	os.chdir(main_dir)
+
 	#CS Directory
 	cs_dir = funcs.build_cs_dir_path(name)
 
@@ -156,14 +159,14 @@ def cleanup(name):
 
 	#Delete CS directory
 	try:
-		shutil.rmtree(cs_dir)
+		shutil.rmtree(cs_dir,ignore_error=True)
 		print "%s:Cleaned %s"%(name,cs_dir)
 	except Exception,e:
 		print "Cleanup: Couldn't delete %s: %s"%(cs_dir,str(e))
 
-	#Delete working directory (~/www/)
+	#Unlink working directory (~/www/)
 	try:
-		shutil.rmtree(wd_dir)
+		os.unlink(wd_dir)
 		print "%s:Cleaned %s"%(name,wd_dir)
 	except Exception,e:
 		print "Cleanup: Couldn't delete %s: %s"%(wd_dir,str(e))
@@ -211,6 +214,8 @@ if __name__ == "__main__":
 	data_configuration  = args.configuration
 	logger = configure_logging(log_level="DEBUG",log_file=data_name)
 
+	#Save current location (Mainly for SIGINT [CTL+C] handler)
+	main_dir = os.getcwd()
 	#Init SIGINT signal handler
 	init_sigint_handler(signal.SIGINT)
 
