@@ -33,7 +33,7 @@ def run_workflow_on_sample(params):
 			- params: tuple of the form: (experiment_name,sample_name,workflow,working_directory,kwargs)
 	'''
 	experiment_name,sample_name,workflow,working_directory,kwargs = params
-
+	print kwargs.get('force',None)
 	#Set working directory out side the script
 	os.chdir(working_directory)
 	for step in workflow:
