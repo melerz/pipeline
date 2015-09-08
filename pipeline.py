@@ -1,5 +1,3 @@
-#!/usr/local/bin/python2.7
-#!/usr/bin/python
 from lib import *
 from os.path import expanduser
 import multiprocessing
