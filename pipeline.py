@@ -1,3 +1,5 @@
+#!/usr/local/bin/python2.7
+#!/usr/bin/python
 from lib import *
 from os.path import expanduser
 import multiprocessing
@@ -185,7 +187,6 @@ def run(name,csv,illumina_name,workflow,**kwargs):
 			log = logging.getLogger(__name__)
 
 		workflow = config['workflows'][workflow]
-
 
 		experiment_working_directory = workingdir or funcs.get_working_directory(name)#Function in configuration.config
 		#if os.path.isdir(experiment_working_directory) and glob.glob(os.path.join(working_dir_from_user,"*.fastq.gz")):
