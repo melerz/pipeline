@@ -28,7 +28,7 @@
 	},
 	"tools":{
 		"bcl2fastq":{
-			"exec":"/usr/local/bcl2fastq/2.15.0.4/bin/bcl2fastq"
+			"exec":"/usr/local/bcl2fastq/2.17.1.14/bin/bcl2fastq"
 		},
 		"bowtie":{
 			"exec":"/cs/wetlab/pipeline/tools/bwt2/bowtie2"
